@@ -1,15 +1,29 @@
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
 
 public class Customer {
 	
 	private String name;
-	private String id;
-	private CustomerType type;
+	private int id;
 	
-	public Customer(String name, String id, CustomerType type){
+	public Customer(String name, int id){
 		this.name = name;
 		this.id = id;
-		this.type = type;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

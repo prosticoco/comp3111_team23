@@ -1,9 +1,12 @@
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
 
-public interface StorageEngine extends DataObserver{
+public interface StorageEngine{
 	
-	public String getFAQResponse(String quesion);
+	public String getFAQResponse(String quesion) throws Exception;
 	
-	public String getTourDetails(String identifier);
+	public Tour getTourDetails(String identifier);
+	
+	public Customer getCustomerDetails(String identifier);
 
+	public void addEntry(String question);
 }

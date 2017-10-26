@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,12 +24,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KitchenSinkApplication {
+public class ChatBotApplication {
     static Path downloadedContentDir;
 
     public static void main(String[] args) throws IOException {
         downloadedContentDir = Files.createTempDirectory("line-bot");
-        SpringApplication.run(KitchenSinkApplication.class, args);
+        SpringApplication.run(ChatBotApplication.class, args);
     }
 
 }
