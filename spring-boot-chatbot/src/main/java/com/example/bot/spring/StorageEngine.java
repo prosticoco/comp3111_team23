@@ -9,4 +9,5 @@ public interface StorageEngine{
 	public Customer getCustomerDetails(String identifier);
 
 	public void addEntry(String question);
+	
 }
