@@ -4,14 +4,23 @@ package src.main.java.com.example.bot.spring;
 @Slf4j
 public class MessageHandler {
 		
+	private StorageEngine database;
+	
 	public MessageHandler() {
-
+		database = new PSQLDatabaseEngine();
 	}
 	
 	
-	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws Exception {
-        String text = content.getText();
-        log.info("Got text message from {}: {}", replyToken, text);
+	public String handleTextContent(String text) throws Exception {
+        log.info("Got text message: {}", text);
+        
+        try{
+        	database.getFAQResponse(text);
+        }
+        catch(Exception e){
+        	// the entry does not exist
+        }
+        
         
         //Check if it is a FAQ quesiton
         //Get response for the FAQ
