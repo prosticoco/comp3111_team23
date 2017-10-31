@@ -1,58 +1,61 @@
 package src.main.java.com.example.bot.spring;
 
+import java.util.Date;
+
 public class Tour {
 
 	private String id;
+	private Date date;
 	private int price;
-	private String name;
-	private String description;
-	private int availability;
+	private String tourGuide;
+	private String tourGuideLineAcc;
+	private String hotel;
+	private int capacity;
+	private int minCustomers;
 	
-	public Tour(String id, String name, int price, String description, int availability){
+	public Tour(String id, Date date, int price, String tourGuide,  String tourGuideLineAcc, String hotel, int capacity, int minCustomers){
 		this.id = id;
-		this.name = name;
+		this.date = date;
 		this.price = price;
-		this.description = description;
-		this.availability = availability;
+		this.tourGuide = tourGuide;
+		this.tourGuideLineAcc = tourGuideLineAcc;
+		this.hotel = hotel;
+		this.capacity = capacity;
+		this.minCustomers = minCustomers;
 	}
-	
-	public String getID() {
+
+	public String getId() {
 		return id;
 	}
-	
-	public void setID(String id) {
-		this.id = id;
+
+	public Date getDate() {
+		return date;
 	}
+
 	public int getPrice() {
 		return price;
 	}
-	
-	public void setPrice(int price) {
-		this.price = price;
+
+	public String getTourGuide() {
+		return tourGuide;
+	}
+
+	public String getTourGuideLineAcc() {
+		return tourGuideLineAcc;
+	}
+
+	public String getHotel() {
+		return hotel;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public int getMinCustomers() {
+		return minCustomers;
 	}
 	
-	public String getName() {
-		return name;
-	}
 	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public int getAvailability() {
-		return availability;
-	}
-	
-	public void setAvailability(int availability) {
-		this.availability = availability;
-	}
 	
 }

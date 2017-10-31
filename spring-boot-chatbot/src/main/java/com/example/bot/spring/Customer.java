@@ -3,11 +3,31 @@ package src.main.java.com.example.bot.spring;
 public class Customer {
 	
 	private String name;
-	private int id;
+	private String id;
+	private int phone;
+	private int age;
 	
-	public Customer(String name, int id){
+	public Customer(String name, String id, int phone, int age) {
 		this.name = name;
 		this.id = id;
+		this.phone = phone;
+		this.age = age;
+	}
+	
+	public int getPhone() {
+		return phone;
+	}
+
+	public void setPhone(int phone) {
+		this.phone = phone;
+	}
+
+	public int getAsd() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	public String getName() {
@@ -18,11 +38,11 @@ public class Customer {
 		this.name = name;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

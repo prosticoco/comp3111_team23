@@ -1,7 +1,7 @@
 package src.main.java.com.example.bot.spring;
 
 
-@Slf4j
+
 public class MessageHandler {
 		
 	private StorageEngine database;
@@ -12,14 +12,23 @@ public class MessageHandler {
 	
 	
 	public String handleTextContent(String text) throws Exception {
-        log.info("Got text message: {}", text);
+
         
+        String answer = null;
         try{
         	database.getFAQResponse(text);
         }
         catch(Exception e){
         	// the entry does not exist
         }
+        
+        
+        
+        
+        
+        
+        
+		return answer;
         
         
         //Check if it is a FAQ quesiton

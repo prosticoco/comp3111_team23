@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import test.NonNull;
+import test.TextMessage;
+
 
 @Slf4j
 @LineMessageHandler
@@ -36,9 +39,19 @@ public class Controller {
 		String response = messageHandler.handleTextContent(processedMessage);
 		
 		//send the message back to the user
-		reply(event.getReplyToken(),response);
+		replyText(event.getReplyToken(), response);
 	}
 
+	private void replyText(@NonNull String replyToken, @NonNull String message) {
+		if (replyToken.isEmpty()) {
+			throw new IllegalArgumentException("replyToken must not be empty");
+		}
+		if (message.length() > 1000) {
+			message = message.substring(0, 1000 - 2) + "..";
+		}
+		this.reply(replyToken, new TextMessage(message));
+	}
+	
 	private void reply(@NonNull String replyToken, @NonNull Message message) {
 		reply(replyToken, Collections.singletonList(message));
 	}
