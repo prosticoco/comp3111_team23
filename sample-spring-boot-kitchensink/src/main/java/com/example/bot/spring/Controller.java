@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package src.main.java.com.example.bot.spring;
+package com.example.bot.spring;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -96,7 +96,7 @@ public class Controller {
 	
 	public Controller() {
 
-		languageProcessor = new LuisINLP();
+		languageProcessor = new LuisNLP();
 		messageHandler = new MessageHandler();
 	}
 	

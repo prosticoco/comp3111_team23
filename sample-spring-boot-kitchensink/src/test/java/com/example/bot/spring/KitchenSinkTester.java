@@ -41,18 +41,19 @@ import com.linecorp.bot.spring.boot.annotation.LineBotMessages;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import src.main.java.com.example.bot.spring.LanguageProcessor;
-import src.main.java.com.example.bot.spring.LuisNLP;
+
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class})
+@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class})
 public class KitchenSinkTester {
 	
 	@Autowired
 	private StorageEngine database;
+	@Autowired
+	private LanguageProcessor languageProcessor;
 	
-//	@Test
+	@Test
 	public void CustomerNotFound() throws Exception {
 		boolean thrown = false;
 		try {
@@ -82,7 +83,6 @@ public class KitchenSinkTester {
 	
 	@Test
 	public void testLuisQuestion() throws Exception {
-		LanguageProcessor languageProcessor = new LuisNLP();
 		boolean thrown = false;
 		ArrayList<String> result = null;
 		
