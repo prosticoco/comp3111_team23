@@ -29,12 +29,12 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			stmt.setDate(2, new java.sql.Date(date.getTime()));
 			ResultSet rs = stmt.executeQuery();			
 			if(rs.next()){
-				tourGuide = rs.getString(2);
-				tourGuideLineAcc = rs.getString(3);
-				hotel =  rs.getString(4);
-				price = rs.getInt(5);
-				capacity = rs.getInt(6);
-				minCustomers = rs.getInt(7);
+				tourGuide = rs.getString("tour_guide");
+				tourGuideLineAcc = rs.getString("guide_line");
+				hotel =  rs.getString("hotel");
+				price = rs.getInt("price");
+				capacity = rs.getInt("capacity");
+				minCustomers = rs.getInt("min_customer");
 			}
 			rs.close();
 			con.close();
@@ -61,9 +61,9 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			stmt.setString(1, identifier);
 			ResultSet rs = stmt.executeQuery();			
 			if(rs.next()){
-				name = rs.getString(1);
-				phone = rs.getInt(3);
-				age =  rs.getInt(4);
+				name = rs.getString("name");
+				phone = rs.getInt("phone_number");
+				age =  rs.getInt("age");
 			}
 			rs.close();
 			con.close();
@@ -91,9 +91,9 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			stmt.setString(1, key);
 			ResultSet rs = stmt.executeQuery();			
 			if(rs.next()){
-				id = rs.getString(1);
-				description = rs.getString(3);
-				days =  rs.getString(4);
+				id = rs.getString("id");
+				description = rs.getString("description");
+				days =  rs.getString("days");
 			}
 			rs.close();
 			con.close();

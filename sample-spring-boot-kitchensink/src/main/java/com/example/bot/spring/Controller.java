@@ -108,10 +108,10 @@ public class Controller {
 		String receivedMessage = event.getMessage().getText();
 		
 		//process the message
-		String processedMessage = languageProcessor.processInput(receivedMessage);
+		//String processedMessage = languageProcessor.processInput(receivedMessage);
 		
 		//get a response from the handler
-		String response = messageHandler.handleTextContent(processedMessage);
+		String response = messageHandler.handleTextContent(new String("processedMessage"));
 		
 		//send the message back to the user
 		replyText(event.getReplyToken(), response);

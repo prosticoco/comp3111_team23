@@ -22,7 +22,7 @@ public class Customer {
 		this.phone = phone;
 	}
 
-	public int getAsd() {
+	public int getAge() {
 		return age;
 	}
 

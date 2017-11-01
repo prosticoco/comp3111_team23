@@ -1,6 +1,6 @@
 package com.example.bot.spring;
 
-/*
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -44,15 +44,17 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { KitchenSinkTester.class})
+@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class})
 public class KitchenSinkTester {
+	
 	@Autowired
+	private StorageEngine database;
 	
 	@Test
-	public void testNotFound() throws Exception {
+	public void CustomerNotFound() throws Exception {
 		boolean thrown = false;
 		try {
-			//this.databaseEngine.search("no");
+			this.database.getCustomerDetails("A122");
 		} catch (Exception e) {
 			thrown = true;
 		}
@@ -60,16 +62,19 @@ public class KitchenSinkTester {
 	}
 	
 	@Test
-	public void testFound() throws Exception {
+	public void CustomerFound() throws Exception {
 		boolean thrown = false;
-		String result = null;
+		Customer cust = null;
+
 		try {
-			//result = this.databaseEngine.search("abc");
+			cust = this.database.getCustomerDetails("A124");
 		} catch (Exception e) {
-			thrown = false;
+			thrown = true;
 		}
-		//assertThat(!thrown).isEqualTo(false);
-		//assertThat(result).isEqualTo("def");
+		assertThat(thrown).isEqualTo(false);
+		assertThat(cust.getAge()).isEqualTo(17);
+		assertThat(cust.getPhone()).isEqualTo(54321256);
+
 	}
 }
-*/
+
