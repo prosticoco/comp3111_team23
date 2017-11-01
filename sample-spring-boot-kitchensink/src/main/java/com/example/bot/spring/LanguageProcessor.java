@@ -1,8 +1,10 @@
 package com.example.bot.spring;
 
+import java.util.ArrayList;
+
 public interface LanguageProcessor {
 	
-	public String processInput(String sentence);
+	public ArrayList<String> processInput(String sentence);
 	
 
 }

@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -76,6 +77,22 @@ public class KitchenSinkTester {
 		assertThat(cust.getPhone()).isEqualTo(54321256);
 		assertThat(cust.getName()).isEqualTo("Chris");
 
+	}
+	
+	@Test
+	public void testLuisQuestion() throws Exception {
+		LanguageProcessor languageProcessor = new LuisNLP();
+		boolean thrown = false;
+		ArrayList<String> result = null;
+		
+		try {
+			result = languageProcessor.processInput("What is the transport to Guangdong?");
+		}
+		catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("transportToGuangdongQuestion");
 	}
 }
 
