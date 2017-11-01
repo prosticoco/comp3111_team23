@@ -74,7 +74,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			log.info("There has been an error with the SQL statement", e.toString());
 		}
 		if( name != null && age != 0){
-			return new Customer(identifier,name,phone,age);
+			return new Customer(name,identifier,phone,age);
 		}
 		throw new Exception("CUSTOMER NOT FOUND");
 	}

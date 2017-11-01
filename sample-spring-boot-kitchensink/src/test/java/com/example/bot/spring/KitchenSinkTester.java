@@ -74,6 +74,7 @@ public class KitchenSinkTester {
 		assertThat(thrown).isEqualTo(false);
 		assertThat(cust.getAge()).isEqualTo(17);
 		assertThat(cust.getPhone()).isEqualTo(54321256);
+		assertThat(cust.getName()).isEqualTo("Chris");
 
 	}
 }
