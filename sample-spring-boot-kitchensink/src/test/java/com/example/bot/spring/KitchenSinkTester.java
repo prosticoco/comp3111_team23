@@ -1,6 +1,5 @@
 package com.example.bot.spring;
 
-/*
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -8,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -41,6 +41,8 @@ import com.linecorp.bot.spring.boot.annotation.LineBotMessages;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import src.main.java.com.example.bot.spring.LanguageProcessor;
+import src.main.java.com.example.bot.spring.LuisNLP;
 
 
 @RunWith(SpringRunner.class)
@@ -48,28 +50,42 @@ import lombok.extern.slf4j.Slf4j;
 public class KitchenSinkTester {
 	@Autowired
 	
+//	@Test
+//	public void testNotFound() throws Exception {
+//		boolean thrown = false;
+//		try {
+//			//this.databaseEngine.search("no");
+//		} catch (Exception e) {
+//			thrown = true;
+//		}
+//		assertThat(thrown).isEqualTo(true);
+//	}
+//	
+//	@Test
+//	public void testFound() throws Exception {
+//		boolean thrown = false;
+//		String result = null;
+//		try {
+//			//result = this.databaseEngine.search("abc");
+//		} catch (Exception e) {
+//			thrown = false;
+//		}
+//		//assertThat(!thrown).isEqualTo(false);
+//		//assertThat(result).isEqualTo("def");
+//	}
 	@Test
-	public void testNotFound() throws Exception {
+	public void testLuisQuestion() throws Exception {
+		LanguageProcessor languageProcessor = new LuisNLP();
 		boolean thrown = false;
+		ArrayList<String> result = null;
+		
 		try {
-			//this.databaseEngine.search("no");
-		} catch (Exception e) {
+			result = languageProcessor.processInput("What is the transport to Guangdong?");
+		}
+		catch (Exception e) {
 			thrown = true;
 		}
-		assertThat(thrown).isEqualTo(true);
-	}
-	
-	@Test
-	public void testFound() throws Exception {
-		boolean thrown = false;
-		String result = null;
-		try {
-			//result = this.databaseEngine.search("abc");
-		} catch (Exception e) {
-			thrown = false;
-		}
-		//assertThat(!thrown).isEqualTo(false);
-		//assertThat(result).isEqualTo("def");
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("transportToGuangdongQuestion");
 	}
 }
-*/

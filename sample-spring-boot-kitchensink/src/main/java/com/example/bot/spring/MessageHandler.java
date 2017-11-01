@@ -1,6 +1,6 @@
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
 
-
+import java.util.ArrayList;
 
 public class MessageHandler {
 		
@@ -11,12 +11,12 @@ public class MessageHandler {
 	}
 	
 	
-	public String handleTextContent(String text) throws Exception {
+	public String handleTextContent(ArrayList<String> text) throws Exception {
 
         
         String answer = null;
         try{
-        	database.getFAQResponse(text);
+        	database.getFAQResponse(text.get(0));
         }
         catch(Exception e){
         	// the entry does not exist
