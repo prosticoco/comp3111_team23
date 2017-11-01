@@ -40,9 +40,9 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			con.close();
 			stmt.close();		
 		} catch (URISyntaxException e){
-			log.info("The wrong URI has been provided", e.toString());
+			//log.info("The wrong URI has been provided", e.toString());
 		} catch (SQLException e){
-			log.info("There has been an error with the SQL statement", e.toString());
+			//log.info("There has been an error with the SQL statement", e.toString());
 		}
 		if(tourGuide != null && hotel != null && price != 0){
 			return new Tour(identifier,date,price,tourGuide,tourGuideLineAcc,hotel,capacity,minCustomers);
@@ -69,9 +69,9 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			con.close();
 			stmt.close();		
 		} catch (URISyntaxException e){
-			log.info("The wrong URI has been provided", e.toString());
+			//log.info("The wrong URI has been provided", e.toString());
 		} catch (SQLException e){
-			log.info("There has been an error with the SQL statement", e.toString());
+			//log.info("There has been an error with the SQL statement", e.toString());
 		}
 		if( name != null && age != 0){
 			return new Customer(name,identifier,phone,age);
@@ -99,9 +99,9 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			con.close();
 			stmt.close();		
 		} catch (URISyntaxException e){
-			log.info("The wrong URI has been provided", e.toString());
+			//log.info("The wrong URI has been provided", e.toString());
 		} catch (SQLException e){
-			log.info("There has been an error with the SQL statement", e.toString());
+			//log.info("There has been an error with the SQL statement", e.toString());
 		}
 		if( id != null && days != null){
 			return new GeneralTour(id,name,description,days);
@@ -124,9 +124,9 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			con.close();
 			stmt.close();		
 		} catch (URISyntaxException e){
-			log.info("The wrong URI has been provided", e.toString());
+			//log.info("The wrong URI has been provided", e.toString());
 		} catch (SQLException e){
-			log.info("There has been an error with the SQL statement", e.toString());
+			//log.info("There has been an error with the SQL statement", e.toString());
 		}
 		return availability;
 	}
@@ -147,9 +147,9 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			con.close();
 			stmt.close();		
 		} catch (URISyntaxException e){
-			log.info("The wrong URI has been provided", e.toString());
+			//log.info("The wrong URI has been provided", e.toString());
 		} catch (SQLException e){
-			log.info("There has been an error with the SQL statement", e.toString());
+			//log.info("There has been an error with the SQL statement", e.toString());
 		}
 		if (result != null)
 			return result;
@@ -167,9 +167,9 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			stmt.close();
 			con.close();
 		} catch(URISyntaxException e){
-			log.info("The wrong URI has been provided", e.toString());
+			//log.info("The wrong URI has been provided", e.toString());
 		} catch (SQLException e){
-			log.info("There has been an error with the SQL statement", e.toString());
+			//log.info("There has been an error with the SQL statement", e.toString());
 		}
 	}
 	
@@ -191,9 +191,9 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			stmt.close();
 			con.close();
 		} catch(URISyntaxException e){
-			log.info("The wrong URI has been provided", e.toString());
+			//log.info("The wrong URI has been provided", e.toString());
 		} catch (SQLException e){
-			log.info("There has been an error with the SQL statement", e.toString());
+			//log.info("There has been an error with the SQL statement", e.toString());
 		}
 	}
 
@@ -206,8 +206,8 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		String password = dbUri.getUserInfo().split(":")[1];
 		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +  "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
 
-		log.info("Username: {} Password: {}", username, password);
-		log.info ("dbUrl: {}", dbUrl);
+		//log.info("Username: {} Password: {}", username, password);
+		//log.info ("dbUrl: {}", dbUrl);
 		
 		connection = DriverManager.getConnection(dbUrl, username, password);
 
