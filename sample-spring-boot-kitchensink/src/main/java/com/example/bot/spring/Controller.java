@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,6 +22,7 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -95,7 +96,7 @@ public class Controller {
 	
 	public Controller() {
 		messageHandler = new MessageHandler();
-		languageProcessor = new LuisINLP();
+		languageProcessor = new LuisNLP();
 	}
 	
 	@EventMapping
@@ -108,7 +109,7 @@ public class Controller {
 		String receivedMessage = event.getMessage().getText();
 		
 		//process the message
-		String processedMessage = languageProcessor.processInput(receivedMessage);
+		ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
 		
 		//get a response from the handler
 		String response = messageHandler.handleTextContent(processedMessage);
