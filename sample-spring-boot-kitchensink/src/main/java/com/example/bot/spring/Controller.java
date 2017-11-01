@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -95,6 +95,7 @@ public class Controller {
 	private LanguageProcessor languageProcessor;
 	
 	public Controller() {
+
 		languageProcessor = new LuisINLP();
 		messageHandler = new MessageHandler();
 	}
@@ -109,11 +110,13 @@ public class Controller {
 		String receivedMessage = event.getMessage().getText();
 		
 		//process the message
+
 		//ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
 		
 		//temporary
 		ArrayList<String> processedMessage = new ArrayList<>();
 		processedMessage.add("none");
+
 		
 		//get a response from the handler
 		String response = messageHandler.handleTextContent(processedMessage);

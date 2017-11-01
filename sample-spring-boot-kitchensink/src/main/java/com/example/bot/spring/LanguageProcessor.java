@@ -1,4 +1,6 @@
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
+
+import java.util.ArrayList;
 
 import java.util.ArrayList;
 
