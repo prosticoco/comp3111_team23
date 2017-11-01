@@ -22,6 +22,7 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -94,7 +95,6 @@ public class Controller {
 	private LanguageProcessor languageProcessor;
 	
 	public Controller() {
-		messageHandler = new MessageHandler();
 		languageProcessor = new LuisINLP();
 	}
 	
@@ -108,10 +108,11 @@ public class Controller {
 		String receivedMessage = event.getMessage().getText();
 		
 		//process the message
-		//String processedMessage = languageProcessor.processInput(receivedMessage);
-		
+		//ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
+		ArrayList<String> processedMessage = new ArrayList<>();
+		processedMessage.add("none");
 		//get a response from the handler
-		String response = messageHandler.handleTextContent(new String("processedMessage"));
+		String response = messageHandler.handleTextContent(processedMessage);
 		
 		//send the message back to the user
 		replyText(event.getReplyToken(), response);

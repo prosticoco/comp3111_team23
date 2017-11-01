@@ -12,13 +12,15 @@ public class MessageHandler {
 	
 	
 	public String handleTextContent(ArrayList<String> inputArray) throws Exception {
-		String intent = inputArray.get(0);
+		String intent = inputArray.get(0).toLowerCase();
 		String answer = null;
 		switch(intent){
 			case "none":
 				handleNoneIntent();
+				answer = "Excuse me I cannot understand what you are trying to say. Could you try again?";
+				break;
 			case "question":
-				handleQuestionIntent(inputArray.get(1));
+				//handleQuestionIntent(inputArray.get(1));
 				break;
 			case "booking":
 				handleBookingIntent(inputArray);
@@ -38,7 +40,12 @@ public class MessageHandler {
 
 
 	private void handleQuestionIntent(String question) {
-		database.getFAQResponse(quesion);
+		try {
+			database.getFAQResponse(question);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
