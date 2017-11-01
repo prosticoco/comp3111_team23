@@ -46,33 +46,40 @@ import src.main.java.com.example.bot.spring.LuisNLP;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { KitchenSinkTester.class})
+@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class})
 public class KitchenSinkTester {
+	
 	@Autowired
+	private StorageEngine database;
 	
 //	@Test
-//	public void testNotFound() throws Exception {
-//		boolean thrown = false;
-//		try {
-//			//this.databaseEngine.search("no");
-//		} catch (Exception e) {
-//			thrown = true;
-//		}
-//		assertThat(thrown).isEqualTo(true);
-//	}
-//	
-//	@Test
-//	public void testFound() throws Exception {
-//		boolean thrown = false;
-//		String result = null;
-//		try {
-//			//result = this.databaseEngine.search("abc");
-//		} catch (Exception e) {
-//			thrown = false;
-//		}
-//		//assertThat(!thrown).isEqualTo(false);
-//		//assertThat(result).isEqualTo("def");
-//	}
+	public void CustomerNotFound() throws Exception {
+		boolean thrown = false;
+		try {
+			this.database.getCustomerDetails("A122");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(true);
+	}
+	
+	@Test
+	public void CustomerFound() throws Exception {
+		boolean thrown = false;
+		Customer cust = null;
+
+		try {
+			cust = this.database.getCustomerDetails("A124");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(cust.getAge()).isEqualTo(17);
+		assertThat(cust.getPhone()).isEqualTo(54321256);
+		assertThat(cust.getName()).isEqualTo("Chris");
+
+	}
+	
 	@Test
 	public void testLuisQuestion() throws Exception {
 		LanguageProcessor languageProcessor = new LuisNLP();
