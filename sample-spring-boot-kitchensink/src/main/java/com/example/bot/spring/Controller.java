@@ -95,8 +95,9 @@ public class Controller {
 	private LanguageProcessor languageProcessor;
 	
 	public Controller() {
+
+		languageProcessor = new LuisINLP();
 		messageHandler = new MessageHandler();
-		languageProcessor = new LuisNLP();
 	}
 	
 	@EventMapping
@@ -109,7 +110,13 @@ public class Controller {
 		String receivedMessage = event.getMessage().getText();
 		
 		//process the message
-		ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
+
+		//ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
+		
+		//temporary
+		ArrayList<String> processedMessage = new ArrayList<>();
+		processedMessage.add("none");
+
 		
 		//get a response from the handler
 		String response = messageHandler.handleTextContent(processedMessage);
@@ -134,7 +141,7 @@ public class Controller {
 
 	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
-			BotApiResponse apiResponse = lineMessagingClient.replyMessage(new ReplyMessage(replyToken, (Message) messages)).get();
+			BotApiResponse apiResponse = lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
 			log.info("Sent messages: {}", apiResponse);
 		} catch (InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
