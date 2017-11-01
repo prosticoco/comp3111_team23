@@ -13,7 +13,7 @@ public class MessageHandler {
 	
 	public String handleTextContent(String text) throws Exception {
 
-		return database.getCustomerDetails("A123").getName();      
+		return database.getCustomerDetails("A124").getName();      
 
     }
 	

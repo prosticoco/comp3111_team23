@@ -133,7 +133,7 @@ public class Controller {
 
 	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
-			BotApiResponse apiResponse = lineMessagingClient.replyMessage(new ReplyMessage(replyToken, (Message) messages)).get();
+			BotApiResponse apiResponse = lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
 			log.info("Sent messages: {}", apiResponse);
 		} catch (InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
