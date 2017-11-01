@@ -17,7 +17,6 @@ public class MessageHandler {
 		switch(intent){
 			case "none":
 				handleNoneIntent();
-				answer =  "none";
 				break;
 			case "question":
 				answer = getAsnwer(inputArray.get(1));

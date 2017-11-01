@@ -96,6 +96,7 @@ public class Controller {
 	
 	public Controller() {
 		languageProcessor = new LuisINLP();
+		messageHandler = new MessageHandler();
 	}
 	
 	@EventMapping
@@ -109,8 +110,11 @@ public class Controller {
 		
 		//process the message
 		//ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
+		
+		//temporary
 		ArrayList<String> processedMessage = new ArrayList<>();
 		processedMessage.add("none");
+		
 		//get a response from the handler
 		String response = messageHandler.handleTextContent(processedMessage);
 		
