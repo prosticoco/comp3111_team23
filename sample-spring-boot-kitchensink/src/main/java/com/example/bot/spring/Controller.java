@@ -113,16 +113,12 @@ public class Controller {
 		
 		//process the message
 		ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
+
 		
-//		ArrayList<String> processedMessage = new ArrayList<>();
-//		processedMessage.add("booking");
-//		processedMessage.add("builtin.encyclopedia.people.person:Ivan");
-//		processedMessage.add("builtin.age:18");
 		//get a response from the handler
-//		messageHandler.setCustomerId(userId);
-//		String response = messageHandler.handleTextContent(processedMessage);
+		messageHandler.setCustomer(userId);
+		String response = messageHandler.handleTextContent(processedMessage);
 		
-		String response = processedMessage.get(0);
 		//send the message back to the user
 		replyText(event.getReplyToken(), response);
 	}

@@ -3,6 +3,7 @@ package com.example.bot.spring;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat; 
 
 public class MessageHandler {
@@ -29,9 +30,11 @@ public class MessageHandler {
 		String answer = "Excuse me I cannot understand what you are trying to say. Could you try again?";
 		
 		
-		if(intent.length()>=8 && intent.substring(intent.length()-8).toLowerCase().equals("question"))
+		if(intent.length()>=8 && intent.substring(intent.length()-8).toLowerCase().equals("question")){
+			//get answer from the FAQ table in the database
 			answer = getAsnwer(inputArray.get(0).substring(0,intent.length() - 8));
-		else if(intent.length()>=7 && intent.substring(intent.length()-7).toLowerCase().equals("booking")){
+		}
+		else if(intent.toLowerCase().equals("booktour")){
 			try {
 				answer = handleBookingIntent(inputArray);
 			} catch (Exception e) {
@@ -39,58 +42,66 @@ public class MessageHandler {
 				date = null;
 			}
 		}
-		else if(intent.length()>=12 && intent.substring(intent.length()-12).toLowerCase().equals("confirmation"))
+		else if(intent.toLowerCase().equals("confirmation")){
 			answer = completeBooking();
+		}
 				
-		return answer;      
-   }
+		return answer;
+	}
+	
+	public void setCustomer(String userId){
+		if(customer.getId()  == null){
+			customer.setId(userId);
+			try {
+				customer = database.getCustomerDetails(customer.getId());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	
 	private String handleBookingIntent(ArrayList<String> inputArray) throws Exception {
-		String[] currentAttribute;
 		
+		String[] currentAttribute;
 		for(int i = 1; i < inputArray.size(); i++){
+			//separate the attribute name and attribute value
 			currentAttribute = inputArray.get(i).split(":");
-			if(customer.nullValues().size() > 0 && checkBelongToCustomer(currentAttribute)) continue;
-			else if(checkBelongToBooking(currentAttribute)) continue;
+			if(customer.nullValues().size() > 0 && checkBelongToCustomer(currentAttribute))
+				continue;
+			else if(checkBelongToBooking(currentAttribute)) 
+				continue;
 		}
 		
+		//default string in case of insufficient amount of attributes
 		String answer = "Please provide details about:";
 		
-		if(booking.nullValues().size()>0){
-			for(String s: booking.nullValues()){
-				answer = answer + ", " + s;
-			}
-		}
-		else cusNulls = false;
-			
-		if(customer.nullValues().size()>0){
-			for(String s: customer.nullValues()){
-				answer = answer + ", " + s;
-			}
-		}
-		else bookNulls = false;
+		appendNullAttributes(booking,answer,cusNulls);
+		appendNullAttributes(customer,answer,bookNulls);
 		
+		//if no more attributes needed ask for confirmation
+		if(!cusNulls && !bookNulls) 
+			answer = "Are you sure you want to make this booking? Press Y";			
 		
-		if(!cusNulls && !bookNulls) answer = "Are you sure you want to make this booking? Press Y";			
 		return answer;
 	}
 
 
+
 	private String completeBooking() {
-		String answer = "Sorry I could not complete the booking"; 
+		//default answer in case something goes wrong
+		String answer = "Something went wrong.Sorry for the inconvenience, could you please provide us with all the details again."; 
 		
 		if(!cusNulls && !bookNulls) {
 			try {
-				database.addBooking(booking);
 				database.addCustomer(customer);
+				database.addBooking(booking);
 				answer = "Your booking is complete";
-				resetBooking();
-				bookNulls = true;
-			} catch (Exception e){
-				
+			} catch (URISyntaxException e) {
+				answer = "Sorry I could not complete the booking. The server is not working, please try again later";
 			}
 		}
-		
+		resetHandler();
 		return answer;
 	}
 
@@ -98,16 +109,8 @@ public class MessageHandler {
 	private boolean checkBelongToCustomer(String[] attributes) {
 		boolean successful = false;
 		
-		try {
-			customer = database.getCustomerDetails(customer.getId());
-			return true;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		//TODO: input validate everything 
-
+		
 		switch(attributes[0]){
 			case "builtin.encyclopedia.people.person":
 				customer.setName(attributes[1]);
@@ -141,14 +144,12 @@ public class MessageHandler {
 				successful = true;
 				break;
 			case "tourType":
-				GeneralTour temp;
-				temp = database.getGeneralTourDetails(attributes[1]);
-				tour.setId(temp.getId());
-				if(date != null) setTour();
+				tour.setId(database.getGeneralTourDetails(attributes[1]).getId());
+				setTour();
 				break;
 			case "builtin.datetimeV2.date":
 				date = new SimpleDateFormat("yyyy-mm-dd").parse(attributes[1]);
-				if(tour.getId()!= null) setTour();
+				setTour();
 				break;
 				
 			/*case "specialRequests":
@@ -160,7 +161,8 @@ public class MessageHandler {
 	}
 
 	private void setTour() throws Exception{
-		tour = database.getTourDetails(tour.getId(), date);
+		if(tour == null && date != null & tour.getId() != null)
+			tour = database.getTourDetails(tour.getId(), date);
 	}
 
 	private String getAsnwer(String question) {
@@ -174,12 +176,28 @@ public class MessageHandler {
 		return answer;
 	}
 	
-	public void setCustomerId(String userId){
-		customer.setId(userId);
-	}
 
-	private void resetBooking(){
+	private void resetHandler(){
+		customer = new Customer(null,null,0,0);
 		tour = new Tour(null,null,0,null,null,null,0,0);
 		booking = new TourBooking(tour, customer);
+		bookNulls = true;
+		cusNulls = true;
+	}
+	
+	private void appendNullAttributes(Object o, String str, boolean containNulls){
+		ArrayList<String> nulls;
+		if(o.getClass().equals(Customer.class)){
+			nulls = ((Customer) o).nullValues();
+		}else if(o.getClass().equals(TourBooking.class)){
+			nulls = ((TourBooking) o).nullValues();
+		}else
+			return;
+		if(nulls.size()>0){
+			for(String s: nulls){
+				str = str + "\n" + s;
+			}
+		}else
+			containNulls = false;		
 	}
 }

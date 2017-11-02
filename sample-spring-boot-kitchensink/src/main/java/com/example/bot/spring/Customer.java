@@ -7,7 +7,7 @@ public class Customer {
 	
 	private String name;
 	private String id;
-	private int phone = 4;
+	private int phone;
 	private int age;
 	
 	public Customer(String name, String id, int phone, int age) {
@@ -51,20 +51,26 @@ public class Customer {
 
 	public ArrayList<String> nullValues(){
 		ArrayList<String> nullValues = new ArrayList<>();
-		Field[] fields = this.getClass().getDeclaredFields();
-		for(Field f : fields){
-			f.setAccessible(true);
-			try {
-				if(!f.getType().isPrimitive()){
-					if(f.get(this) == null) nullValues.add(f.getName());
-				}else{
-					if(f.get(this).equals(0)) nullValues.add(f.getName());
-				}
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if(name == null){
+			nullValues.add("your name");
 		}
+		if(age == 0){
+			nullValues.add("your age");
+		}
+//		Field[] fields = this.getClass().getDeclaredFields();
+//		for(Field f : fields){
+//			f.setAccessible(true);
+//			try {
+//				if(!f.getType().isPrimitive()){
+//					if(f.get(this) == null) nullValues.add(f.getName());
+//				}else{
+//					if(f.get(this).equals(0) && !f.getName().equals("phone")) nullValues.add(f.getName());
+//				}
+//			} catch (IllegalArgumentException | IllegalAccessException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		return nullValues;
 	}
 }
