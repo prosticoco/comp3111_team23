@@ -160,7 +160,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	public void logQuestion(String question){
 		try{
 			Connection con = getConnection();
-			String query = "INSERT INTO TABLE loggedquestions VALUES (?);";
+			String query = "INSERT INTO loggedquestions VALUES(?);";
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setString(1, question);
 			stmt.execute();
