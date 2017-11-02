@@ -13,7 +13,7 @@ public class Customer {
 	public Customer(String name, String id, int phone, int age) {
 		this.name = name;
 		this.id = id;
-		this.phone = 4;
+		this.phone = phone;
 		this.age = age;
 	}
 	
