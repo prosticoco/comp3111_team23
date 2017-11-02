@@ -1,4 +1,4 @@
-package src.test.java.com.example.bot.spring;
+package com.example.bot.spring;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -41,11 +42,13 @@ import com.linecorp.bot.spring.boot.annotation.LineBotMessages;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import src.main.java.com.example.bot.spring.Customer;
-import src.main.java.com.example.bot.spring.LanguageProcessor;
-import src.main.java.com.example.bot.spring.LuisNLP;
-import src.main.java.com.example.bot.spring.PSQLDatabaseEngine;
-import src.main.java.com.example.bot.spring.StorageEngine;
+
+import com.example.bot.spring.Controller;
+import com.example.bot.spring.Customer;
+import com.example.bot.spring.LanguageProcessor;
+import com.example.bot.spring.LuisNLP;
+import com.example.bot.spring.PSQLDatabaseEngine;
+import com.example.bot.spring.StorageEngine;
 
 
 
@@ -103,5 +106,13 @@ public class KitchenSinkTester {
 		assertThat(result.get(1)).isEqualTo("builtin.datetimeV2.date:the 23/06/2018");
 		assertThat(result.get(2)).isEqualTo("tourType:shenzhen city tour");
 		assertThat(result.get(3)).isEqualTo("builtin.encyclopedia.people.person:christopher lynch");
+	}
+	
+	@Test
+	public void testController(){
+		MessageHandler m = new MessageHandler();
+		String a = m.handleTextContent(new ArrayList<String>(Arrays.asList("none")));
+		assertThat(a).isEqualTo("Excuse me I cannot understand what you are trying to say. Could you try again?");
+		
 	}
 }

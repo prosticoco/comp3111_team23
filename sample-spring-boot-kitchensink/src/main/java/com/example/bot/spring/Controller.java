@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package src.main.java.com.example.bot.spring;
+package com.example.bot.spring;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -112,8 +112,9 @@ public class Controller {
 		String userId = event.getSource().getUserId();
 		
 		//process the message
-		ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
-		
+		//ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
+		ArrayList<String> processedMessage = new ArrayList<>();
+		processedMessage.add("none");
 		//get a response from the handler
 		messageHandler.setCustomerId(userId);
 		String response = messageHandler.handleTextContent(processedMessage);

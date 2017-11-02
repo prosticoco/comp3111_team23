@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-
+/*
 import src.main.java.com.example.bot.spring.Customer;
 import src.main.java.com.example.bot.spring.Tour;
 
@@ -34,3 +33,4 @@ public class Singleton {
 	}
 	
 }
+*/
