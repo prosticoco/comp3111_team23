@@ -103,7 +103,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		} catch (SQLException e){
 			//log.info("There has been an error with the SQL statement", e.toString());
 		}
-		if( id = null && days != null){
+		if( id != null && days != null){
 			return new GeneralTour(id,name,description,days);
 		}
 		throw new Exception("GENERAL TOUR NOT FOUND");
