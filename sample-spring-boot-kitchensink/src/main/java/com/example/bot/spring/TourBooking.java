@@ -1,4 +1,4 @@
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ public class TourBooking {
 	private int toddlersNumber=0;
 	private int tourFee=0;
 	private int paid=0;
-	private String specialRequests=null;
+	//private String specialRequests=null;
 	private Tour tour;
 	private Customer customer;
 	
@@ -59,13 +59,13 @@ public class TourBooking {
 		this.paid = paid;
 	}
 
-	public String getSpecialRequests() {
+	/*public String getSpecialRequests() {
 		return specialRequests;
 	}
 
 	public void setSpecialRequests(String specialRequests) {
 		this.specialRequests = specialRequests;
-	}
+	}*/
 
 	public Tour getTour() {
 		return tour;
