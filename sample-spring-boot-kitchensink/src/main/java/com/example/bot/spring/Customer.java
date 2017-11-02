@@ -7,13 +7,13 @@ public class Customer {
 	
 	private String name;
 	private String id;
-	private int phone =3;
+	private int phone = 4;
 	private int age;
 	
 	public Customer(String name, String id, int phone, int age) {
 		this.name = name;
 		this.id = id;
-		this.phone = phone;
+		this.phone = 4;
 		this.age = age;
 	}
 	
