@@ -1,4 +1,4 @@
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -177,7 +177,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	public void addBooking(TourBooking tourBooking) {
 		try{
 			Connection con = getConnection();
-			String query = "INSERT INTO TABLE booking VALUES (?,?,?,?,?,?,?,?);";
+			String query = "INSERT INTO TABLE booking VALUES (?,?,?,?,?,?,?);";
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setString(1,tourBooking.getCustomer().getId());
 			stmt.setString(2, tourBooking.getTour().getId());
@@ -186,7 +186,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			stmt.setInt(5, tourBooking.getToddlersNumber());
 			stmt.setInt(6, tourBooking.getPaid());
 			stmt.setInt(7, tourBooking.getTourFee());
-			stmt.setString(8, tourBooking.getSpecialRequests());
+			//stmt.setString(8, tourBooking.getSpecialRequests());
 			stmt.execute();
 			stmt.close();
 			con.close();

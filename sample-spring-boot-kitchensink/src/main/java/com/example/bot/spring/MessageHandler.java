@@ -1,4 +1,4 @@
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
 
 
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ public class MessageHandler {
 	private StorageEngine database;
 	private Customer customer;
 	private TourBooking booking;
+	boolean cusNulls=true, bookNulls=true;
 	
 	public MessageHandler() {
 		database = new PSQLDatabaseEngine();
@@ -23,19 +24,21 @@ public class MessageHandler {
 		String answer = "Excuse me I cannot understand what you are trying to say. Could you try again?";
 		if(intent.length()>=7){
 			switch(intent.substring(intent.length() - 7).toLowerCase()){
-				case "uestion":
+				case "question":
 					answer = getAsnwer(inputArray.get(0).substring(0,intent.length() - 7));
 					break;
 				case "booking":
-					handleBookingIntent(inputArray);
+					answer = handleBookingIntent(inputArray);
 					break;
+				case "confirmation":
+					answer = completeBooking();
 			}
 		}
 		return answer;      
    }
 	
 	private String handleBookingIntent(ArrayList<String> inputArray) throws Exception {
-		boolean cusNulls=true, bookNulls=true;
+		
 		String[] temp;		
 		
 		for(int i = 1; i< inputArray.size(); i++){
@@ -62,7 +65,24 @@ public class MessageHandler {
 		else bookNulls = false;
 		
 		
-		if(!cusNulls && !bookNulls) answer = "Thank you for your booking! Is there anything else I can do for you?";
+		if(!cusNulls && !bookNulls) answer = "Are you sure you want to make this booking? Press Y";		
+		
+		
+		return answer;
+	}
+
+
+	private String completeBooking() {
+		String answer = "Sorry I could not complete the booking"; 
+		
+		if(!cusNulls && !bookNulls) {
+			try {
+				database.addBooking(booking);
+				answer = "Your booking is complete";
+			} catch (Exception e){
+				
+			}
+		}
 		
 		return answer;
 	}
@@ -70,12 +90,15 @@ public class MessageHandler {
 
 	private boolean checkCustomer(String[] attributes, Customer customer) {
 		boolean successful = false;
+		
+		//TODO: input validate everything 
+
 		switch(attributes[0]){
-			case "name":
+			case "encyclopedia":
 				customer.setName(attributes[1]);
 				successful = true;
 				break;
-			case "age":
+			case "number":
 				customer.setAge(Integer.parseInt(attributes[1]));
 				successful = true;
 				break;
@@ -90,6 +113,9 @@ public class MessageHandler {
 
 	private boolean checkBooking(String[] attributes, TourBooking booking) {
 		boolean successful = false;
+		
+		//TODO: input validate everything 
+		
 		switch(attributes[0]){
 			case "adultsNumber":
 				booking.setAdultsNumber(Integer.parseInt(attributes[1]));
@@ -103,10 +129,10 @@ public class MessageHandler {
 				booking.setToddlersNumber(Integer.parseInt(attributes[1]));
 				successful = true;
 				break;
-			case "specialRequests":
+			/*case "specialRequests":
 				booking.setSpecialRequests(attributes[1]);
 				successful = true;
-				break;
+				break;*/
 		}
 		return successful;
 	}
