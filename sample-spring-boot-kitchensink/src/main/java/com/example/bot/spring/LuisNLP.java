@@ -1,4 +1,4 @@
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class LuisNLP implements LanguageProcessor {
             URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + AppId + "?");
 
             builder.setParameter("q", sentence);
-            builder.setParameter("timezoneOffset", "0");
+            builder.setParameter("timezoneOffset", "8.0");
             builder.setParameter("verbose", "false");
             builder.setParameter("spellCheck", "false");
             builder.setParameter("staging", "false");
@@ -59,12 +59,18 @@ public class LuisNLP implements LanguageProcessor {
 	
 	private ArrayList<String> parseJSON(String json){
 		ArrayList<String> result = new ArrayList<String>();
+		String entityType = null;
+		String entityText = null;
+		String concat = null;
 		
 		JSONObject obj = new JSONObject(json);
 		result.add(obj.getJSONObject("topScoringIntent").getString("intent"));
 		JSONArray arr = obj.getJSONArray("entities");
 		for (int i = 0; i < arr.length(); i++) {
-			//TODO iterate through entities and add to arrayList
+			entityType = arr.getJSONObject(i).getString("type");
+			entityText = arr.getJSONObject(i).getString("entity");
+			concat = entityType.concat(":" + entityText);
+			result.add(concat);
 		}
 		
 		return result;
