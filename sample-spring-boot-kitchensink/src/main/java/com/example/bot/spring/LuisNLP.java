@@ -59,12 +59,18 @@ public class LuisNLP implements LanguageProcessor {
 	
 	private ArrayList<String> parseJSON(String json){
 		ArrayList<String> result = new ArrayList<String>();
+		String entityType = null;
+		String entityText = null;
+		String concat = null;
 		
 		JSONObject obj = new JSONObject(json);
 		result.add(obj.getJSONObject("topScoringIntent").getString("intent"));
 		JSONArray arr = obj.getJSONArray("entities");
 		for (int i = 0; i < arr.length(); i++) {
-			//TODO iterate through entities and add to arrayList
+			entityType = arr.getJSONObject(i).getString("type");
+			entityText = arr.getJSONObject(i).getString("entity");
+			concat = entityType.concat(":" + entityText);
+			result.add(concat);
 		}
 		
 		return result;
