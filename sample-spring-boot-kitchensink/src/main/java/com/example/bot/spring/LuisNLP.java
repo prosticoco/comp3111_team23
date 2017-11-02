@@ -1,4 +1,4 @@
-package com.example.bot.spring;
+package src.main.java.com.example.bot.spring;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class LuisNLP implements LanguageProcessor {
             URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + AppId + "?");
 
             builder.setParameter("q", sentence);
-            builder.setParameter("timezoneOffset", "0");
+            builder.setParameter("timezoneOffset", "8.0");
             builder.setParameter("verbose", "false");
             builder.setParameter("spellCheck", "false");
             builder.setParameter("staging", "false");
