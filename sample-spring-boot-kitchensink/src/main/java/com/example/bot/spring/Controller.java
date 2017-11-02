@@ -115,7 +115,8 @@ public class Controller {
 		//ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
 		
 		ArrayList<String> processedMessage = new ArrayList<>();
-		processedMessage.add("visaquestion");
+		processedMessage.add("abooking");
+		processedMessage.add("name:Ivan");
 		//get a response from the handler
 		messageHandler.setCustomerId(userId);
 		String response = messageHandler.handleTextContent(processedMessage);
