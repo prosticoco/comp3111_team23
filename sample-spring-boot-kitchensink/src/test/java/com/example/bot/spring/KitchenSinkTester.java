@@ -52,12 +52,12 @@ import src.main.java.com.example.bot.spring.StorageEngine;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class})
 public class KitchenSinkTester {
-	
+
 	@Autowired
 	private StorageEngine database;
 	@Autowired
 	private LanguageProcessor languageProcessor;
-	
+
 	@Test
 	public void CustomerNotFound() throws Exception {
 		boolean thrown = false;
@@ -68,7 +68,7 @@ public class KitchenSinkTester {
 		}
 		assertThat(thrown).isEqualTo(true);
 	}
-	
+
 //	@Test
 //	public void CustomerFound() throws Exception {
 //		boolean thrown = false;
@@ -85,12 +85,12 @@ public class KitchenSinkTester {
 //		assertThat(cust.getName()).isEqualTo("Chris");
 //
 //	}
-	
+
 	@Test
 	public void testLuisQuestion() throws Exception {
 		boolean thrown = false;
 		ArrayList<String> result = null;
-		
+
 		try {
 			result = languageProcessor.processInput("Book the Shenzhen city tour for two adults on the 23/06/2018. My name is Christopher Lynch.");
 		}
