@@ -16,5 +16,7 @@ public interface StorageEngine{
 	
 	public void addBooking(TourBooking tourBooking);
 	
+	public void addCustomer(Customer customer);
+	
 	public int getTourAvailability(Tour tour);
 }
