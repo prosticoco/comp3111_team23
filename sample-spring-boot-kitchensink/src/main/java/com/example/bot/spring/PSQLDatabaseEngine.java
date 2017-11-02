@@ -196,6 +196,25 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			//log.info("There has been an error with the SQL statement", e.toString());
 		}
 	}
+	
+	public void addCustomer(Customer customer) {
+		try{
+			Connection con = getConnection();
+			String query = "INSERT INTO TABLE customer VALUES (?,?,?,?);";
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setString(1,customer.getId());
+			stmt.setString(2, customer.getName());
+			stmt.setInt(3, customer.getAge());
+			stmt.setInt(4, customer.getPhone());
+			stmt.execute();
+			stmt.close();
+			con.close();
+		} catch(URISyntaxException e){
+			//log.info("The wrong URI has been provided", e.toString());
+		} catch (SQLException e){
+			//log.info("There has been an error with the SQL statement", e.toString());
+		}
+	}
 
 	
 	private Connection getConnection() throws URISyntaxException, SQLException {

@@ -82,6 +82,7 @@ public class MessageHandler {
 		if(!cusNulls && !bookNulls) {
 			try {
 				database.addBooking(booking);
+				database.addCustomer(customer);
 				answer = "Your booking is complete";
 				resetBooking();
 				bookNulls = true;
