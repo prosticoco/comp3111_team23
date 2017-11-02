@@ -200,7 +200,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	public void addCustomer(Customer customer) {
 		try{
 			Connection con = getConnection();
-			String query = "INSERT INTO TABLE customer VALUES (?,?,?,?);";
+			String query = "INSERT INTO customer VALUES(?,?,?,?);";
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setString(1,customer.getId());
 			stmt.setString(2, customer.getName());
