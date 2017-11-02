@@ -87,12 +87,12 @@ public class KitchenSinkTester {
 		ArrayList<String> result = null;
 		
 		try {
-			result = languageProcessor.processInput("What is the transport to Guangdong?");
+			result = languageProcessor.processInput("Hello");
 		}
 		catch (Exception e) {
 			thrown = true;
 		}
 		assertThat(thrown).isEqualTo(false);
-		assertThat(result.get(0)).isEqualTo("transportToGuangdongQuestion");
+		assertThat(result.get(0)).isEqualTo("Greeting");
 	}
 }
