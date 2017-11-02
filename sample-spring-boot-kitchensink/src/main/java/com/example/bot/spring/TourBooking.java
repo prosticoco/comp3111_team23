@@ -10,7 +10,7 @@ public class TourBooking {
 	private int toddlersNumber=0;
 	private int tourFee=0;
 	private int paid=0;
-	private String specialRequests=null;
+	//private String specialRequests=null;
 	private Tour tour;
 	private Customer customer;
 	
@@ -59,13 +59,13 @@ public class TourBooking {
 		this.paid = paid;
 	}
 
-	public String getSpecialRequests() {
+	/*public String getSpecialRequests() {
 		return specialRequests;
 	}
 
 	public void setSpecialRequests(String specialRequests) {
 		this.specialRequests = specialRequests;
-	}
+	}*/
 
 	public Tour getTour() {
 		return tour;
@@ -90,7 +90,13 @@ public class TourBooking {
 		for(Field f : fields){
 			f.setAccessible(true);
 			try {
-				if(f.get(this) == null) nullValues.add(f.getName());
+				
+				if(!f.getType().isPrimitive()){
+					if(f.get(this) == null) nullValues.add(f.getName());
+				}else{
+					if(f.get(this).equals(0)) nullValues.add(f.getName());
+				}
+				
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

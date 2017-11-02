@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
-import src.main.java.com.example.bot.spring.Customer;
-import src.main.java.com.example.bot.spring.Tour;
+import com.example.bot.spring.Customer;
+import com.example.bot.spring.Tour;
 
 // Oliver Elleman Thomsen
 public class Singleton {

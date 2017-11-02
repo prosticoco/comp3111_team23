@@ -55,7 +55,11 @@ public class Customer {
 		for(Field f : fields){
 			f.setAccessible(true);
 			try {
-				if(f.get(this) == null) nullValues.add(f.getName());
+				if(!f.getType().isPrimitive()){
+					if(f.get(this) == null) nullValues.add(f.getName());
+				}else{
+					if(f.get(this).equals(0)) nullValues.add(f.getName());
+				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
