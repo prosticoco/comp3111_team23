@@ -115,8 +115,9 @@ public class Controller {
 		//ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
 		
 		ArrayList<String> processedMessage = new ArrayList<>();
-		processedMessage.add("abooking");
-		processedMessage.add("name:Ivan");
+		processedMessage.add("booking");
+		processedMessage.add("builtin.encyclopedia.people.person:Ivan");
+		processedMessage.add("builtin.age:18");
 		//get a response from the handler
 		messageHandler.setCustomerId(userId);
 		String response = messageHandler.handleTextContent(processedMessage);

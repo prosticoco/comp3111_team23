@@ -49,7 +49,7 @@ public class MessageHandler {
 		String[] currentAttribute;
 		
 		for(int i = 1; i < inputArray.size(); i++){
-			currentAttribute = inputArray.get(i).split(":");		
+			currentAttribute = inputArray.get(i).split(":");	
 			if(customer.nullValues().size() > 0 && checkBelongToCustomer(currentAttribute)) continue;
 			else if(checkBelongToBooking(currentAttribute)) continue;
 		}
@@ -71,7 +71,8 @@ public class MessageHandler {
 		else bookNulls = false;
 		
 		
-		if(!cusNulls && !bookNulls) answer = "Are you sure you want to make this booking? Press Y";			
+		if(!cusNulls && !bookNulls) answer = "Are you sure you want to make this booking? Press Y";	
+		if(customer.nullValues().size() == 0) database.addCustomer(customer);
 		return answer;
 	}
 

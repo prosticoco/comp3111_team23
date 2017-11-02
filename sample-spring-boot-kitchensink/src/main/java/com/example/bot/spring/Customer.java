@@ -7,7 +7,7 @@ public class Customer {
 	
 	private String name;
 	private String id;
-	private int phone;
+	private int phone =3;
 	private int age;
 	
 	public Customer(String name, String id, int phone, int age) {

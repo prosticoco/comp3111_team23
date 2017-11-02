@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public class TourBooking {
 	
-	private int adultsNumber=0;
-	private int childrenNumber=0;
-	private int toddlersNumber=0;
-	private int tourFee=0;
-	private int paid=0;
+	private int adultsNumber=1;
+	private int childrenNumber=1;
+	private int toddlersNumber=1;
+	private int tourFee=1;
+	private int paid=1;
 	//private String specialRequests=null;
 	private Tour tour;
 	private Customer customer;
