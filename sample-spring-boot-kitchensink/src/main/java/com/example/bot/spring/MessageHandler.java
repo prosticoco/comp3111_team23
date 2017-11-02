@@ -112,7 +112,7 @@ public class MessageHandler {
 				customer.setName(attributes[1]);
 				successful = true;
 				break;
-			case "builtin.number":
+			case "builtin.age":
 				customer.setAge(Integer.parseInt(attributes[1]));
 				successful = true;
 				break;
@@ -127,25 +127,25 @@ public class MessageHandler {
 		//TODO: input validate everything 
 		
 		switch(attributes[0]){
-			case "adultsNumber":
+			case "numberOfAdults":
 				booking.setAdultsNumber(Integer.parseInt(attributes[1]));
 				successful = true;
 				break;
-			case "childrenNumber":
+			case "numberOfChildren":
 				booking.setChildrenNumber(Integer.parseInt(attributes[1]));
 				successful = true;
 				break;
-			case "toddlersNumber":
+			case "numberOfToddlers":
 				booking.setToddlersNumber(Integer.parseInt(attributes[1]));
 				successful = true;
 				break;
-			case "tourName":
+			case "tourType":
 				GeneralTour temp;
 				temp = database.getGeneralTourDetails(attributes[1]);
 				tour.setId(temp.getId());
 				if(date != null) setTour();
 				break;
-			case "tourDate":
+			case "builtin.datetimeV2.date":
 				date = new SimpleDateFormat("yyyy-mm-dd").parse(attributes[1]);
 				if(tour.getId()!= null) setTour();
 				break;
