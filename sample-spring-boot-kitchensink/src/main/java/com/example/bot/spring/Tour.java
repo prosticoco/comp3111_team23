@@ -56,6 +56,14 @@ public class Tour {
 	public int getMinCustomers() {
 		return minCustomers;
 	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	
 	
 	
