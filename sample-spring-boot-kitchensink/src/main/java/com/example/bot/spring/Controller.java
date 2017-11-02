@@ -114,7 +114,7 @@ public class Controller {
 		//process the message
 		//ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
 		ArrayList<String> processedMessage = new ArrayList<>();
-		processedMessage.add("none");
+		processedMessage.add("visaquestion");
 		//get a response from the handler
 		messageHandler.setCustomerId(userId);
 		String response = messageHandler.handleTextContent(processedMessage);
