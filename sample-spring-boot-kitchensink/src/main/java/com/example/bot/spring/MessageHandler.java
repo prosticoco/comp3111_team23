@@ -44,7 +44,6 @@ public class MessageHandler {
 					log.info(s);
 				}
 				answer = handleBookingIntent(inputArray);
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 				answer = "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
@@ -53,10 +52,11 @@ public class MessageHandler {
 		}
 		else if(intent.toLowerCase().equals("additionalinformation")){
 			try {
-				answer = handleBookingIntent(inputArray);
+				log.info("confirmation section Entered --------------------------------------------------------------------------------");
 				for(String s: inputArray){
 					log.info(s);
 				}
+				answer = handleBookingIntent(inputArray);
 			} catch (Exception e) {
 				e.printStackTrace();
 				answer = "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
