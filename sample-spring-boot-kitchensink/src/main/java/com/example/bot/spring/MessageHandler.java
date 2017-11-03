@@ -143,7 +143,7 @@ public class MessageHandler {
 				successful = true;
 				break;
 			case "builtin.age":
-				customer.setAge(Integer.parseInt(attributes[1]));
+				customer.setAge(Integer.parseInt(attributes[1].replaceAll("[\\D]", "")));
 				successful = true;
 				break;
 		}
@@ -163,15 +163,15 @@ public class MessageHandler {
 		
 		switch(attributes[0]){
 			case "numberOfAdults":
-				booking.setAdultsNumber(Integer.parseInt(atrb));
+				booking.setAdultsNumber(Integer.parseInt(atrb.replaceAll("[\\D]", "")));
 				successful = true;
 				break;
 			case "numberOfChildren":
-				booking.setChildrenNumber(Integer.parseInt(atrb));
+				booking.setChildrenNumber(Integer.parseInt(atrb.replaceAll("[\\D]", "")));
 				successful = true;
 				break;
 			case "numberOfToddlers":
-				booking.setToddlersNumber(Integer.parseInt(atrb));
+				booking.setToddlersNumber(Integer.parseInt(atrb.replaceAll("[\\D]", "")));
 				successful = true;
 				break;
 			case "tourType":
@@ -193,9 +193,11 @@ public class MessageHandler {
 	}
 
 	private void setTour() throws Exception{
-		if(tour == null && date != null & tour.getId() != null)
-			log.info(tour.getId() + new SimpleDateFormat("yyyy-MM-dd").format(date) + "---------------------------------------------------------------------");
+		if(tour == null && date != null & tour.getId() != null){
+			log.info(new SimpleDateFormat("yyyy-MM-dd").format(date) + " -------------------------------------------------");
+			log.info(tour.getId() + "---------------------------------------------------------------------");
 			tour = database.getTourDetails(tour.getId(), date);
+		}
 	}
 
 	private String getAsnwer(String question) {
