@@ -32,7 +32,7 @@ public class MessageHandler {
 		//return default string if not found
 		String answer = "Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?";
 		
-		
+		log.info(intent+"--------------------------------");
 		if(intent.length()>=8 && intent.substring(intent.length()-8).toLowerCase().equals("question")){
 			//get answer from the FAQ table in the database
 			answer = getAsnwer(inputArray.get(0).substring(0,intent.length() - 8));
@@ -65,6 +65,7 @@ public class MessageHandler {
 		}
 		else if(intent.toLowerCase().equals("confirmation")){
 			String response = inputArray.get(1).toLowerCase();
+			log.info("entered into confirmation"+"--------------------------------------------");
 			if(response.equals("y")) {
 				answer = completeBooking();
 			}
@@ -119,7 +120,7 @@ public class MessageHandler {
 	private String completeBooking() {
 		//default answer in case something goes wrong
 		String answer = "Something went wrong.Sorry for the inconvenience, could you please provide us with all the details again."; 
-		
+		log.info("entered into complete bookings"+"--------------------------------------------");
 		if(!cusNulls && !bookNulls) {
 			try {
 				database.addCustomer(customer);
