@@ -93,13 +93,13 @@ public class Controller {
 	private LineMessagingClient lineMessagingClient;
 	private MessageHandler messageHandler;
 	private LanguageProcessor languageProcessor;
-	@Autowired
 	private StorageEngine database;
 	
 	public Controller() {
 
 		languageProcessor = new LuisNLP();
 		messageHandler = new MessageHandler();
+		database = new PSQLDatabaseEngine();
 	}
 	
 	@EventMapping
