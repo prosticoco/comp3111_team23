@@ -74,7 +74,7 @@ public class MessageHandler {
 		}
 		
 		//default string in case of insufficient amount of attributes
-		String answer = "Please provide details about:";
+		String answer = "Please provide more details about the tour and the people going, in the following format:";
 		
 		appendNullAttributes(booking,answer,cusNulls);
 		appendNullAttributes(customer,answer,bookNulls);
@@ -185,12 +185,12 @@ public class MessageHandler {
 		cusNulls = true;
 	}
 	
-	private void appendNullAttributes(Object o, String str, boolean containNulls){
+	private void appendNullAttributes(Object object, String str, boolean containNulls){
 		ArrayList<String> nulls;
-		if(o.getClass().equals(Customer.class)){
-			nulls = ((Customer) o).nullValues();
-		}else if(o.getClass().equals(TourBooking.class)){
-			nulls = ((TourBooking) o).nullValues();
+		if(object.getClass().equals(Customer.class)){
+			nulls = ((Customer) object).nullValues();
+		}else if(object.getClass().equals(TourBooking.class)){
+			nulls = ((TourBooking) object).nullValues();
 		}else
 			return;
 		if(nulls.size()>0){
