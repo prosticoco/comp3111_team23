@@ -97,7 +97,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 				log.info("ENTERED-------------------------------------------------");
 				id = rs.getString("id");
 				description = rs.getString("description");
-				days =  rs.getString("days");
+				days =  rs.getString("days_available");
 				log.info(id+"---------------------------------------");
 			}
 			rs.close();
