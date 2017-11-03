@@ -47,9 +47,9 @@ import com.example.bot.spring.Controller;
 import com.example.bot.spring.Customer;
 import com.example.bot.spring.LanguageProcessor;
 import com.example.bot.spring.LuisNLP;
+import com.example.bot.spring.MessageHandler;
 import com.example.bot.spring.PSQLDatabaseEngine;
 import com.example.bot.spring.StorageEngine;
-
 
 
 @RunWith(SpringRunner.class)
@@ -60,6 +60,8 @@ public class KitchenSinkTester {
 	private StorageEngine database;
 	@Autowired
 	private LanguageProcessor languageProcessor;
+//	@Autowired
+//	private MessageHandler messageHandler; 
 
 	@Test
 	public void CustomerNotFound() throws Exception {
@@ -160,4 +162,17 @@ public class KitchenSinkTester {
 			assertThat(result.get(1)).isEqualTo("Y");
 		}
 	}
+	
+//	@Test
+//	public void testBooking() {
+//		ArrayList<String> input = new ArrayList<String>(Arrays.asList("additionalinformation", "numOfToddlers:toddler: 5")); 
+//		
+//		String answer = messageHandler.handleTextContent(input);
+//		String trueAnswer = "Please provide more details about the tour and the people going, in the following format:\n";
+//	
+//		assertThat(answer == trueAnswer);
+//
+//	}
+//	
+
 }

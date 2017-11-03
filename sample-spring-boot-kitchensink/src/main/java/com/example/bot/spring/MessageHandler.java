@@ -22,7 +22,6 @@ public class MessageHandler {
 		booking = new TourBooking(tour, customer);
 	}
 	
-	
 	public String handleTextContent(ArrayList<String> inputArray){
 		String intent = inputArray.get(0).toLowerCase();
 		
@@ -78,7 +77,6 @@ public class MessageHandler {
 		}
 	}
 	
-	
 	private String handleBookingIntent(ArrayList<String> inputArray) throws Exception {
 		
 		String[] currentAttribute;
@@ -104,8 +102,6 @@ public class MessageHandler {
 		return answer;
 	}
 
-
-
 	private String completeBooking() {
 		//default answer in case something goes wrong
 		String answer = "Something went wrong.Sorry for the inconvenience, could you please provide us with all the details again."; 
@@ -124,7 +120,6 @@ public class MessageHandler {
 		return answer;
 	}
 
-
 	private boolean checkBelongToCustomer(String[] attributes) {
 		boolean successful = false;
 		
@@ -142,7 +137,6 @@ public class MessageHandler {
 		}
 		return successful;
 	}
-
 
 	private boolean checkBelongToBooking(String[] attributes) throws Exception {
 		boolean successful = false;
@@ -201,7 +195,6 @@ public class MessageHandler {
 		return answer;
 	}
 	
-
 	private void resetHandler(){
 		customer = new Customer(null,null,0,0);
 		tour = new Tour(null,null,0,null,null,null,0,0);
