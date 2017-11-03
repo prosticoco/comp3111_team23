@@ -185,7 +185,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 				stmt.setInt(4, tourBooking.getChildrenNumber());
 				stmt.setInt(5, tourBooking.getToddlersNumber());
 				stmt.setInt(6, tourBooking.getPaid());
-				stmt.setInt(7, tourBooking.getTourFee());
+				stmt.setInt(7, tourBooking.calcTourFee());
 				//stmt.setString(8, tourBooking.getSpecialRequests());
 				stmt.execute();
 				stmt.close();

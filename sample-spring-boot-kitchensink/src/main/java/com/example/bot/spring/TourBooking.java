@@ -8,7 +8,6 @@ public class TourBooking {
 	private int numOfAdults=-1;
 	private int numOfChildren=-1;
 	private int numOfToddlers=-1;
-	private int tourFee;
 	private int paid;
 	//private String specialRequests=null;
 	private Tour tour;
@@ -43,12 +42,10 @@ public class TourBooking {
 		this.numOfToddlers = toddlersNumber;
 	}
 
-	public int getTourFee() {
-		return tourFee;
-	}
-
-	public void setTourFee(int tourFee) {
-		this.tourFee = tourFee;
+	public int calcTourFee() {
+		int price = tour.getPrice();
+		double fee = price * numOfAdults + (price*0.8) * numOfChildren;
+		return (int)fee;
 	}
 
 	public int getPaid() {
@@ -93,7 +90,7 @@ public class TourBooking {
 			nullValues.add("children: <number of children>");
 		}
 		if(numOfToddlers == -1) {
-			nullValues.add("toddlers: <number of toddlers>");
+			nullValues.add("toddler: <number of toddlers>");
 		}
 		if(tour == null){
 			nullValues.add("tour: <name of tour>");
