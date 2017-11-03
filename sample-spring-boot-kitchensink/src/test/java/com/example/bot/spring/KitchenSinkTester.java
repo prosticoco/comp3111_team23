@@ -130,4 +130,19 @@ public class KitchenSinkTester {
 		assertThat(a).isEqualTo("Excuse me I cannot understand what you are trying to say. Could you try again?");
 		
 	}
+	
+	@Test
+	public void testNone() {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+			
+		try {
+			result = languageProcessor.processInput("I like pizza and dogs");
+		}
+		catch(Exception e) {
+			assertThat(thrown).isEqualTo(false);
+			assertThat(result.get(0)).isEqualTo("None");
+			assertThat(result.get(1)).isEqualTo("I like pizza and dogs");
+		}
+	}
 }
