@@ -105,7 +105,22 @@ public class KitchenSinkTester {
 		assertThat(result.get(0)).isEqualTo("bookTour");
 		assertThat(result.get(1)).isEqualTo("builtin.datetimeV2.date:the 23/06/2018");
 		assertThat(result.get(2)).isEqualTo("tourType:shenzhen city tour");
-		assertThat(result.get(3)).isEqualTo("builtin.encyclopedia.people.person:christopher lynch");
+		assertThat(result.get(3)).isEqualTo("numberOfAdults:two adults");
+		assertThat(result.get(4)).isEqualTo("builtin.encyclopedia.people.person:christopher lynch");
+	}
+	
+	@Test
+	public void testGreeting() throws Exception {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+			
+		try {
+			result = languageProcessor.processInput("Hello");
+		}
+		catch(Exception e) {
+			assertThat(thrown).isEqualTo(false);
+			assertThat(result.get(0)).isEqualTo("Greeting");
+		}
 	}
 	
 	@Test

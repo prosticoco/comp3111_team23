@@ -45,6 +45,9 @@ public class MessageHandler {
 		else if(intent.toLowerCase().equals("confirmation")){
 			answer = completeBooking();
 		}
+		else if (intent.equals("greeting")) { 
+			answer = "Hello, how can I help you today?";
+		}
 				
 		return answer;
 	}
