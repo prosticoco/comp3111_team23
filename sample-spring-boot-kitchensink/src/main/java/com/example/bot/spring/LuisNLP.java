@@ -12,6 +12,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.*;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class LuisNLP implements LanguageProcessor {
 
 	@Override
