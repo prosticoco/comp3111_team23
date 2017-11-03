@@ -129,7 +129,7 @@ public class KitchenSinkTester {
 	public void testController(){
 		MessageHandler m = new MessageHandler();
 		String a = m.handleTextContent(new ArrayList<String>(Arrays.asList("none")));
-		assertThat(a).isEqualTo("Excuse me I cannot understand what you are trying to say. Could you try again?");
+		assertThat(a).isEqualTo("Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?");
 		
 	}
 	
