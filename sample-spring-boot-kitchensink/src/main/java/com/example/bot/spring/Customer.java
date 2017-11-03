@@ -55,7 +55,7 @@ public class Customer {
 			nullValues.add("name: <your name>");
 		}
 		if(age == 0){
-			nullValues.add("age: <your age>");
+			nullValues.add("age: <your age> years old");
 		}
 //		Field[] fields = this.getClass().getDeclaredFields();
 //		for(Field f : fields){

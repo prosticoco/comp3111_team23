@@ -190,7 +190,6 @@ public class MessageHandler {
 		try {
 			answer = database.getFAQResponse(question);
 		} catch (Exception e) {
-			database.logQuestion(question);
 		}
 		return answer;
 	}
