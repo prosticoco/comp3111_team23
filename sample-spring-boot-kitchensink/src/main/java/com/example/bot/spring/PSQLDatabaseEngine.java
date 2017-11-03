@@ -88,7 +88,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			Connection con = getConnection();
 			log.info(name + "---------------------------------------------");
 			PreparedStatement stmt = con.prepareStatement("SELECT * FROM generaltour WHERE name LIKE ?");
-			//stmt.setString(1, name);
+			stmt.setString(1, name);
 			ResultSet rs = stmt.executeQuery();	
 			
 			log.info(rs.toString() + "---------------------------------------------");
