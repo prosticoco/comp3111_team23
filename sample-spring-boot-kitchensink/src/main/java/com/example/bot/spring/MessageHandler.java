@@ -169,7 +169,9 @@ public class MessageHandler {
 				successful = true;
 				break;
 			case "tourType":
-				tour.setId(database.getGeneralTourDetails(atrb).getId());
+				String tourName = atrb.replaceAll("\\s+","").toLowerCase();
+				tour.setId(database.getGeneralTourDetails(tourName).getId());
+
 				setTour();
 				break;
 			case "builtin.datetimeV2.date":
@@ -196,6 +198,7 @@ public class MessageHandler {
 		try {
 			answer = database.getFAQResponse(question);
 		} catch (Exception e) {
+			
 		}
 		return answer;
 	}
