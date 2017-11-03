@@ -194,7 +194,7 @@ public class MessageHandler {
 
 	private void setTour() throws Exception{
 		if(tour == null && date != null & tour.getId() != null)
-			log.info(tour.getId() + date.toString() + "---------------------------------------------------------------------");
+			log.info(tour.getId() + new SimpleDateFormat("yyyy-MM-dd").format(date) + "---------------------------------------------------------------------");
 			tour = database.getTourDetails(tour.getId(), date);
 	}
 
