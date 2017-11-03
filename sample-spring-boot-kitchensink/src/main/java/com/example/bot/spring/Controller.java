@@ -118,7 +118,8 @@ public class Controller {
 
 		
 		//get a response from the handler
-		messageHandler.setCustomer	(userId);
+		
+		messageHandler.setCustomer(userId);
 		String response = messageHandler.handleTextContent(processedMessage);
 		
 		if(response.equals("Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?"))

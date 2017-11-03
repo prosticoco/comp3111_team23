@@ -3,9 +3,13 @@ package com.example.bot.spring;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat; 
 
+@Slf4j
 public class MessageHandler {
 		
 	private StorageEngine database;
@@ -35,7 +39,9 @@ public class MessageHandler {
 		}
 		else if(intent.toLowerCase().equals("booktour")){
 			try {
+				log.info("Booking section Entered --------------------------------------------------------------------------------");
 				answer = handleBookingIntent(inputArray);
+				
 			} catch (Exception e) {
 				answer = answer + "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
 				date = null;
@@ -83,6 +89,7 @@ public class MessageHandler {
 		for(int i = 1; i < inputArray.size(); i++){
 			//separate the attribute name and attribute value
 			currentAttribute = inputArray.get(i).split(":");
+			
 			if(customer.nullValues().size() > 0 && checkBelongToCustomer(currentAttribute))
 				continue;
 			else if(checkBelongToBooking(currentAttribute)) 
@@ -92,13 +99,12 @@ public class MessageHandler {
 		//default string in case of insufficient amount of attributes
 		String answer = "Please provide more details about the tour and the people going, in the following format:";
 		
-		appendNullAttributes(booking,answer,cusNulls);
-		appendNullAttributes(customer,answer,bookNulls);
+		answer += appendNullAttributes(booking,answer);
+		answer += appendNullAttributes(customer,answer);
 		
 		//if no more attributes needed ask for confirmation
 		if(!cusNulls && !bookNulls) 
 			answer = "Are you sure you want to make this booking? Press Y";			
-		
 		return answer;
 	}
 
@@ -202,19 +208,23 @@ public class MessageHandler {
 		cusNulls = true;
 	}
 	
-	private void appendNullAttributes(Object object, String str, boolean containNulls){
+	private String appendNullAttributes(Object object, String str){
 		ArrayList<String> nulls;
 		if(object.getClass().equals(Customer.class)){
 			nulls = ((Customer) object).nullValues();
+			if(nulls.size()<= 0) 
+				cusNulls = false;
 		}else if(object.getClass().equals(TourBooking.class)){
 			nulls = ((TourBooking) object).nullValues();
+			if(nulls.size()<= 0)
+				bookNulls = false;
 		}else
-			return;
+			return str;
 		if(nulls.size()>0){
 			for(String s: nulls){
 				str = str + "\n" + s;
 			}
-		}else
-			containNulls = false;		
+		}
+		return str;
 	}
 }
