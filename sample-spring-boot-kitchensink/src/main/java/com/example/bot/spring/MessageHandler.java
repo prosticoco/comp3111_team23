@@ -180,7 +180,7 @@ public class MessageHandler {
 				setTour();
 				break;
 			case "builtin.datetimeV2.date":
-				date = new SimpleDateFormat("yyyy-mm-dd").parse(atrb);
+				date = new SimpleDateFormat("yyyy-MM-dd").parse(atrb);
 				setTour();
 				break;
 				
