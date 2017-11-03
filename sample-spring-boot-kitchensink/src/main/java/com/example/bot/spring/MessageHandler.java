@@ -30,7 +30,7 @@ public class MessageHandler {
 		String intent = inputArray.get(0).toLowerCase();
 		
 		//return default string if not found
-		String answer = "Excuse me I cannot understand what you are trying to say. Could you try again?";
+		String answer = "Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?";
 		
 		
 		if(intent.length()>=8 && intent.substring(intent.length()-8).toLowerCase().equals("question")){
