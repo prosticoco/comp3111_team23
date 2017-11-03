@@ -180,12 +180,12 @@ public class PSQLDatabaseEngine implements StorageEngine{
 				String query = "INSERT INTO booking VALUES(?,?,?,?,?,?,?);";
 				PreparedStatement stmt = con.prepareStatement(query);
 				stmt.setString(1,tourBooking.getCustomer().getId());
-				stmt.setString(2, tourBooking.getTour().getId());
+				stmt.setString(2,tourBooking.getTour().getId());
 				stmt.setInt(3, tourBooking.getAdultsNumber());
 				stmt.setInt(4, tourBooking.getChildrenNumber());
 				stmt.setInt(5, tourBooking.getToddlersNumber());
 				stmt.setInt(6, tourBooking.getPaid());
-				stmt.setInt(7, tourBooking.getTourFee());
+				stmt.setInt(7, tourBooking.calcTourFee());
 				//stmt.setString(8, tourBooking.getSpecialRequests());
 				stmt.execute();
 				stmt.close();
@@ -194,7 +194,6 @@ public class PSQLDatabaseEngine implements StorageEngine{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
 	}
 	
 	public void addCustomer(Customer customer) throws URISyntaxException {

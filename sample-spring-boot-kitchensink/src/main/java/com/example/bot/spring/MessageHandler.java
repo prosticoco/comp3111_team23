@@ -22,7 +22,6 @@ public class MessageHandler {
 		booking = new TourBooking(tour, customer);
 	}
 	
-	
 	public String handleTextContent(ArrayList<String> inputArray){
 		String intent = inputArray.get(0).toLowerCase();
 		
@@ -35,6 +34,14 @@ public class MessageHandler {
 			answer = getAsnwer(inputArray.get(0).substring(0,intent.length() - 8));
 		}
 		else if(intent.toLowerCase().equals("booktour")){
+			try {
+				answer = handleBookingIntent(inputArray);
+			} catch (Exception e) {
+				answer = answer + "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
+				date = null;
+			}
+		}
+		else if(intent.toLowerCase().equals("additionalinformation")){
 			try {
 				answer = handleBookingIntent(inputArray);
 			} catch (Exception e) {
@@ -70,7 +77,6 @@ public class MessageHandler {
 		}
 	}
 	
-	
 	private String handleBookingIntent(ArrayList<String> inputArray) throws Exception {
 		
 		String[] currentAttribute;
@@ -96,8 +102,6 @@ public class MessageHandler {
 		return answer;
 	}
 
-
-
 	private String completeBooking() {
 		//default answer in case something goes wrong
 		String answer = "Something went wrong.Sorry for the inconvenience, could you please provide us with all the details again."; 
@@ -106,6 +110,7 @@ public class MessageHandler {
 			try {
 				database.addCustomer(customer);
 				database.addBooking(booking);
+				
 				answer = "Your booking is complete";
 			} catch (URISyntaxException e) {
 				answer = "Sorry I could not complete the booking. The server is not working, please try again later";
@@ -114,7 +119,6 @@ public class MessageHandler {
 		resetHandler();
 		return answer;
 	}
-
 
 	private boolean checkBelongToCustomer(String[] attributes) {
 		boolean successful = false;
@@ -134,31 +138,36 @@ public class MessageHandler {
 		return successful;
 	}
 
-
 	private boolean checkBelongToBooking(String[] attributes) throws Exception {
 		boolean successful = false;
 		
 		//TODO: input validate everything 
+		String atrb = attributes[1];
+		
+		// if it is additional information, the attributes array will have three indexes instead of one, and in the case we need to grab the last index		
+		if (attributes.length > 2) {
+			atrb = attributes[2].replaceAll("\\s","");
+		}
 		
 		switch(attributes[0]){
 			case "numberOfAdults":
-				booking.setAdultsNumber(Integer.parseInt(attributes[1]));
+				booking.setAdultsNumber(Integer.parseInt(atrb));
 				successful = true;
 				break;
 			case "numberOfChildren":
-				booking.setChildrenNumber(Integer.parseInt(attributes[1]));
+				booking.setChildrenNumber(Integer.parseInt(atrb));
 				successful = true;
 				break;
 			case "numberOfToddlers":
-				booking.setToddlersNumber(Integer.parseInt(attributes[1]));
+				booking.setToddlersNumber(Integer.parseInt(atrb));
 				successful = true;
 				break;
 			case "tourType":
-				tour.setId(database.getGeneralTourDetails(attributes[1]).getId());
+				tour.setId(database.getGeneralTourDetails(atrb).getId());
 				setTour();
 				break;
 			case "builtin.datetimeV2.date":
-				date = new SimpleDateFormat("yyyy-mm-dd").parse(attributes[1]);
+				date = new SimpleDateFormat("yyyy-mm-dd").parse(atrb);
 				setTour();
 				break;
 				
@@ -185,7 +194,6 @@ public class MessageHandler {
 		return answer;
 	}
 	
-
 	private void resetHandler(){
 		customer = new Customer(null,null,0,0);
 		tour = new Tour(null,null,0,null,null,null,0,0);
