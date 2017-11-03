@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class TourBooking {
 	
-	private int adultsNumber=1;
-	private int childrenNumber=1;
-	private int toddlersNumber=1;
+	private int numOfAdults=-1;
+	private int numOfChildren=-1;
+	private int numOfToddlers=-1;
 	private int tourFee;
 	private int paid;
 	//private String specialRequests=null;
@@ -20,27 +20,27 @@ public class TourBooking {
 	}
 
 	public int getAdultsNumber() {
-		return adultsNumber;
+		return numOfAdults;
 	}
 
 	public void setAdultsNumber(int adultsNumber) {
-		this.adultsNumber = adultsNumber;
+		this.numOfAdults = adultsNumber;
 	}
 
 	public int getChildrenNumber() {
-		return childrenNumber;
+		return numOfChildren;
 	}
 
 	public void setChildrenNumber(int childrenNumber) {
-		this.childrenNumber = childrenNumber;
+		this.numOfChildren = childrenNumber;
 	}
 
 	public int getToddlersNumber() {
-		return toddlersNumber;
+		return numOfToddlers;
 	}
 
 	public void setToddlersNumber(int toddlersNumber) {
-		this.toddlersNumber = toddlersNumber;
+		this.numOfToddlers = toddlersNumber;
 	}
 
 	public int getTourFee() {
@@ -86,11 +86,18 @@ public class TourBooking {
 
 	public ArrayList<String> nullValues(){
 		ArrayList<String> nullValues = new ArrayList<>();
-		if(adultsNumber+toddlersNumber+childrenNumber == 0){
-			nullValues.add("the number of adults, toddlers and children");
+		if(numOfAdults < 1) {
+			nullValues.add("adults: <number of adults>");
+		}
+		if(numOfChildren == -1) {
+			nullValues.add("children: <number of children>");
+		}
+		if(numOfToddlers == -1) {
+			nullValues.add("toddlers: <number of toddlers>");
 		}
 		if(tour == null){
-			nullValues.add("date and name of the tour");
+			nullValues.add("tour: <name of tour>");
+			nullValues.add("date: <date of tour>");
 		}
 //		Field[] fields = this.getClass().getDeclaredFields();
 //		for(Field f : fields){

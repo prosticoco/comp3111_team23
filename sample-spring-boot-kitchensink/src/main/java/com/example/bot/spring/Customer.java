@@ -52,10 +52,10 @@ public class Customer {
 	public ArrayList<String> nullValues(){
 		ArrayList<String> nullValues = new ArrayList<>();
 		if(name == null){
-			nullValues.add("your name");
+			nullValues.add("name: <your name>");
 		}
 		if(age == 0){
-			nullValues.add("your age");
+			nullValues.add("age: <your age>");
 		}
 //		Field[] fields = this.getClass().getDeclaredFields();
 //		for(Field f : fields){
