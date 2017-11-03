@@ -58,6 +58,7 @@ public class MessageHandler {
 					log.info(s);
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				answer = "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
 				date = null;
 			}
@@ -195,6 +196,8 @@ public class MessageHandler {
 
 	private void setTour() throws Exception{
 		log.info("\n\n\n\n\n");
+		log.info(new SimpleDateFormat("yyyy-MM-dd").format(date) + " -------------------------------------------------");
+		log.info(tour.getId() + "---------------------------------------------------------------------");
 		if(tour == null && date != null & tour.getId() != null){
 			tour = database.getTourDetails(tour.getId(), date);
 		}

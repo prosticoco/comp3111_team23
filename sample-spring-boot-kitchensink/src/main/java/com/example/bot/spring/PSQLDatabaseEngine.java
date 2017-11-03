@@ -24,7 +24,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		int minCustomers = 0;
 		try{
 			Connection con = getConnection();
-			PreparedStatement stmt = con.prepareStatement("SELECT * FROM tour WHERE id LIKE ? AND date LIKE ?");
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM tour WHERE id LIKE ? AND date = ?");
 			stmt.setString(1, identifier);
 			stmt.setDate(2, new java.sql.Date(date.getTime()));
 			ResultSet rs = stmt.executeQuery();			
