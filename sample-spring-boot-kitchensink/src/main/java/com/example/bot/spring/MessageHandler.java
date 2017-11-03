@@ -43,7 +43,14 @@ public class MessageHandler {
 			}
 		}
 		else if(intent.toLowerCase().equals("confirmation")){
-			answer = completeBooking();
+			String response = inputArray.get(1).toLowerCase();
+			if(response.equals("y")) {
+				answer = completeBooking();
+			}
+			else {
+				answer = "Booking cancelled. Is there anything else I can do for you today?";
+				resetHandler();
+			}
 		}
 		else if (intent.equals("greeting")) { 
 			answer = "Hello, how can I help you today?";

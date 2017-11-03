@@ -145,4 +145,19 @@ public class KitchenSinkTester {
 			assertThat(result.get(1)).isEqualTo("I like pizza and dogs");
 		}
 	}
+	
+	@Test
+	public void testConfirmation() {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+			
+		try {
+			result = languageProcessor.processInput("Y");
+		}
+		catch(Exception e) {
+			assertThat(thrown).isEqualTo(false);
+			assertThat(result.get(0)).isEqualTo("confirmation");
+			assertThat(result.get(1)).isEqualTo("Y");
+		}
+	}
 }
