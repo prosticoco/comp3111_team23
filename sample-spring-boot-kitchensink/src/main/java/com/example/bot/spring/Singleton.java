@@ -35,7 +35,6 @@ public class Singleton {
 	
 }
 */
-=======
 //import java.util.ArrayList;
 //
 //import com.example.bot.spring.Customer;
