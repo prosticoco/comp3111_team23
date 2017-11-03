@@ -40,18 +40,24 @@ public class MessageHandler {
 		else if(intent.toLowerCase().equals("booktour")){
 			try {
 				log.info("Booking section Entered --------------------------------------------------------------------------------");
+				for(String s: inputArray){
+					log.info(s);
+				}
 				answer = handleBookingIntent(inputArray);
 				
 			} catch (Exception e) {
-				answer = answer + "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
+				answer = "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
 				date = null;
 			}
 		}
 		else if(intent.toLowerCase().equals("additionalinformation")){
 			try {
 				answer = handleBookingIntent(inputArray);
+				for(String s: inputArray){
+					log.info(s);
+				}
 			} catch (Exception e) {
-				answer = answer + "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
+				answer = "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
 				date = null;
 			}
 		}
@@ -171,7 +177,6 @@ public class MessageHandler {
 			case "tourType":
 				String tourName = atrb.replaceAll("\\s+","").toLowerCase();
 				tour.setId(database.getGeneralTourDetails(tourName).getId());
-
 				setTour();
 				break;
 			case "builtin.datetimeV2.date":
