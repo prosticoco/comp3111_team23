@@ -1,4 +1,4 @@
-package src.main.java.com.example.bot.spring;
+package com.example.bot.spring;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -160,7 +160,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	public void logQuestion(String question){
 		try{
 			Connection con = getConnection();
-			String query = "INSERT INTO TABLE loggedquestions VALUES (?);";
+			String query = "INSERT INTO loggedquestions VALUES(?);";
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setString(1, question);
 			stmt.execute();
@@ -174,33 +174,33 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	}
 	
 	@Override
-	public void addBooking(TourBooking tourBooking) {
-		try{
-			Connection con = getConnection();
-			String query = "INSERT INTO TABLE booking VALUES (?,?,?,?,?,?,?);";
-			PreparedStatement stmt = con.prepareStatement(query);
-			stmt.setString(1,tourBooking.getCustomer().getId());
-			stmt.setString(2, tourBooking.getTour().getId());
-			stmt.setInt(3, tourBooking.getAdultsNumber());
-			stmt.setInt(4, tourBooking.getChildrenNumber());
-			stmt.setInt(5, tourBooking.getToddlersNumber());
-			stmt.setInt(6, tourBooking.getPaid());
-			stmt.setInt(7, tourBooking.getTourFee());
-			//stmt.setString(8, tourBooking.getSpecialRequests());
-			stmt.execute();
-			stmt.close();
-			con.close();
-		} catch(URISyntaxException e){
-			//log.info("The wrong URI has been provided", e.toString());
-		} catch (SQLException e){
-			//log.info("There has been an error with the SQL statement", e.toString());
-		}
+	public void addBooking(TourBooking tourBooking) throws URISyntaxException{
+			try {
+				Connection con = getConnection();
+				String query = "INSERT INTO booking VALUES(?,?,?,?,?,?,?);";
+				PreparedStatement stmt = con.prepareStatement(query);
+				stmt.setString(1,tourBooking.getCustomer().getId());
+				stmt.setString(2, tourBooking.getTour().getId());
+				stmt.setInt(3, tourBooking.getAdultsNumber());
+				stmt.setInt(4, tourBooking.getChildrenNumber());
+				stmt.setInt(5, tourBooking.getToddlersNumber());
+				stmt.setInt(6, tourBooking.getPaid());
+				stmt.setInt(7, tourBooking.getTourFee());
+				//stmt.setString(8, tourBooking.getSpecialRequests());
+				stmt.execute();
+				stmt.close();
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 	}
 	
-	public void addCustomer(Customer customer) {
+	public void addCustomer(Customer customer) throws URISyntaxException {
 		try{
 			Connection con = getConnection();
-			String query = "INSERT INTO TABLE customer VALUES (?,?,?,?);";
+			String query = "INSERT INTO customer VALUES(?,?,?,?);";
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setString(1,customer.getId());
 			stmt.setString(2, customer.getName());
@@ -209,8 +209,6 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			stmt.execute();
 			stmt.close();
 			con.close();
-		} catch(URISyntaxException e){
-			//log.info("The wrong URI has been provided", e.toString());
 		} catch (SQLException e){
 			//log.info("There has been an error with the SQL statement", e.toString());
 		}

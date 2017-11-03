@@ -1,5 +1,7 @@
-package src.main.java.com.example.bot.spring;
+package com.example.bot.spring;
 
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.Date;
 
 public interface StorageEngine{
@@ -14,9 +16,9 @@ public interface StorageEngine{
 
 	public void logQuestion(String question);
 	
-	public void addBooking(TourBooking tourBooking);
+	public void addBooking(TourBooking tourBooking) throws URISyntaxException;
 	
-	public void addCustomer(Customer customer);
+	public void addCustomer(Customer customer) throws URISyntaxException;
 	
 	public int getTourAvailability(Tour tour);
 }
