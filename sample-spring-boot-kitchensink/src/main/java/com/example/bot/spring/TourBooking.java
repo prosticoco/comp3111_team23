@@ -90,7 +90,7 @@ public class TourBooking {
 			nullValues.add("children: <number of children>");
 		}
 		if(numOfToddlers == -1) {
-			nullValues.add("toddler: <number of toddlers>");
+			nullValues.add("toddlers: <number of toddlers>");
 		}
 		if(tour == null){
 			nullValues.add("tour: <name of tour>");

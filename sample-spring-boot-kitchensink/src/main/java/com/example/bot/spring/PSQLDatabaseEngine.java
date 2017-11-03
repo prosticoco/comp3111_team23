@@ -24,7 +24,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		int minCustomers = 0;
 		try{
 			Connection con = getConnection();
-			PreparedStatement stmt = con.prepareStatement("SELECT * FROM tour WHERE id LIKE ? AND date LIKE ?");
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM tour WHERE id LIKE ? AND date = ?");
 			stmt.setString(1, identifier);
 			stmt.setDate(2, new java.sql.Date(date.getTime()));
 			ResultSet rs = stmt.executeQuery();			
@@ -86,14 +86,19 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		String days = null;
 		try{
 			Connection con = getConnection();
-			String key = name.toLowerCase();
+			log.info(name + "---------------------------------------------");
 			PreparedStatement stmt = con.prepareStatement("SELECT * FROM generaltour WHERE name LIKE ?");
-			stmt.setString(1, key);
-			ResultSet rs = stmt.executeQuery();			
+			stmt.setString(1, name);
+			ResultSet rs = stmt.executeQuery();	
+			
+			log.info(rs.toString() + "---------------------------------------------");
+			
 			if(rs.next()){
+				log.info("ENTERED-------------------------------------------------");
 				id = rs.getString("id");
 				description = rs.getString("description");
-				days =  rs.getString("days");
+				days =  rs.getString("days_available");
+				log.info(id+"---------------------------------------");
 			}
 			rs.close();
 			con.close();
@@ -139,6 +144,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			String key = text.toLowerCase();
 			PreparedStatement stmt = con.prepareStatement("SELECT answer FROM frequentquestions WHERE question LIKE ?");
 			stmt.setString(1, key);
+			
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next()){
 				result = rs.getString(1);

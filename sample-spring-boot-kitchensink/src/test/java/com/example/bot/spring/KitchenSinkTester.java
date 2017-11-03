@@ -74,22 +74,21 @@ public class KitchenSinkTester {
 		assertThat(thrown).isEqualTo(true);
 	}
 
-//	@Test
-//	public void CustomerFound() throws Exception {
-//		boolean thrown = false;
-//		Customer cust = null;
-//
-//		try {
-//			cust = this.database.getCustomerDetails("A124");
-//		} catch (Exception e) {
-//			thrown = true;
-//		}
-//		assertThat(thrown).isEqualTo(false);
-//		assertThat(cust.getAge()).isEqualTo(17);
-//		assertThat(cust.getPhone()).isEqualTo(54321256);
-//		assertThat(cust.getName()).isEqualTo("Chris");
-//
-//	}
+	@Test
+	public void generalTourFound() throws Exception {
+		boolean thrown = false;
+		GeneralTour gt = null;
+
+		try {
+			gt = this.database.getGeneralTourDetails("yangshanhotspringtour");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(gt.getId()).isEqualTo("2d002");
+
+
+	}
 
 
 	@Test
@@ -129,7 +128,7 @@ public class KitchenSinkTester {
 	public void testController(){
 		MessageHandler m = new MessageHandler();
 		String a = m.handleTextContent(new ArrayList<String>(Arrays.asList("none")));
-		assertThat(a).isEqualTo("Excuse me I cannot understand what you are trying to say. Could you try again?");
+		assertThat(a).isEqualTo("Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?");
 		
 	}
 	

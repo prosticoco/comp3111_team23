@@ -3,9 +3,13 @@ package com.example.bot.spring;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat; 
 
+@Slf4j
 public class MessageHandler {
 		
 	private StorageEngine database;
@@ -26,31 +30,42 @@ public class MessageHandler {
 		String intent = inputArray.get(0).toLowerCase();
 		
 		//return default string if not found
-		String answer = "Excuse me I cannot understand what you are trying to say. Could you try again?";
+		String answer = "Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?";
 		
-		
+		log.info(intent+"--------------------------------");
 		if(intent.length()>=8 && intent.substring(intent.length()-8).toLowerCase().equals("question")){
 			//get answer from the FAQ table in the database
 			answer = getAsnwer(inputArray.get(0).substring(0,intent.length() - 8));
 		}
 		else if(intent.toLowerCase().equals("booktour")){
 			try {
+				log.info("Booking section Entered --------------------------------------------------------------------------------");
+				for(String s: inputArray){
+					log.info(s);
+				}
 				answer = handleBookingIntent(inputArray);
 			} catch (Exception e) {
-				answer = answer + "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
+				e.printStackTrace();
+				answer = "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
 				date = null;
 			}
 		}
 		else if(intent.toLowerCase().equals("additionalinformation")){
 			try {
+				log.info("confirmation section Entered --------------------------------------------------------------------------------");
+				for(String s: inputArray){
+					log.info(s);
+				}
 				answer = handleBookingIntent(inputArray);
 			} catch (Exception e) {
-				answer = answer + "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
+				e.printStackTrace();
+				answer = "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";
 				date = null;
 			}
 		}
 		else if(intent.toLowerCase().equals("confirmation")){
 			String response = inputArray.get(1).toLowerCase();
+			log.info("entered into confirmation"+"--------------------------------------------");
 			if(response.equals("y")) {
 				answer = completeBooking();
 			}
@@ -83,6 +98,7 @@ public class MessageHandler {
 		for(int i = 1; i < inputArray.size(); i++){
 			//separate the attribute name and attribute value
 			currentAttribute = inputArray.get(i).split(":");
+			
 			if(customer.nullValues().size() > 0 && checkBelongToCustomer(currentAttribute))
 				continue;
 			else if(checkBelongToBooking(currentAttribute)) 
@@ -92,20 +108,19 @@ public class MessageHandler {
 		//default string in case of insufficient amount of attributes
 		String answer = "Please provide more details about the tour and the people going, in the following format:";
 		
-		appendNullAttributes(booking,answer,cusNulls);
-		appendNullAttributes(customer,answer,bookNulls);
+		answer += appendNullAttributes(booking,answer);
+		answer += appendNullAttributes(customer,answer);
 		
 		//if no more attributes needed ask for confirmation
 		if(!cusNulls && !bookNulls) 
 			answer = "Are you sure you want to make this booking? Press Y";			
-		
 		return answer;
 	}
 
 	private String completeBooking() {
 		//default answer in case something goes wrong
 		String answer = "Something went wrong.Sorry for the inconvenience, could you please provide us with all the details again."; 
-		
+		log.info("entered into complete bookings"+"--------------------------------------------");
 		if(!cusNulls && !bookNulls) {
 			try {
 				database.addCustomer(customer);
@@ -131,7 +146,7 @@ public class MessageHandler {
 				successful = true;
 				break;
 			case "builtin.age":
-				customer.setAge(Integer.parseInt(attributes[1]));
+				customer.setAge(Integer.parseInt(attributes[1].replaceAll("[\\D]", "")));
 				successful = true;
 				break;
 		}
@@ -151,23 +166,25 @@ public class MessageHandler {
 		
 		switch(attributes[0]){
 			case "numberOfAdults":
-				booking.setAdultsNumber(Integer.parseInt(atrb));
+				booking.setAdultsNumber(Integer.parseInt(atrb.replaceAll("[\\D]", "")));
 				successful = true;
 				break;
 			case "numberOfChildren":
-				booking.setChildrenNumber(Integer.parseInt(atrb));
+				booking.setChildrenNumber(Integer.parseInt(atrb.replaceAll("[\\D]", "")));
 				successful = true;
 				break;
 			case "numberOfToddlers":
-				booking.setToddlersNumber(Integer.parseInt(atrb));
+				booking.setToddlersNumber(Integer.parseInt(atrb.replaceAll("[\\D]", "")));
 				successful = true;
 				break;
 			case "tourType":
-				tour.setId(database.getGeneralTourDetails(atrb).getId());
+				String tourName = atrb.replaceAll("\\s+","").toLowerCase();
+				log.info("The tour name I parsed is "+tourName+"--------------------------------------");
+				tour.setId(database.getGeneralTourDetails(tourName).getId());
 				setTour();
 				break;
 			case "builtin.datetimeV2.date":
-				date = new SimpleDateFormat("yyyy-mm-dd").parse(atrb);
+				date = new SimpleDateFormat("yyyy-MM-dd").parse(atrb);
 				setTour();
 				break;
 				
@@ -180,8 +197,16 @@ public class MessageHandler {
 	}
 
 	private void setTour() throws Exception{
-		if(tour == null && date != null & tour.getId() != null)
+		log.info("\n\n\n\n\n");
+		log.info(new SimpleDateFormat("yyyy-MM-dd").format(date) + " -------------------------------------------------");
+		log.info(tour.getId() + "---------------------------------------------------------------------");
+		if(tour == null && date != null & tour.getId() != null){
+			log.info("I REACHED THAT POINT HERE ARE THE DATE AND THE ID OF THE TOUR");
+			log.info(new SimpleDateFormat("yyyy-MM-dd").format(date) + " -------------------------------------------------");
+			log.info(tour.getId() + "---------------------------------------------------------------------");
 			tour = database.getTourDetails(tour.getId(), date);
+
+		}
 	}
 
 	private String getAsnwer(String question) {
@@ -190,6 +215,7 @@ public class MessageHandler {
 		try {
 			answer = database.getFAQResponse(question);
 		} catch (Exception e) {
+			
 		}
 		return answer;
 	}
@@ -202,19 +228,23 @@ public class MessageHandler {
 		cusNulls = true;
 	}
 	
-	private void appendNullAttributes(Object object, String str, boolean containNulls){
+	private String appendNullAttributes(Object object, String str){
 		ArrayList<String> nulls;
 		if(object.getClass().equals(Customer.class)){
 			nulls = ((Customer) object).nullValues();
+			if(nulls.size()<= 0) 
+				cusNulls = false;
 		}else if(object.getClass().equals(TourBooking.class)){
 			nulls = ((TourBooking) object).nullValues();
+			if(nulls.size()<= 0)
+				bookNulls = false;
 		}else
-			return;
+			return str;
 		if(nulls.size()>0){
 			for(String s: nulls){
 				str = str + "\n" + s;
 			}
-		}else
-			containNulls = false;		
+		}
+		return str;
 	}
 }
