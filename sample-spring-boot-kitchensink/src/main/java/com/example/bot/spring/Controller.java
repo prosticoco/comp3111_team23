@@ -93,6 +93,8 @@ public class Controller {
 	private LineMessagingClient lineMessagingClient;
 	private MessageHandler messageHandler;
 	private LanguageProcessor languageProcessor;
+	@Autowired
+	private StorageEngine database;
 	
 	public Controller() {
 
@@ -118,6 +120,9 @@ public class Controller {
 		//get a response from the handler
 		messageHandler.setCustomer(userId);
 		String response = messageHandler.handleTextContent(processedMessage);
+		
+		if(response.equals("Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?"))
+			database.logQuestion(receivedMessage);
 		
 		//send the message back to the user
 		replyText(event.getReplyToken(), response);
