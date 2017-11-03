@@ -160,4 +160,20 @@ public class KitchenSinkTester {
 			assertThat(result.get(1)).isEqualTo("Y");
 		}
 	}
+	
+	@Test
+	public void testAdditionalInformation() {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+			
+		try {
+			result = languageProcessor.processInput("adults: 5 children: 6");
+		}
+		catch(Exception e) {
+			assertThat(thrown).isEqualTo(false);
+			assertThat(result.get(0)).isEqualTo("additionalInformation");
+			assertThat(result.get(1)).isEqualTo("numberOfChildren:children : 6");
+			assertThat(result.get(1)).isEqualTo("numberOfAdults:adults : 5");
+		}
+	}
 }

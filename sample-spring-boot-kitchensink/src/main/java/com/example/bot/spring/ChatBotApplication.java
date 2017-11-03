@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package src.main.java.com.example.bot.spring;
+package com.example.bot.spring;
 
 import java.io.IOException;
 import java.nio.file.Files;
