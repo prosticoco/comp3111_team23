@@ -178,6 +178,7 @@ public class MessageHandler {
 				break;
 			case "tourType":
 				String tourName = atrb.replaceAll("\\s+","").toLowerCase();
+				log.info(tourName);
 				tour.setId(database.getGeneralTourDetails(tourName).getId());
 				setTour();
 				break;
@@ -199,7 +200,10 @@ public class MessageHandler {
 		log.info(new SimpleDateFormat("yyyy-MM-dd").format(date) + " -------------------------------------------------");
 		log.info(tour.getId() + "---------------------------------------------------------------------");
 		if(tour == null && date != null & tour.getId() != null){
-			tour = database.getTourDetails(tour.getId(), date);
+			try{
+				tour = database.getTourDetails(tour.getId(), date);
+			}
+
 		}
 	}
 
