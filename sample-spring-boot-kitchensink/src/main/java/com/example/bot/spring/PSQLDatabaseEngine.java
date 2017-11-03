@@ -86,10 +86,13 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		String days = null;
 		try{
 			Connection con = getConnection();
+			log.info(name + "---------------------------------------------");
 			PreparedStatement stmt = con.prepareStatement("SELECT * FROM generaltour WHERE name LIKE ?");
 			stmt.setString(1, name);
 			ResultSet rs = stmt.executeQuery();	
+			
 			log.info(rs.toString() + "---------------------------------------------");
+			
 			if(rs.next()){
 				id = rs.getString("id");
 				description = rs.getString("description");
