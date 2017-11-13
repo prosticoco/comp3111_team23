@@ -43,9 +43,7 @@ public class TourBooking {
 	}
 
 	public int calcTourFee() {
-		int price = tour.getPrice();
-		double fee = price * numOfAdults + (price*0.8) * numOfChildren;
-		return (int)fee;
+		return (int) (tour.getPrice() * numOfAdults + (tour.getPrice()*0.8) * numOfChildren);
 	}
 
 	public int getPaid() {
@@ -96,6 +94,7 @@ public class TourBooking {
 			nullValues.add("tour: <name of tour>");
 			nullValues.add("date: <date of tour>");
 		}
+		
 //		Field[] fields = this.getClass().getDeclaredFields();
 //		for(Field f : fields){
 //			f.setAccessible(true);

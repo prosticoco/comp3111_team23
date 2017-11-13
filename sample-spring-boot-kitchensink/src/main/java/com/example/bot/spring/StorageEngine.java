@@ -20,5 +20,5 @@ public interface StorageEngine{
 	
 	public void addCustomer(Customer customer) throws URISyntaxException;
 	
-	public int getTourAvailability(Tour tour);
+	public int getNumberBookedTours(Tour tour);
 }

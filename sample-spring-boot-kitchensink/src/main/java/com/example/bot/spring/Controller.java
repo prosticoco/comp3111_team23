@@ -28,6 +28,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -91,15 +94,14 @@ public class Controller {
 	
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
-	private MessageHandler messageHandler;
 	private LanguageProcessor languageProcessor;
 	private StorageEngine database;
+	private ExecutorService service;
 	
 	public Controller() {
-
 		languageProcessor = new LuisNLP();
-		messageHandler = new MessageHandler();
 		database = new PSQLDatabaseEngine();
+		service = Executors.newFixedThreadPool(10);
 	}
 	
 	@EventMapping
@@ -115,12 +117,12 @@ public class Controller {
 		
 		//process the message
 		ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
-
+		
+		//submit new message handler as a separate thread
+		Future<String> mh = service.submit(new MessageHandler(processedMessage,userId));
 		
 		//get a response from the handler
-		
-		messageHandler.setCustomer(userId);
-		String response = messageHandler.handleTextContent(processedMessage);
+		String response = mh.get();
 		
 		if(response.equals("Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?"))
 			database.logQuestion(receivedMessage);

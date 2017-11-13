@@ -109,7 +109,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	}
 	
 	@Override
-	public int getTourAvailability(Tour tour) {
+	public int getNumberBookedTours(Tour tour) {
 		int availability = 0;
 		try{
 			Connection con = getConnection();
