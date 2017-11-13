@@ -14,7 +14,7 @@ import org.json.*;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 public class LuisNLP implements LanguageProcessor {
 
 	@Override
@@ -69,7 +69,6 @@ public class LuisNLP implements LanguageProcessor {
 		JSONObject obj = new JSONObject(json);
 		result.add(obj.getJSONObject("topScoringIntent").getString("intent"));
 		if(result.get(0).equals("None") || result.get(0).equals("confirmation")) {
-			log.info(obj.getString("query") + "-------------------------------------------------------------------------");
 			result.add(obj.getString("query"));
 		}
 		else {
