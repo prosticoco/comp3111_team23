@@ -94,14 +94,10 @@ public class Controller {
 	
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
-	private LanguageProcessor languageProcessor;
-	private StorageEngine database;
-	private ExecutorService service;
+	private LanguageProcessor languageProcessor = new LuisNLP();
+	private MessageHandler messageHandler = new MessageHandler();
 	
 	public Controller() {
-		languageProcessor = new LuisNLP();
-		database = new PSQLDatabaseEngine();
-		service = Executors.newFixedThreadPool(10);
 	}
 	
 	@EventMapping
@@ -118,14 +114,7 @@ public class Controller {
 		//process the message
 		ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
 		
-		//submit new message handler as a separate thread
-		Future<String> mh = service.submit(new MessageHandler(processedMessage,userId));
-		
-		//get a response from the handler
-		String response = mh.get();
-		
-		if(response.equals("Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?"))
-			database.logQuestion(receivedMessage);
+		String response = messageHandler.handleTextContent(processedMessage,userId);
 		
 		//send the message back to the user
 		replyText(event.getReplyToken(), response);
@@ -154,6 +143,14 @@ public class Controller {
 		}
 	}
 	
+	private void pushCustomerNotification(ArrayList<String> recepients, String message){
+		if (recepients.isEmpty()) {
+			throw new IllegalArgumentException("the message should have recepients");
+		}
+		for(String userId: recepients){
+			this.reply(userId, new TextMessage(message));
+		}
+	}
 	
 
 }

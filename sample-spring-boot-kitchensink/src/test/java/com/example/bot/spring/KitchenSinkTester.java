@@ -43,25 +43,18 @@ import com.linecorp.bot.spring.boot.annotation.LineBotMessages;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import com.example.bot.spring.Controller;
-import com.example.bot.spring.Customer;
-import com.example.bot.spring.LanguageProcessor;
-import com.example.bot.spring.LuisNLP;
-import com.example.bot.spring.MessageHandler;
-import com.example.bot.spring.PSQLDatabaseEngine;
-import com.example.bot.spring.StorageEngine;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class})
+@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class, MessageHandler.class})
 public class KitchenSinkTester {
 
 	@Autowired
 	private StorageEngine database;
 	@Autowired
 	private LanguageProcessor languageProcessor;
-//	@Autowired
-//	private MessageHandler messageHandler; 
+	@Autowired
+	private MessageHandler messageHandler; 
 
 	@Test
 	public void CustomerNotFound() throws Exception {
@@ -175,6 +168,12 @@ public class KitchenSinkTester {
 //	}
 //	
 
+	@Test
+	public void testBooking(){
+		ArrayList<String> inputArray = new ArrayList<String>(Arrays.asList("booktour","numberOfAdults:3","numberOfChildren:4","numberOfToddlers:5","tourType:yangshanhotspringtour","builtin.datetimeV2.date:the 23/06/2018","builtin.age:34","builtin.encyclopedia.people.person:Ivan"));
+		String answer = messageHandler.handleTextContent(inputArray, "test");
+		assertThat(answer == MessageHandler.CONFIRMATION);
+	}
 
 	@Test
 	public void testAdditionalInformation() {
