@@ -46,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class, MessageHandler.class})
+@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class, MessageHandler.class, HandlerFactory.class})
 public class KitchenSinkTester {
 
 	@Autowired
@@ -163,13 +163,11 @@ public class KitchenSinkTester {
 				"numberOfAdults:3",
 				"numberOfChildren:4",
 				"numberOfToddlers:5",
-				"tourType:yangshanhotspringtour",
-				"builtin.datetimeV2.date:the 23/06/2018",
 				"builtin.age:34",
+				"tourType:yangshanhotspringtour",
 				"builtin.encyclopedia.people.person:Ivan"));
-		
 		String answer = messageHandler.handleTextContent(inputArray, "test");
-		assertThat(answer == MessageHandler.CONFIRMATION);
+		assertThat(answer).isEqualTo(MessageHandler.CONFIRMATION);
 	}
 
 	@Test
