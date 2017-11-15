@@ -156,21 +156,18 @@ public class KitchenSinkTester {
 	}
 	
 
-//	@Test
-//	public void testBooking() {
-//		ArrayList<String> input = new ArrayList<String>(Arrays.asList("additionalinformation", "numOfToddlers:toddler: 5")); 
-//		
-//		String answer = messageHandler.handleTextContent(input);
-//		String trueAnswer = "Please provide more details about the tour and the people going, in the following format:\n";
-//	
-//		assertThat(answer == trueAnswer);
-//
-//	}
-//	
-
 	@Test
 	public void testBooking(){
-		ArrayList<String> inputArray = new ArrayList<String>(Arrays.asList("booktour","numberOfAdults:3","numberOfChildren:4","numberOfToddlers:5","tourType:yangshanhotspringtour","builtin.datetimeV2.date:the 23/06/2018","builtin.age:34","builtin.encyclopedia.people.person:Ivan"));
+		ArrayList<String> inputArray = new ArrayList<String>(Arrays.asList(
+				"booktour",
+				"numberOfAdults:3",
+				"numberOfChildren:4",
+				"numberOfToddlers:5",
+				"tourType:yangshanhotspringtour",
+				"builtin.datetimeV2.date:the 23/06/2018",
+				"builtin.age:34",
+				"builtin.encyclopedia.people.person:Ivan"));
+		
 		String answer = messageHandler.handleTextContent(inputArray, "test");
 		assertThat(answer == MessageHandler.CONFIRMATION);
 	}

@@ -23,16 +23,10 @@ public class MessageHandler{
 	private EventHandler currEventHandler;
 	private HashMap<String,EventHandler> bookingMap = new HashMap<>();
 	
-	public MessageHandler() {
-	}
-	
-	
 	
 	public String handleTextContent(ArrayList<String> inputArray, String userId){
+		//get the customers intent from  the first index of the array
 		String intent = inputArray.get(0).toLowerCase();
-		
-		//return default string if not found
-		String answer = DEFAULTANSWER;
 		
 		
 		if(intent.length()>=8 && intent.substring(intent.length()-8).equals("question")){
@@ -40,6 +34,8 @@ public class MessageHandler{
 			currEventHandler = new QuestionHandler();
 		}
 		else if(intent.equals("booktour") || intent.equals("additionalinformation") || intent.equals("confirmation")){
+			
+			//get the needed eventHandler from the
 			currEventHandler = bookingMap.get(userId);
 			if(currEventHandler == null){
 				currEventHandler = new BookingHandler(userId);
@@ -47,20 +43,23 @@ public class MessageHandler{
 			}
 			
 			if(intent.equals("confirmation")){
-				answer = ((BookingHandler) currEventHandler).completeBooking(inputArray.get(1).toLowerCase());
+				String answer = ((BookingHandler) currEventHandler).completeBooking(inputArray.get(1).toLowerCase());
+				
 				if(answer == COMPLETEDBOOKING)
 					bookingMap.remove(userId);
+				
 				return answer;
 			}
 		}
-		else if (intent.equals("greeting")) { 
-			return answer = "Hello, how can I help you today?";
-		}
 		else if (intent.equals("none")){
-			//database.logQuestion(inputArray.get(1));
+			currEventHandler = new LoggerHandler();
 		}
-		answer = currEventHandler.handleEvent(inputArray);
-		return answer;
+		else if (intent.equals("greeting")) { 
+			return "Hello, how can I help you today?";
+		}
+
+		//return the answer that the eventhandler send
+		return currEventHandler.handleEvent(inputArray);
 	}
 
 
