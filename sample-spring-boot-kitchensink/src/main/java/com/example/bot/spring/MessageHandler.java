@@ -21,7 +21,9 @@ public class MessageHandler{
 	public static final String DEFAULTANSWER = "Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?";
 	public static final String CONFIRMATION = "Are you sure you want to make this booking? Press Y";
 	public static final String ERROR = "Excuse me something went wrong. Could you please try again or rephrase.";
+	public static final String SQLERROR = "I am sorry, we  have technical issues, please try again later. Sorry for the inconvenience.";
 	public static final String GREETING = "Hello, how can I help you today?";
+	public static final String FULLTOUR = "The tour is full. We are sorry for the inconvenience. Please pick a different date or another tour.";
 	private EventHandler currEventHandler;
 	private HandlerFactory factory;
 	

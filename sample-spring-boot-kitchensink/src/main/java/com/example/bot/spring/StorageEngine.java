@@ -2,6 +2,7 @@ package com.example.bot.spring;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public interface StorageEngine{
@@ -13,6 +14,8 @@ public interface StorageEngine{
 	public Customer getCustomerDetails(String identifier) throws Exception;
 	
 	public GeneralTour getGeneralTourDetails(String name) throws Exception;
+	
+	public ArrayList<Date> getTourDates(String identifier);
 
 	public void logQuestion(String question);
 	

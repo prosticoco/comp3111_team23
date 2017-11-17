@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import lombok.extern.slf4j.Slf4j;
@@ -228,6 +229,29 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		connection = DriverManager.getConnection(dbUrl, username, password);
 
 		return connection;
+	}
+
+	@Override
+	public ArrayList<Date> getTourDates(String identifier) {
+		ArrayList<Date> dates = null;
+		try{
+			Connection con = getConnection();
+			PreparedStatement stmt = con.prepareStatement("SELECT date FROM tour WHERE id LIKE ?");
+			stmt.setString(1, identifier.toLowerCase());
+			ResultSet rs = stmt.executeQuery();	
+			while(rs.next()){
+				dates.add(rs.getDate("date"));
+			}
+			rs.close();
+			con.close();
+			stmt.close();		
+		} catch (URISyntaxException e){
+			//log.info("The wrong URI has been provided", e.toString());
+		} catch (SQLException e){
+			//log.info("There has been an error with the SQL statement", e.toString());
+		}
+		assert !dates.isEmpty();	
+		return dates;
 	}
 
 }

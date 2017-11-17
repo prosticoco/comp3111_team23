@@ -20,23 +20,29 @@ public class BookingHandler implements EventHandler{
 	
 	public String handleEvent(ArrayList<String> inputArray){
 		String[] currentAttribute;
+		
 		for(int i = 1; i < inputArray.size(); i++){
 			//separate the attribute name and attribute value
 			currentAttribute = inputArray.get(i).split(":");
-			
-			if(customer.nullValues().size()>0 && checkBelongToCustomer(currentAttribute))
+			if(customer.nullValues().size()>0 && addToCustomer(currentAttribute))
 				continue;
-			else
+			else{
 				try {
-					if(checkBelongToBooking(currentAttribute)) 
+					if(addToBooking(currentAttribute)) 
 						continue;
 				} catch (Exception e) {
 					e.printStackTrace();
 					date = null;
 					return "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";	
 				}
+			}			
 		}
+
 		
+		return provideAnswer();
+	}
+
+	private String provideAnswer() {
 		//default string in case of insufficient amount of attributes
 		String answer = "Please provide more details about the tour and the people going, in the following format:";
 		
@@ -45,16 +51,14 @@ public class BookingHandler implements EventHandler{
 		
 		//if no more attributes needed ask for confirmation
 		if(!cusNulls && !bookNulls) 
-			answer = MessageHandler.CONFIRMATION;	
+			answer = MessageHandler.CONFIRMATION;
 		
 		return answer;
 	}
 	
 
-	private boolean checkBelongToCustomer(String[] attributes) {
+	private boolean addToCustomer(String[] attributes) {
 		boolean successful = false;
-		
-		//TODO: input validate everything 
 		
 		switch(attributes[0]){
 			case "builtin.encyclopedia.people.person":
@@ -69,7 +73,7 @@ public class BookingHandler implements EventHandler{
 		return successful;
 	}
 	
-	private boolean checkBelongToBooking(String[] attributes) throws Exception{
+	private boolean addToBooking(String[] attributes) throws Exception{
 		boolean successful = false;
 		
 		//TODO: input validate everything 
@@ -142,7 +146,7 @@ public class BookingHandler implements EventHandler{
 	
 	public String completeBooking(String confirmation) {
 		//default answer in case something goes wrong
-		String answer = "Something went wrong.Sorry for the inconvenience, could you please provide us with all the details again."; 
+		String answer = MessageHandler.ERROR;
 		if(!cusNulls && !bookNulls){
 			if(database.getNumberBookedTours(tour) < tour.getCapacity()){
 				try {
@@ -150,11 +154,11 @@ public class BookingHandler implements EventHandler{
 					database.addBooking(booking);
 					answer = MessageHandler.COMPLETEDBOOKING;
 				} catch (URISyntaxException e) {
-					answer = "Sorry I could not complete the booking. The server is not working, please try again later";
+					answer = MessageHandler.SQLERROR;
 				}
 			}
 			else{
-				answer = "The tour is full. We are sorry for the inconvenience. Please a different date or another tour.";
+				answer = MessageHandler.FULLTOUR;
 			}
 		}
 		resetHandler();
