@@ -15,7 +15,9 @@ public interface StorageEngine{
 	
 	public GeneralTour getGeneralTourDetails(String name) throws Exception;
 	
-	public ArrayList<Date> getTourDates(String identifier);
+	public ArrayList<Date> getTourDates(String identifier) throws Exception;
+	
+	public ArrayList<String> getNotPaidCustomers(Date date) throws Exception;
 
 	public void logQuestion(String question);
 	

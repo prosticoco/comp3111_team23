@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PSQLDatabaseEngine implements StorageEngine{
 
+
 	@Override
 	public Tour getTourDetails(String identifier, Date date) throws Exception {
 		int price = 0;
@@ -254,4 +255,62 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		return dates;
 	}
 
+	@Override
+	public ArrayList<String> getNotPaidCustomers(Date date) throws Exception{
+		ArrayList<String> users = new ArrayList<>();
+		ArrayList<String> tourIds = null;
+		try{
+			
+			tourIds = getTourIds(date);
+			Connection con = getConnection();
+			if(tourIds != null)
+			for(String s: tourIds){
+				PreparedStatement stmt = con.prepareStatement("SELECT customerID FROM booking WHERE paid = 0 and tourID like 1");
+				stmt.setString(1, s.toLowerCase());
+				ResultSet rs = stmt.executeQuery();	
+				if(rs.next()){
+					users.add(rs.getString("customerid"));
+				}
+				rs.close();
+				stmt.close();		
+			}
+			
+			con.close();
+		} catch (URISyntaxException e){
+			//log.info("The wrong URI has been provided", e.toString());
+		} catch (SQLException e){
+			//log.info("There has been an error with the SQL statement", e.toString());
+		}
+	
+		return users;
+	}
+
+	private ArrayList<String> getTourIds(Date date) throws Exception{
+		ArrayList<String> tourIds = new ArrayList<>();
+		try{
+			Connection con = getConnection();
+			PreparedStatement stmt = con.prepareStatement("SELECT id FROM tour WHERE AND date = ?");
+			stmt.setDate(1, new java.sql.Date(date.getTime()));
+			ResultSet rs = stmt.executeQuery();			
+			while(rs.next()){
+				tourIds.add(rs.getString("id"));
+			}
+			rs.close();
+			con.close();
+			stmt.close();		
+		} catch (URISyntaxException e){
+			//log.info("The wrong URI has been provided", e.toString());
+		} catch (SQLException e){
+			//log.info("There has been an error with the SQL statement", e.toString());
+		}
+		if(tourIds.isEmpty())
+			throw new Exception("There is no tours on this date");		
+		
+		return tourIds;
+	}
+	
+	
+	
+	
+	
 }

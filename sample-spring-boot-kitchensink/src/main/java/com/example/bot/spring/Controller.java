@@ -24,13 +24,18 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -39,6 +44,7 @@ import com.linecorp.bot.model.profile.UserProfileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.bot.spring.PaymentReminder.CustomerChecker;
 import com.google.common.io.ByteStreams;
 
 import com.linecorp.bot.client.LineMessagingClient;
@@ -98,6 +104,18 @@ public class Controller {
 	private MessageHandler messageHandler = new MessageHandler(new HandlerFactory());
 	
 	public Controller() {
+		Timer timer = new Timer();
+		Calendar date = Calendar.getInstance();
+		date.set(Calendar.HOUR, 11);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+		// Schedule to run every Sunday in midnight
+		timer.schedule(
+		  new CustomerChecker(),
+		  date.getTime(),
+		  TimeUnit.DAYS.toMillis(1)
+		);
 	}
 	
 	@EventMapping
@@ -143,13 +161,62 @@ public class Controller {
 		}
 	}
 	
-	private void pushCustomerNotification(ArrayList<String> recepients, String message){
+	public void pushCustomerNotification(ArrayList<String> recepients, String message){
 		if (recepients.isEmpty()) {
 			throw new IllegalArgumentException("the message should have recepients");
 		}
 		for(String userId: recepients){
 			this.reply(userId, new TextMessage(message));
 		}
+	}
+	
+
+	class CustomerChecker extends TimerTask{
+		
+		StorageEngine database = new PSQLDatabaseEngine();
+
+		@Override
+		public void run() {
+			ArrayList<String> customers = new ArrayList<>();
+			try {
+				Calendar newDate = setDate();
+				
+				
+				//get the userID of the customers that need to pay
+				customers = database.getNotPaidCustomers(newDate.getTime());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return;
+			}
+			
+			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat";
+			pushCustomerNotification(customers, reminder);
+		}
+
+		private Calendar setDate() {
+			Calendar newDate = Calendar.getInstance();
+			//get todays date
+			int date = newDate.get(Calendar.DAY_OF_MONTH);
+			
+			
+			//get the maximum number of days in the current month
+			int maxDaysInMonth = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+			
+			
+			//set the date to point to the current date + 3 more days when the deadline is
+			newDate.set(Calendar.DAY_OF_MONTH, (date+3) % maxDaysInMonth);
+			
+			
+			//change the month if it is the end of the month
+			if((date+3) > maxDaysInMonth)
+				newDate.set(Calendar.MONTH, newDate.get(Calendar.DAY_OF_MONTH) + 1);
+			
+			return newDate;
+		}
+		
+		
+		
+
 	}
 	
 
