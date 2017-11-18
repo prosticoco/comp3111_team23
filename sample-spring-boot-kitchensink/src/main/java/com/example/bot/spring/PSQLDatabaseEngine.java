@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import lombok.extern.slf4j.Slf4j;
@@ -86,19 +87,13 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		String days = null;
 		try{
 			Connection con = getConnection();
-			log.info(name + "---------------------------------------------");
 			PreparedStatement stmt = con.prepareStatement("SELECT * FROM generaltour WHERE name LIKE ?");
 			stmt.setString(1, name);
 			ResultSet rs = stmt.executeQuery();	
-			
-			log.info(rs.toString() + "---------------------------------------------");
-			
 			if(rs.next()){
-				log.info("ENTERED-------------------------------------------------");
 				id = rs.getString("id");
 				description = rs.getString("description");
 				days =  rs.getString("days_available");
-				log.info(id+"---------------------------------------");
 			}
 			rs.close();
 			con.close();
@@ -115,7 +110,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	}
 	
 	@Override
-	public int getTourAvailability(Tour tour) {
+	public int getNumberBookedTours(Tour tour) {
 		int availability = 0;
 		try{
 			Connection con = getConnection();
@@ -234,6 +229,29 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		connection = DriverManager.getConnection(dbUrl, username, password);
 
 		return connection;
+	}
+
+	@Override
+	public ArrayList<Date> getTourDates(String identifier) {
+		ArrayList<Date> dates = null;
+		try{
+			Connection con = getConnection();
+			PreparedStatement stmt = con.prepareStatement("SELECT date FROM tour WHERE id LIKE ?");
+			stmt.setString(1, identifier.toLowerCase());
+			ResultSet rs = stmt.executeQuery();	
+			while(rs.next()){
+				dates.add(rs.getDate("date"));
+			}
+			rs.close();
+			con.close();
+			stmt.close();		
+		} catch (URISyntaxException e){
+			//log.info("The wrong URI has been provided", e.toString());
+		} catch (SQLException e){
+			//log.info("There has been an error with the SQL statement", e.toString());
+		}
+		assert !dates.isEmpty();	
+		return dates;
 	}
 
 }

@@ -28,6 +28,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -91,15 +94,10 @@ public class Controller {
 	
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
-	private MessageHandler messageHandler;
-	private LanguageProcessor languageProcessor;
-	private StorageEngine database;
+	private LanguageProcessor languageProcessor = new LuisNLP();
+	private MessageHandler messageHandler = new MessageHandler(new HandlerFactory());
 	
 	public Controller() {
-
-		languageProcessor = new LuisNLP();
-		messageHandler = new MessageHandler();
-		database = new PSQLDatabaseEngine();
 	}
 	
 	@EventMapping
@@ -115,15 +113,8 @@ public class Controller {
 		
 		//process the message
 		ArrayList<String> processedMessage = languageProcessor.processInput(receivedMessage);
-
 		
-		//get a response from the handler
-		
-		messageHandler.setCustomer(userId);
-		String response = messageHandler.handleTextContent(processedMessage);
-		
-		if(response.equals("Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?"))
-			database.logQuestion(receivedMessage);
+		String response = messageHandler.handleTextContent(processedMessage,userId);
 		
 		//send the message back to the user
 		replyText(event.getReplyToken(), response);
@@ -152,6 +143,14 @@ public class Controller {
 		}
 	}
 	
+	private void pushCustomerNotification(ArrayList<String> recepients, String message){
+		if (recepients.isEmpty()) {
+			throw new IllegalArgumentException("the message should have recepients");
+		}
+		for(String userId: recepients){
+			this.reply(userId, new TextMessage(message));
+		}
+	}
 	
 
 }

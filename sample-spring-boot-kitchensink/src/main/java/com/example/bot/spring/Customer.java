@@ -60,7 +60,7 @@ public class Customer {
 //		Field[] fields = this.getClass().getDeclaredFields();
 //		for(Field f : fields){
 //			f.setAccessible(true);
-//			try {
+//			try {d 
 //				if(!f.getType().isPrimitive()){
 //					if(f.get(this) == null) nullValues.add(f.getName());
 //				}else{

@@ -43,25 +43,18 @@ import com.linecorp.bot.spring.boot.annotation.LineBotMessages;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import com.example.bot.spring.Controller;
-import com.example.bot.spring.Customer;
-import com.example.bot.spring.LanguageProcessor;
-import com.example.bot.spring.LuisNLP;
-import com.example.bot.spring.MessageHandler;
-import com.example.bot.spring.PSQLDatabaseEngine;
-import com.example.bot.spring.StorageEngine;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class})
+@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class, MessageHandler.class, HandlerFactory.class})
 public class KitchenSinkTester {
 
 	@Autowired
 	private StorageEngine database;
 	@Autowired
 	private LanguageProcessor languageProcessor;
-//	@Autowired
-//	private MessageHandler messageHandler; 
+	@Autowired
+	private MessageHandler messageHandler; 
 
 	@Test
 	public void CustomerNotFound() throws Exception {
@@ -124,13 +117,13 @@ public class KitchenSinkTester {
 		}
 	}
 	
-	@Test
-	public void testController(){
-		MessageHandler m = new MessageHandler();
-		String a = m.handleTextContent(new ArrayList<String>(Arrays.asList("none")));
-		assertThat(a).isEqualTo("Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?");
-		
-	}
+//	@Test
+//	public void testController(){
+//		MessageHandler m = new MessageHandler();
+//		String a = m.handleTextContent(new ArrayList<String>(Arrays.asList("none")));
+//		assertThat(a).isEqualTo("Excuse me I cannot understand what you are trying to say. We have logged your query. Could you try again?");
+//		
+//	}
 	
 	@Test
 	public void testNone() {
@@ -163,18 +156,19 @@ public class KitchenSinkTester {
 	}
 	
 
-//	@Test
-//	public void testBooking() {
-//		ArrayList<String> input = new ArrayList<String>(Arrays.asList("additionalinformation", "numOfToddlers:toddler: 5")); 
-//		
-//		String answer = messageHandler.handleTextContent(input);
-//		String trueAnswer = "Please provide more details about the tour and the people going, in the following format:\n";
-//	
-//		assertThat(answer == trueAnswer);
-//
-//	}
-//	
-
+	@Test
+	public void testBooking(){
+		ArrayList<String> inputArray = new ArrayList<String>(Arrays.asList(
+				"booktour",
+				"numberOfAdults:3",
+				"numberOfChildren:4",
+				"numberOfToddlers:5",
+				"builtin.age:34",
+				"tourType:yangshanhotspringtour",
+				"builtin.encyclopedia.people.person:Ivan"));
+		String answer = messageHandler.handleTextContent(inputArray, "test");
+		assertThat(answer).isEqualTo(MessageHandler.CONFIRMATION);
+	}
 
 	@Test
 	public void testAdditionalInformation() {
