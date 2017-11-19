@@ -104,19 +104,9 @@ public class Controller {
 	private MessageHandler messageHandler = new MessageHandler(new HandlerFactory());
 	
 	public Controller() {
-		Timer timer = new Timer();
-		Calendar date = Calendar.getInstance();
-		date.set(Calendar.HOUR, 11);
-		date.set(Calendar.MINUTE, 0);
-		date.set(Calendar.SECOND, 0);
-		date.set(Calendar.MILLISECOND, 0);
-		// Schedule to run every Sunday in midnight
-		timer.schedule(
-		  new CustomerChecker(),
-		  date.getTime(),
-		  TimeUnit.DAYS.toMillis(1)
-		);
+		setPaymentChecking();
 	}
+
 	
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -170,6 +160,20 @@ public class Controller {
 		}
 	}
 	
+	private void setPaymentChecking() {
+		Timer timer = new Timer();
+		Calendar date = Calendar.getInstance();
+		date.set(Calendar.HOUR, 11);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+		// Schedule to run every Sunday in midnight
+		timer.schedule(
+		  new CustomerChecker(),
+		  date.getTime(),
+		  TimeUnit.DAYS.toMillis(1)
+		);
+	}
 
 	class CustomerChecker extends TimerTask{
 		
@@ -213,11 +217,8 @@ public class Controller {
 			
 			return newDate;
 		}
-		
-		
-		
-
 	}
+	
 	
 
 }

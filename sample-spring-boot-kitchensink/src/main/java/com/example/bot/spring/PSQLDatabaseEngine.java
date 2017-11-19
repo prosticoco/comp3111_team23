@@ -265,7 +265,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			Connection con = getConnection();
 			if(tourIds != null)
 			for(String s: tourIds){
-				PreparedStatement stmt = con.prepareStatement("SELECT customerID FROM booking WHERE paid = 0 and tourID like 1");
+				PreparedStatement stmt = con.prepareStatement("SELECT customerID FROM booking WHERE fee_paid = 0 and tourID like 1");
 				stmt.setString(1, s.toLowerCase());
 				ResultSet rs = stmt.executeQuery();	
 				if(rs.next()){
@@ -289,7 +289,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		ArrayList<String> tourIds = new ArrayList<>();
 		try{
 			Connection con = getConnection();
-			PreparedStatement stmt = con.prepareStatement("SELECT id FROM tour WHERE AND date = ?");
+			PreparedStatement stmt = con.prepareStatement("SELECT id FROM tour WHERE date = ?");
 			stmt.setDate(1, new java.sql.Date(date.getTime()));
 			ResultSet rs = stmt.executeQuery();			
 			while(rs.next()){

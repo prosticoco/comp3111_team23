@@ -2,11 +2,13 @@ package com.example.bot.spring;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,11 +58,53 @@ public class KitchenSinkTester {
 	@Autowired
 	private MessageHandler messageHandler; 
 
+	
 	@Test
-	public void CustomerNotFound() throws Exception {
+	public void testGetTourDetailsSuccessful(){
+		Tour test = null;
 		boolean thrown = false;
 		try {
-			this.database.getCustomerDetails("A122");
+			test = database.getTourDetails("2d001", new SimpleDateFormat("yyyy-MM-dd").parse("2017-11-11"));
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(test.getPrice()).isEqualTo(599);
+		assertThat(test.getCapacity()).isEqualTo(20);
+		
+	}
+	
+	
+	@Test
+	public void testGetTourDetailUnsuccessful(){
+		boolean thrown = false;
+		try {
+			database.getTourDetails("2d", new SimpleDateFormat("yyyy-MM-dd").parse("2017-11-11"));
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(true);
+	}
+	
+	
+	@Test
+	public void testCustomerDetailsFound(){
+		boolean thrown = false;
+		Customer test = null;
+		try {
+			test = database.getCustomerDetails("U7284687917ae6c74fdca2ba21f055e78");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(test.getName()).isEqualTo("Ivan");
+	}
+	
+	@Test
+	public void testCustomerDetailsNotFound(){
+		boolean thrown = false;
+		try {
+			database.getCustomerDetails("A122");
 		} catch (Exception e) {
 			thrown = true;
 		}
@@ -68,7 +112,7 @@ public class KitchenSinkTester {
 	}
 
 	@Test
-	public void generalTourFound() throws Exception {
+	public void generalTourFound() {
 		boolean thrown = false;
 		GeneralTour gt = null;
 
@@ -79,13 +123,47 @@ public class KitchenSinkTester {
 		}
 		assertThat(thrown).isEqualTo(false);
 		assertThat(gt.getId()).isEqualTo("2d002");
-
-
 	}
 
+	@Test
+	public void generalTourNotFound() {
+		boolean thrown = false;
+		try {
+			database.getGeneralTourDetails("testotur");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(true);
+	}
 
 	@Test
-	public void testLuisQuestion() throws Exception {
+	public void testGetFAQNotFound(){
+		boolean thrown = false;
+
+		try {
+			database.getFAQResponse("sadasd");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(true);
+	}
+	
+	@Test
+	public void testGetFAQFound(){
+		boolean thrown = false;
+		String answer = null;
+		try {
+			answer = database.getFAQResponse("transporttoguangdong");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(answer).isEqualTo("It is a tour bus");
+	}
+	
+	
+	@Test
+	public void testLuisQuestion() {
 		boolean thrown = false;
 		ArrayList<String> result = null;
 
