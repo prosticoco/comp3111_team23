@@ -33,7 +33,13 @@ public class EnquiryHandler implements EventHandler {
 	}
 
 	private String enquireDates(String tourName) {
-		ArrayList<Date> dates = database.getTourDates(tourName);
+		ArrayList<Date> dates;
+		try {
+			dates = database.getTourDates(tourName);
+		} catch (Exception e) {
+			return "I am sorry, there is no avaiable dates for this tour yet";
+		}
+		
 		String answer = "The available dates for the required tour is/are: ";
 		for(Date d: dates){
 			answer += d.toString();
