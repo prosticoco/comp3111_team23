@@ -144,7 +144,7 @@ public class BookingHandler implements EventHandler{
 		}
 	}
 	
-	public String completeBooking(String confirmation) {
+	public String completeBooking() {
 		//default answer in case something goes wrong
 		String answer = MessageHandler.ERROR;
 		if(!cusNulls && !bookNulls){

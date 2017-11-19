@@ -14,7 +14,7 @@ public class HandlerFactory {
 			//get answer from the FAQ table in the database
 			currEventHandler = new QuestionHandler();
 		}
-		else if(intent.equals("booktour") || intent.equals("additionalinformation") || intent.equals("confirmation")){
+		else if(intent.equals("booktour") || intent.equals("additionalinformation") || intent.equals("positiveconfirmation")){
 			
 			//get the needed eventHandler from the
 			currEventHandler = bookingMap.get(userId);
@@ -24,7 +24,7 @@ public class HandlerFactory {
 			}
 			
 			if(intent.equals("positiveconfirmation")){
-				String answer = ((BookingHandler) currEventHandler).completeBooking("y");
+				String answer = ((BookingHandler) currEventHandler).completeBooking();
 				
 				if(answer == MessageHandler.COMPLETEDBOOKING)
 					bookingMap.remove(userId);

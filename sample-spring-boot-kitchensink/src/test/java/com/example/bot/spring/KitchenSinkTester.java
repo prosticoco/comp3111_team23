@@ -104,17 +104,18 @@ public class KitchenSinkTester {
 	}
 	
 	@Test
-	public void testGreeting() throws Exception {
+	public void testGreeting() {
 		boolean thrown = false;
 		ArrayList<String> result = null;
-			
+		
 		try {
 			result = languageProcessor.processInput("Hello");
 		}
 		catch(Exception e) {
-			assertThat(thrown).isEqualTo(false);
-			assertThat(result.get(0)).isEqualTo("Greeting");
+			thrown = true;
 		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("Greeting");
 	}
 	
 //	@Test
@@ -134,14 +135,15 @@ public class KitchenSinkTester {
 			result = languageProcessor.processInput("I like pizza and dogs");
 		}
 		catch(Exception e) {
-			assertThat(thrown).isEqualTo(false);
-			assertThat(result.get(0)).isEqualTo("None");
-			assertThat(result.get(1)).isEqualTo("I like pizza and dogs");
+			thrown = true;
 		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("None");
+		assertThat(result.get(1)).isEqualTo("I like pizza and dogs");
 	}
 	
 	@Test
-	public void testConfirmation() {
+	public void testPositiveConfirmation() {
 		boolean thrown = false;
 		ArrayList<String> result = null;
 			
@@ -149,13 +151,28 @@ public class KitchenSinkTester {
 			result = languageProcessor.processInput("Y");
 		}
 		catch(Exception e) {
-			assertThat(thrown).isEqualTo(false);
-			assertThat(result.get(0)).isEqualTo("confirmation");
-			assertThat(result.get(1)).isEqualTo("Y");
+			thrown = true;
 		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("positiveConfirmation");
+		assertThat(result.get(1)).isEqualTo("Y");
 	}
 	
-
+	@Test
+	public void testNegativeConfirmation() {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+		try {
+			result = languageProcessor.processInput("N");
+		}
+		catch(Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("negativeConfirmation");
+		assertThat(result.get(1)).isEqualTo("N");
+	}
+	
 	@Test
 	public void testBooking(){
 		ArrayList<String> inputArray = new ArrayList<String>(Arrays.asList(
@@ -179,11 +196,12 @@ public class KitchenSinkTester {
 			result = languageProcessor.processInput("adults: 5 children: 6");
 		}
 		catch(Exception e) {
-			assertThat(thrown).isEqualTo(false);
-			assertThat(result.get(0)).isEqualTo("additionalInformation");
-			assertThat(result.get(1)).isEqualTo("numberOfChildren:children : 6");
-			assertThat(result.get(1)).isEqualTo("numberOfAdults:adults : 5");
+			thrown = true;
 		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("additionalInformation");
+		assertThat(result.get(1)).isEqualTo("numberOfChildren:children : 6");
+		assertThat(result.get(2)).isEqualTo("numberOfAdults:adults : 5");
 	}
 
 }

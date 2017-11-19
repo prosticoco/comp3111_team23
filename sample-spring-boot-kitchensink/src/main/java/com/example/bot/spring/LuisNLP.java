@@ -68,7 +68,7 @@ public class LuisNLP implements LanguageProcessor {
 		
 		JSONObject obj = new JSONObject(json);
 		result.add(obj.getJSONObject("topScoringIntent").getString("intent"));
-		if(result.get(0).equals("None") || result.get(0).equals("confirmation")) {
+		if(result.get(0).equals("None") || result.get(0).equals("positiveConfirmation") || result.get(0).equals("negativeConfirmation")) {
 			result.add(obj.getString("query"));
 		}
 		else {
