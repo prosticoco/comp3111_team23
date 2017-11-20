@@ -113,7 +113,6 @@ public class Controller {
 	private MessageHandler messageHandler = new MessageHandler(new HandlerFactory());
 	private LineCommunicator lineCom = new LineCommunicator();
 
-
 	
 	private Controller() {
 		setPaymentChecking();
