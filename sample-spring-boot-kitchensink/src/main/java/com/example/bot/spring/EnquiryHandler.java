@@ -3,12 +3,20 @@ package com.example.bot.spring;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 /**
  * Class to represent the event handler in charge of enquiries. If a customer asks for info about a specific tour, then this 
  * handler will subsequently be called
  * @author Ivan Bardarov
  *
  */
+
+
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
+
 public class EnquiryHandler implements EventHandler {
 
 	private StorageEngine database = new PSQLDatabaseEngine();
@@ -19,7 +27,6 @@ public class EnquiryHandler implements EventHandler {
 	 */
 	@Override
 	public String handleEvent(ArrayList<String> inputArray) {
-		System.out.println("I entered here");
 		String intent = inputArray.get(0).toLowerCase();
 		intent = intent.substring(0,intent.length() - 7);
 		if(inputArray.size()>1){
@@ -27,23 +34,26 @@ public class EnquiryHandler implements EventHandler {
 			switch(intent){
 				case "tourid":
 					if(!atr1[0].equals("tourtype")) break;
-					return enquireTourId(atr1[1]);
+					
+					return enquireTourId(atr1[1].replaceAll("\\s+",""));
 				case "dates":
 					if(!atr1[0].equals("tourtype")) break;
-					return enquireDates(atr1[1]);
+					return enquireDates(atr1[1].replaceAll("\\s+",""));
 				case "capacity":
+					
 					if(inputArray.size()>2){
 						String[] atr2 = inputArray.get(2).toLowerCase().split(":");
 						if(!atr1[0].equals("tourtype")  && !atr2[0].equals("builtin.datetimeV2.date")){
 							if(!atr2[0].equals("tourtype")  && !atr1[0].equals("builtin.datetimeV2.date"))
 								break;
 							else
-								return enquireCapacity(atr2[1], atr1[1]);
+								return enquireCapacity(atr2[1].replaceAll("\\s+",""), atr1[1]);
 						}
-						return enquireCapacity(atr1[1], atr2[1]);
+						return enquireCapacity(atr1[1].replaceAll("\\s+",""), atr2[1]);
 					}
 			}
 		}
+		
 		return MessageHandler.ERROR;
 	}
 	/**
@@ -56,7 +66,7 @@ public class EnquiryHandler implements EventHandler {
 	private String enquireCapacity(String tourName, String date) {
 		Tour gt = null;
 		try {
-			gt  = database.getTourDetails(tourName, new SimpleDateFormat("yyyy-MM-dd").parse(date));
+			gt  = database.getTourDetails(database.getGeneralTourDetails(tourName).getId(), new SimpleDateFormat("yyyy-MM-dd").parse(date));
 		} catch (Exception e) {
 			return MessageHandler.ERROR;
 		}
@@ -78,8 +88,9 @@ public class EnquiryHandler implements EventHandler {
 		
 		String answer = "The available dates for the required tour is/are: ";
 		for(Date d: dates){
-			answer = answer + d.toString() +" ";
+			answer = answer + d.toString() +", ";
 		}
+		answer = answer.substring(0, answer.length()-2);
 		return answer;
 		
 	}

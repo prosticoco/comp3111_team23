@@ -73,7 +73,7 @@ class CustomerChecker extends TimerTask{
 		
 		
 		//set the date to point to the current date + 3 more days when the deadline is
-		newDate.set(Calendar.DAY_OF_MONTH, (date+3) % maxDaysInMonth);
+		newDate.set(Calendar.DAY_OF_MONTH, (date+3) % maxDaysInMonth +1);
 		
 		
 		//change the month if it is the end of the month

@@ -2,6 +2,8 @@ package com.example.bot.spring;
 
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,7 @@ public class WebController {
 	private final String SUCCESS = "Operation executed successfully";
 	
 	private StorageEngine database = new PSQLDatabaseEngine();
+
 	/**
 	 * this method is called when an employee wants to cancel a booking via the web interface. 
 	 * it will update the database accordingly
@@ -30,14 +33,26 @@ public class WebController {
 	 * @param date date of the tour
 	 * @return
 	 */
+
+	@Autowired
+	private LineCommunicator lineCom;
+
 	@RequestMapping("/cancelBooking")
 	public String cancelBooking(@RequestParam(value="tourId", defaultValue="") String tourId,
 			@RequestParam(value="date", defaultValue="") String date) {
 		String answer = SUCCESS;
 		log.info("Cancelling tour via the web application ------------------------------");
-		
-		
-		
+		try{
+			ArrayList<String> customers = database.getBookedCustomers(tourId, new SimpleDateFormat("yyyy-MM-dd").parse(date));
+			String message = "The tour on the " + date+" you have booked, has been cancelled.";
+			database.removeTour(tourId, new SimpleDateFormat("yyyy-MM-dd").parse(date));
+			log.info(customers.get(0).toString());
+			lineCom.pushCustomerNotification(customers, message);	
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return ERROR;
+		}
 		return answer;
 	}
 	/**

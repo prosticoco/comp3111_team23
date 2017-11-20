@@ -107,12 +107,12 @@ import java.net.URI;
 @LineMessageHandler
 public class Controller {
 	
-	@Autowired
-	private LineMessagingClient lineMessagingClient;
-	private LanguageProcessor languageProcessor = new LuisNLP();
-	private MessageHandler messageHandler = new MessageHandler(new HandlerFactory());
-	private LineCommunicator lineCom = new LineCommunicator();
 
+	private LanguageProcessor languageProcessor = new LuisNLP();
+	@Autowired
+	private MessageHandler messageHandler = new MessageHandler();
+	@Autowired
+	private LineCommunicator lineCom;
 
 	
 	private Controller() {
