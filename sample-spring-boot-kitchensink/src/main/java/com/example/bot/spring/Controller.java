@@ -103,10 +103,12 @@ public class Controller {
 	private LineMessagingClient lineMessagingClient;
 	private LanguageProcessor languageProcessor = new LuisNLP();
 	private MessageHandler messageHandler = new MessageHandler(new HandlerFactory());
-	
+	private LineCommunicator lineCom = new LineCommunicator();
+
+
 	
 	private Controller() {
-		setPaymentChecking();
+		//setPaymentChecking();
 	}
 	
 	
@@ -129,129 +131,9 @@ public class Controller {
 		//send the message back to the user
 		//pushCustomerNotification(new ArrayList<String>(Arrays.asList("U6c377e75e1d6c2b1f0805c82ebb880f9")), "rabotq we");
 		
-		replyText(event.getReplyToken(), response);
+		lineCom.replyText(event.getReplyToken(), response);
 
 	}
 
-	public void replyText(@NonNull String replyToken, @NonNull String message) {
-		if (replyToken.isEmpty()) {
-			throw new IllegalArgumentException("replyToken must not be empty");
-		}
-		if (message.length() > 1000) {
-			message = message.substring(0, 1000 - 2) + "..";
-		}
-		this.reply(replyToken, new TextMessage(message));
-	}
-	
-	private void reply(@NonNull String replyToken, @NonNull Message message) {
-		reply(replyToken, Collections.singletonList(message));
-	}
-
-	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
-		try {
-			BotApiResponse apiResponse = lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
-			log.info("Sent messages: {}", apiResponse);
-		} catch (InterruptedException | ExecutionException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	public void pushCustomerNotification(ArrayList<String> recepients, String message){
-		if (recepients.isEmpty()) {
-			throw new IllegalArgumentException("the message should have recepients");
-		}
-		if (message.length() > 1000) {
-			message = message.substring(0, 1000 - 2) + "..";
-		}
-		for(String userId:recepients){
-			push(userId, Collections.singletonList(new TextMessage(message)));
-		}
-	}
-	
-	private void push(@NonNull String userId, @NonNull List<Message> messages ) {
-		try {
-			BotApiResponse apiResponse = lineMessagingClient.pushMessage(new PushMessage(userId, messages)).get();
-			log.info("Sent messages: {}", apiResponse);
-		} catch (InterruptedException | ExecutionException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private void setPaymentChecking() {
-		Timer timer = new Timer();
-		Calendar date = Calendar.getInstance();
-		date.set(Calendar.HOUR, 11);
-		date.set(Calendar.MINUTE, 0);
-		date.set(Calendar.SECOND, 0);
-		date.set(Calendar.MILLISECOND, 0);
-		timer.schedule(
-		  new CustomerChecker(),
-		  date.getTime(),
-		  TimeUnit.DAYS.toMillis(1)
-		);
-	}
-
-	class CustomerChecker extends TimerTask{
-		
-		StorageEngine database = new PSQLDatabaseEngine();
-
-		@Override
-		public void run() {
-			Calendar newDate = setDate();
-			remindCustomers(newDate);
-			informCustomers(newDate);
-		}
-		
-		private void informCustomers(Calendar date){
-			ArrayList<String> customers = new ArrayList<>();
-			try {
-//				customers = database.getCancelledTourCustomers(date.getTime());
-			} catch (Exception e) {
-				e.printStackTrace();
-				return;
-			}
-			
-			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat.";
-			pushCustomerNotification(customers, reminder);
-		}
-		
-		
-		private void remindCustomers(Calendar date){
-			ArrayList<String> customers = new ArrayList<>();
-			try {
-				//get the userID of the customers that need to pay
-				customers = database.getNotPaidCustomers(date.getTime());
-			} catch (Exception e) {
-				e.printStackTrace();
-				return;
-			}
-			
-			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat.";
-			pushCustomerNotification(customers, reminder);
-		}
-
-		private Calendar setDate() {
-			Calendar newDate = Calendar.getInstance();
-			//get todays date
-			int date = newDate.get(Calendar.DAY_OF_MONTH);
-			
-			
-			//get the maximum number of days in the current month
-			int maxDaysInMonth = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
-			
-			
-			//set the date to point to the current date + 3 more days when the deadline is
-			newDate.set(Calendar.DAY_OF_MONTH, (date+3) % maxDaysInMonth);
-			
-			
-			//change the month if it is the end of the month
-			if((date+3) > maxDaysInMonth)
-				newDate.set(Calendar.MONTH, newDate.get(Calendar.DAY_OF_MONTH) + 1);
-			
-			return newDate;
-		}
-	}
-	
-	
 
 }
