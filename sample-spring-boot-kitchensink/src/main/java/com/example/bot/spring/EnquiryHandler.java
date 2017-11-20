@@ -3,11 +3,20 @@ package com.example.bot.spring;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
+/**
+ * Class to represent the event handler in charge of enquiries. If a customer asks for info about a specific tour, then this 
+ * handler will subsequently be called
+ * @author Ivan Bardarov
+ *
+ */
 public class EnquiryHandler implements EventHandler {
 
 	private StorageEngine database = new PSQLDatabaseEngine();
 	
+	/**
+	 *  this method handles the even taking the customers preprocessed message and calling the appropriate method to answer the enquiry
+	 *  according to it's intent
+	 */
 	@Override
 	public String handleEvent(ArrayList<String> inputArray) {
 		System.out.println("I entered here");
@@ -37,7 +46,13 @@ public class EnquiryHandler implements EventHandler {
 		}
 		return MessageHandler.ERROR;
 	}
-
+	/**
+	 * this method is called when a capacity enquiry is made, it returns an answer to that enquiry or an error message if the tour or date 
+	 * do not exist in the database
+	 * @param tourName the name of the tour
+	 * @param date the date the tour takes place
+	 * @return a message representing the bot's answer to the enquiry
+	 */
 	private String enquireCapacity(String tourName, String date) {
 		Tour gt = null;
 		try {
@@ -47,7 +62,11 @@ public class EnquiryHandler implements EventHandler {
 		}
 		return "The capacity of the requested tour is: "+ gt.getCapacity();
 	}
-
+	/**
+	 * method that is called when a date enquiry for a tour is made
+	 * @param tourName the name of the tour
+	 * @return a string that lists the dates for the tour or an error message if the tour does not exist in the database
+	 */
 	private String enquireDates(String tourName) {
 		ArrayList<Date> dates;
 		try {
@@ -64,7 +83,11 @@ public class EnquiryHandler implements EventHandler {
 		return answer;
 		
 	}
-
+	/**
+	 * this method is called when an enquiry for a tour id is made
+	 * @param tourName the name of the tour for which the customer wants to know the id
+	 * @return a String representing the id of the tour which is enquired
+	 */
 	private String enquireTourId(String tourName) {
 		GeneralTour gt = null;
 		try {

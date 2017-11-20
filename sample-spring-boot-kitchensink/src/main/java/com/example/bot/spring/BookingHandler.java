@@ -3,8 +3,12 @@ package com.example.bot.spring;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-
+import java.util.Date;
+/**
+ * The class representing the event handler that is in charge of handling bookings
+ * @author Ivan Bardarov
+ *
+ */
 public class BookingHandler implements EventHandler{
 	
 	private boolean cusNulls=true, bookNulls=true;
@@ -17,7 +21,11 @@ public class BookingHandler implements EventHandler{
 	public BookingHandler(String userId){
 		customer.setId(userId);
 	}
-	
+	/**
+	 * the handleEvent method this class overrides. it verifies that the input is correct and if so calls the provideAnswer method 
+	 * to process the input and return the answer string. if the input isn't valid it returns an error message to be sent to the customer
+	 */
+	@Override 
 	public String handleEvent(ArrayList<String> inputArray){
 		String[] currentAttribute;
 		
@@ -41,7 +49,11 @@ public class BookingHandler implements EventHandler{
 		
 		return provideAnswer();
 	}
-
+	/**
+	 * Method called my the Handler to provide a bot answer to the customer who is booking a tour.
+	 * @return a message informing the customer that more information is needed to complete the booking, or a confirmation of 
+	 * the booking if all the information needed has been provided by the customer
+	 */
 	private String provideAnswer() {
 		//default string in case of insufficient amount of attributes
 		String answer = "Please provide more details about the tour and the people going, in the following format:";
@@ -56,7 +68,11 @@ public class BookingHandler implements EventHandler{
 		return answer;
 	}
 	
-
+	/**
+	 * method that adds to the customer member of the class an attribute (ex age or name)
+	 * @param attributes an array containing information on the type of attribute and the value attribute itself
+	 * @return a boolean indicating if the operation was successful or not
+	 */
 	private boolean addToCustomer(String[] attributes) {
 		boolean successful = false;
 		
@@ -72,7 +88,7 @@ public class BookingHandler implements EventHandler{
 		}
 		return successful;
 	}
-	
+
 	private boolean addToBooking(String[] attributes) throws Exception{
 		boolean successful = false;
 		
@@ -165,7 +181,9 @@ public class BookingHandler implements EventHandler{
 		resetHandler();
 		return answer;
 	}
-	
+	/**
+	 * method used to reset the Handler, ie reset its member values to default values.
+	 */
 	private void resetHandler(){
 		customer = new Customer(null,null,0,0);
 		tour = new Tour(null,null,0,null,null,null,0,0);

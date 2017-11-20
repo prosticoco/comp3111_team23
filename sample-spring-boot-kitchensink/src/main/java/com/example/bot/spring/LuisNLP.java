@@ -15,11 +15,23 @@ import org.json.*;
 
 import lombok.extern.slf4j.Slf4j;
 
-
+/**
+ * This class use is to process the natural language given by the user on the LINE chat app.
+ * it uses LUIS (an external library) which will convert sentences into an an array that our bot will know how to 
+ * interpret
+ * @author Christopher Lynch
+ *
+ */
 public class LuisNLP implements LanguageProcessor {
 	
+
 	String[] validEntities = {"numberOfAdults", "numberOfChildren", "numberOfToddlers", "tourType", "builtin.encyclopedia.people.person", "builtin.datetimeV2.date", "builtin.age"};
 
+
+	/**
+	 * this method takes as input the sentence sent by the user and then sends that sentence to the LUIS server which will convert it
+	 * in a JSON object we then parse to get the ArrayList of Strings which will serve as input to our handlers
+	 */
 	@Override
 	public ArrayList<String> processInput(String sentence) {
 		HttpClient httpclient = HttpClients.createDefault();
@@ -62,7 +74,11 @@ public class LuisNLP implements LanguageProcessor {
 		
 		return parseJSON(response);
 	}
-	
+	/**
+	 * This method serves as a parser from a JSON object to an ArrayList of Strings we will feed to our EventHandlers
+	 * @param json the JSON object we want to parse
+	 * @return the ArrayList of String we need to handle different events
+	 */
 	private ArrayList<String> parseJSON(String json){
 		ArrayList<String> result = new ArrayList<String>();
 		String entityType = null;
