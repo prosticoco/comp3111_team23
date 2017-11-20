@@ -33,8 +33,12 @@ import lombok.extern.slf4j.Slf4j;
 @LineMessageHandler
 public class LineCommunicator implements Communicator{
 	
-	@Autowired
+	
 	private LineMessagingClient lineMessagingClient;
+	
+	public LineCommunicator(LineMessagingClient ln){
+		lineMessagingClient = ln;
+	}
 
 	@Override
 	public void replyText(@NonNull String replyToken, @NonNull String message) {
