@@ -89,8 +89,9 @@ public class EnquiryHandler implements EventHandler {
 		
 		String answer = "The available dates for the required tour is/are: ";
 		for(Date d: dates){
-			answer = answer + d.toString() +" ";
+			answer = answer + d.toString() +", ";
 		}
+		answer = answer.substring(0, answer.length()-2);
 		return answer;
 		
 	}
