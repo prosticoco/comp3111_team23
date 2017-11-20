@@ -124,7 +124,8 @@ public class Controller {
 		String response = messageHandler.handleTextContent(processedMessage,userId);
 		
 		//send the message back to the user
-		pushCustomerNotification(new ArrayList<String>(Arrays.asList("U6c377e75e1d6c2b1f0805c82ebb880f9")), "rabotq we");
+		//pushCustomerNotification(new ArrayList<String>(Arrays.asList(userId)), "rabotq we");
+		
 		replyText(event.getReplyToken(), response);
 
 	}
@@ -156,11 +157,19 @@ public class Controller {
 		if (recepients.isEmpty()) {
 			throw new IllegalArgumentException("the message should have recepients");
 		}
-		for(String userId: recepients){
-			this.reply(userId, new TextMessage(message));
+		if (message.length() > 1000) {
+			message = message.substring(0, 1000 - 2) + "..";
+		}
+		for(String user:recepients){
+			push(user, Collections.singletonList(message));
 		}
 	}
 	
+	private void push(String user, List<String> singletonList) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void setPaymentChecking() {
 		Timer timer = new Timer();
 		Calendar date = Calendar.getInstance();
