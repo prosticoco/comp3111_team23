@@ -3,12 +3,20 @@ package com.example.bot.spring;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+<<<<<<< HEAD
 /**
  * Class to represent the event handler in charge of enquiries. If a customer asks for info about a specific tour, then this 
  * handler will subsequently be called
  * @author Ivan Bardarov
  *
  */
+=======
+
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
+>>>>>>> tests
 public class EnquiryHandler implements EventHandler {
 
 	private StorageEngine database = new PSQLDatabaseEngine();
@@ -19,7 +27,7 @@ public class EnquiryHandler implements EventHandler {
 	 */
 	@Override
 	public String handleEvent(ArrayList<String> inputArray) {
-		System.out.println("I entered here");
+		log.info(inputArray.get(0)+" "+ inputArray.get(1)+"-----------------------------------------------");
 		String intent = inputArray.get(0).toLowerCase();
 		intent = intent.substring(0,intent.length() - 7);
 		if(inputArray.size()>1){
@@ -44,6 +52,7 @@ public class EnquiryHandler implements EventHandler {
 					}
 			}
 		}
+		
 		return MessageHandler.ERROR;
 	}
 	/**
