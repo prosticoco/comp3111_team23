@@ -104,18 +104,7 @@ public class Controller {
 	private MessageHandler messageHandler = new MessageHandler(new HandlerFactory());
 	
 	public Controller() {
-		Timer timer = new Timer();
-		Calendar date = Calendar.getInstance();
-		date.set(Calendar.HOUR, 11);
-		date.set(Calendar.MINUTE, 0);
-		date.set(Calendar.SECOND, 0);
-		date.set(Calendar.MILLISECOND, 0);
-		// Schedule to run every Sunday in midnight
-		timer.schedule(
-		  new CustomerChecker(),
-		  date.getTime(),
-		  TimeUnit.DAYS.toMillis(1)
-		);
+		setPaymentChecking();
 	}
 	
 	@EventMapping
@@ -136,6 +125,7 @@ public class Controller {
 		
 		//send the message back to the user
 		replyText(event.getReplyToken(), response);
+		pushCustomerNotification(new ArrayList<String>(Arrays.asList("U7284687917ae6c74fdca2ba21f055e78")), "rabotq we");
 	}
 
 	private void replyText(@NonNull String replyToken, @NonNull String message) {
@@ -170,6 +160,19 @@ public class Controller {
 		}
 	}
 	
+	private void setPaymentChecking() {
+		Timer timer = new Timer();
+		Calendar date = Calendar.getInstance();
+		date.set(Calendar.HOUR, 11);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+		timer.schedule(
+		  new CustomerChecker(),
+		  date.getTime(),
+		  TimeUnit.DAYS.toMillis(1)
+		);
+	}
 
 	class CustomerChecker extends TimerTask{
 		
@@ -181,7 +184,6 @@ public class Controller {
 			try {
 				Calendar newDate = setDate();
 				
-				
 				//get the userID of the customers that need to pay
 				customers = database.getNotPaidCustomers(newDate.getTime());
 			} catch (Exception e) {
@@ -189,8 +191,11 @@ public class Controller {
 				return;
 			}
 			
-			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat";
+			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat.";
 			pushCustomerNotification(customers, reminder);
+			
+			
+			
 		}
 
 		private Calendar setDate() {
@@ -213,11 +218,8 @@ public class Controller {
 			
 			return newDate;
 		}
-		
-		
-		
-
 	}
+	
 	
 
 }

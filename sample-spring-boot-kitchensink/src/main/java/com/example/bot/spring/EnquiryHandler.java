@@ -35,14 +35,15 @@ public class EnquiryHandler implements EventHandler {
 	private String enquireDates(String tourName) {
 		ArrayList<Date> dates;
 		try {
-			dates = database.getTourDates(tourName);
+			String tourId = database.getGeneralTourDetails(tourName).getId();
+			dates = database.getTourDates(tourId);
 		} catch (Exception e) {
 			return "I am sorry, there is no avaiable dates for this tour yet";
 		}
 		
 		String answer = "The available dates for the required tour is/are: ";
 		for(Date d: dates){
-			answer += d.toString();
+			answer = answer + d.toString() +" ";
 		}
 		return answer;
 		
@@ -55,7 +56,7 @@ public class EnquiryHandler implements EventHandler {
 		} catch (Exception e) {
 			return MessageHandler.ERROR;
 		}
-		return gt.getId();
+		return "The id of the tour you are looking for is "+gt.getId();
 	}
 	
 }

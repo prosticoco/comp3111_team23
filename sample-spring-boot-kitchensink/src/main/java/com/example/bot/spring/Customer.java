@@ -57,20 +57,6 @@ public class Customer {
 		if(age == 0){
 			nullValues.add("age: <your age> years old");
 		}
-//		Field[] fields = this.getClass().getDeclaredFields();
-//		for(Field f : fields){
-//			f.setAccessible(true);
-//			try {d 
-//				if(!f.getType().isPrimitive()){
-//					if(f.get(this) == null) nullValues.add(f.getName());
-//				}else{
-//					if(f.get(this).equals(0) && !f.getName().equals("phone")) nullValues.add(f.getName());
-//				}
-//			} catch (IllegalArgumentException | IllegalAccessException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
 		return nullValues;
 	}
 }
