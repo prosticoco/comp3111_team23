@@ -88,7 +88,13 @@ public class BookingHandler implements EventHandler{
 		}
 		return successful;
 	}
-
+	
+	/**
+	 * method that adds to a booking attributes given by an array of string
+	 * @param attributes an array containing the attributes
+	 * @return a boolean to indicate if the operation was successful or not
+	 * @throws Exception if there is a problem with the database
+	 */
 	private boolean addToBooking(String[] attributes) throws Exception{
 		boolean successful = false;
 		
@@ -129,7 +135,11 @@ public class BookingHandler implements EventHandler{
 		}
 		return successful;
 	}
-	
+	/**
+	 * this method is used to compute the string of the missing values in a customer
+	 * @param c the customer we want to get the string for nullvalues
+	 * @return the string of null values
+	 */
 	private String appendCustomerNullValues(Customer c){
 		ArrayList<String> nulls = c.nullValues();
 		if(nulls.size()<= 0)
@@ -137,6 +147,11 @@ public class BookingHandler implements EventHandler{
 		return appendNullValues(nulls);
 	}
 	
+	/**
+	 * this method is used to compute the string of the missing values in a Tour booking
+	 * @param b the tour booking 
+	 * @return the string of null values of the tour booking
+	 */
 	private String appendBookingNullValues(TourBooking b){
 		ArrayList<String> nulls = b.nullValues();
 		if(nulls.size()<= 0)
@@ -144,6 +159,11 @@ public class BookingHandler implements EventHandler{
 		return appendNullValues(nulls);
 	}
 	
+	/**
+	 * this helper method appends all the values of the array of string into one string
+	 * @param nulls the array containing strings representing the null values
+	 * @return one string containing information about all the null values
+	 */
 	private String appendNullValues(ArrayList<String> nulls){
 		String str = "";
 		if(nulls.size()>0){
@@ -154,6 +174,10 @@ public class BookingHandler implements EventHandler{
 		return str;
 	}
 	
+	/**
+	 * this method takes care of setting the tour for the booking
+	 * @throws Exception if there is a problem getting the tour details in the database
+	 */
 	private void setTour() throws Exception{
 		if(tour.getDate() != null && tour.getId() != null){
 			System.out.println("I JUST ENTERED HERE----------------------------------");
@@ -161,6 +185,10 @@ public class BookingHandler implements EventHandler{
 		}
 	}
 	
+	/**
+	 * method used to complete the booking of a tour 
+	 * @return an answer as a string to send to the customer in case of success or failure
+	 */
 	public String completeBooking() {
 		//default answer in case something goes wrong
 		String answer = MessageHandler.ERROR;
@@ -181,6 +209,7 @@ public class BookingHandler implements EventHandler{
 		resetHandler();
 		return answer;
 	}
+	
 	/**
 	 * method used to reset the Handler, ie reset its member values to default values.
 	 */

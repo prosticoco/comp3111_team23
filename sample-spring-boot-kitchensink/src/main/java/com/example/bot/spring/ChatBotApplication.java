@@ -22,7 +22,11 @@ import java.nio.file.Path;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
+/**
+ * this class serves as the main class which runs the chatbot
+ * @author Ivan Bardarov
+ *
+ */
 @SpringBootApplication
 public class ChatBotApplication {
     static Path downloadedContentDir;

@@ -95,6 +95,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 
+
+
+/**
+ * Class to represent the main controller for the bot application
+ * basically the main methods to handle the text events in the line application and reply to the user
+ * @author Ivan Bardarov
+ *
+ */
 @Slf4j
 @LineMessageHandler
 public class Controller {
@@ -111,7 +119,13 @@ public class Controller {
 		setPaymentChecking();
 	}
 	
-	
+
+	/**
+	 * this method handles the text messages sent by user to the bot
+	 * it will handle the message to LUIS and then handle the processed message to the message handler
+	 * @param event the event that triggers when the user sends a message to the bot
+	 * @throws Exception if there is a problem with the database
+	 */
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
 		
@@ -134,7 +148,7 @@ public class Controller {
 		lineCom.replyText(event.getReplyToken(), response);
 
 	}
-	
+
 	private void setPaymentChecking() {
 		Timer timer = new Timer();
 		Calendar date = Calendar.getInstance();
