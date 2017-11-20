@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimerTask;
 
-
+/**
+ * This class is responsible for reminding customers to pay for their bookings and inform them in case a tour has been cancelled 
+ * @author Oliver Thompson
+ *
+ */
 class CustomerChecker extends TimerTask{
 	
 	
 	private StorageEngine database = new PSQLDatabaseEngine();
 	private LineCommunicator lineCom = new LineCommunicator();
-
+	/**
+	 * this method is called whenever the timer triggers (timer defined in the controller class)
+	 */
 	@Override
 	public void run() {
 		Calendar newDate = setDate();
@@ -18,6 +24,10 @@ class CustomerChecker extends TimerTask{
 		informCustomers(newDate);
 	}
 	
+	/**
+	 * this method informs customers that a tour has been cancelled
+	 * @param date 
+	 */
 	private void informCustomers(Calendar date){
 		ArrayList<String> customers = new ArrayList<>();
 		try {
@@ -31,7 +41,10 @@ class CustomerChecker extends TimerTask{
 		lineCom.pushCustomerNotification(customers, reminder);
 	}
 	
-	
+	/**
+	 * This method is called to remind customers that they have to pay for a tour
+	 * @param date
+	 */
 	private void remindCustomers(Calendar date){
 		ArrayList<String> customers = new ArrayList<>();
 		try {
@@ -45,7 +58,10 @@ class CustomerChecker extends TimerTask{
 		String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat.";
 		lineCom.pushCustomerNotification(customers, reminder);
 	}
-
+	/**
+	 * this method returns a instance of calendar with the date that is 3 days later
+	 * @return an instance of calendar with the date being 3 days ahead of the current
+	 */
 	private Calendar setDate() {
 		Calendar newDate = Calendar.getInstance();
 		//get todays date
