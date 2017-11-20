@@ -9,7 +9,8 @@ public class TourBooking {
 	private int numOfChildren=-1;
 	private int numOfToddlers=-1;
 	private int paid;
-	//private String specialRequests=null;
+	//private String specialRequests="";
+	private int price = 0;
 	private Tour tour;
 	private Customer customer;
 	
@@ -42,8 +43,8 @@ public class TourBooking {
 		this.numOfToddlers = toddlersNumber;
 	}
 
-	public int calcTourFee() {
-		return (int) (tour.getPrice() * numOfAdults + (tour.getPrice()*0.8) * numOfChildren);
+	public void calcTourFee() {
+		price = (int) (tour.getPrice() * numOfAdults + ( tour.getPrice()*0.8 ) * numOfChildren);
 	}
 
 	public int getPaid() {
@@ -74,6 +75,15 @@ public class TourBooking {
 		return customer;
 	}
 
+	public int getPrice() {
+		calcTourFee();
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
@@ -90,27 +100,12 @@ public class TourBooking {
 		if(numOfToddlers == -1) {
 			nullValues.add("toddlers: <number of toddlers>");
 		}
-		if(tour == null){
+		if(tour.getId() == null){
 			nullValues.add("tour: <name of tour>");
+		}
+		if(tour.getDate() == null){
 			nullValues.add("date: <date of tour>");
 		}
-		
-//		Field[] fields = this.getClass().getDeclaredFields();
-//		for(Field f : fields){
-//			f.setAccessible(true);
-//			try {
-//				
-//				if(!f.getType().isPrimitive()){
-//					if(f.get(this) == null) nullValues.add(f.getName());
-//				}else{
-//					if(f.get(this).equals(0)) nullValues.add(f.getName());
-//				}
-//				
-//			} catch (IllegalArgumentException | IllegalAccessException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
 		return nullValues;
 	}
 }

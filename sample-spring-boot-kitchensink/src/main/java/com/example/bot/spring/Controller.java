@@ -106,7 +106,6 @@ public class Controller {
 	public Controller() {
 		setPaymentChecking();
 	}
-
 	
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -167,7 +166,6 @@ public class Controller {
 		date.set(Calendar.MINUTE, 0);
 		date.set(Calendar.SECOND, 0);
 		date.set(Calendar.MILLISECOND, 0);
-		// Schedule to run every Sunday in midnight
 		timer.schedule(
 		  new CustomerChecker(),
 		  date.getTime(),
@@ -185,7 +183,6 @@ public class Controller {
 			try {
 				Calendar newDate = setDate();
 				
-				
 				//get the userID of the customers that need to pay
 				customers = database.getNotPaidCustomers(newDate.getTime());
 			} catch (Exception e) {
@@ -193,8 +190,11 @@ public class Controller {
 				return;
 			}
 			
-			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat";
+			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat.";
 			pushCustomerNotification(customers, reminder);
+			
+			
+			
 		}
 
 		private Calendar setDate() {

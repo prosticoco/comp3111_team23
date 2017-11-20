@@ -3,7 +3,7 @@ package com.example.bot.spring;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class BookingHandler implements EventHandler{
 	
@@ -12,7 +12,7 @@ public class BookingHandler implements EventHandler{
 	private Customer customer = new Customer(null,null,0,0);
 	private Tour tour = new Tour(null,null,0,null,null,null,0,0);
 	private TourBooking booking = new TourBooking(tour, customer);
-	private Date date;
+
 	
 	public BookingHandler(String userId){
 		customer.setId(userId);
@@ -31,8 +31,8 @@ public class BookingHandler implements EventHandler{
 					if(addToBooking(currentAttribute)) 
 						continue;
 				} catch (Exception e) {
-					e.printStackTrace();
-					date = null;
+					tour.setDate(null);
+					tour.setId(null);
 					return "Make sure you spell the tour name and the date right (the date has to be in the following form yyyy-mm-dd)";	
 				}
 			}			
@@ -46,8 +46,8 @@ public class BookingHandler implements EventHandler{
 		//default string in case of insufficient amount of attributes
 		String answer = "Please provide more details about the tour and the people going, in the following format:";
 		
-		answer += appendBookingNullValues(booking,answer);
-		answer += appendCustomerNullValues(customer,answer);
+		answer += appendBookingNullValues(booking);
+		answer += appendCustomerNullValues(customer);
 		
 		//if no more attributes needed ask for confirmation
 		if(!cusNulls && !bookNulls) 
@@ -76,7 +76,6 @@ public class BookingHandler implements EventHandler{
 	private boolean addToBooking(String[] attributes) throws Exception{
 		boolean successful = false;
 		
-		//TODO: input validate everything 
 		String atrb = attributes[1];
 		
 		// if it is additional information, the attributes array will have three indexes instead of one, and in the case we need to grab the last index		
@@ -103,7 +102,7 @@ public class BookingHandler implements EventHandler{
 				setTour();
 				break;
 			case "builtin.datetimeV2.date":
-				date = new SimpleDateFormat("yyyy-MM-dd").parse(atrb);
+				tour.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(atrb));
 				setTour();
 				break;
 				
@@ -115,21 +114,22 @@ public class BookingHandler implements EventHandler{
 		return successful;
 	}
 	
-	private String appendCustomerNullValues(Customer c, String str){
+	private String appendCustomerNullValues(Customer c){
 		ArrayList<String> nulls = c.nullValues();
 		if(nulls.size()<= 0)
 			cusNulls = false;
-		return appendNullValues(nulls,str);
+		return appendNullValues(nulls);
 	}
 	
-	private String appendBookingNullValues(TourBooking b, String str){
+	private String appendBookingNullValues(TourBooking b){
 		ArrayList<String> nulls = b.nullValues();
 		if(nulls.size()<= 0)
 			bookNulls = false;
-		return appendNullValues(nulls,str);
+		return appendNullValues(nulls);
 	}
 	
-	private String appendNullValues(ArrayList<String> nulls, String str){
+	private String appendNullValues(ArrayList<String> nulls){
+		String str = "";
 		if(nulls.size()>0){
 			for(String s: nulls){
 				str = str + "\n" + s;
@@ -139,8 +139,9 @@ public class BookingHandler implements EventHandler{
 	}
 	
 	private void setTour() throws Exception{
-		if(date != null & tour.getId() != null){
-			tour = database.getTourDetails(tour.getId(), date);
+		if(tour.getDate() != null && tour.getId() != null){
+			System.out.println("I JUST ENTERED HERE----------------------------------");
+			booking.setTour(database.getTourDetails(tour.getId(), tour.getDate()));
 		}
 	}
 	
@@ -148,7 +149,7 @@ public class BookingHandler implements EventHandler{
 		//default answer in case something goes wrong
 		String answer = MessageHandler.ERROR;
 		if(!cusNulls && !bookNulls){
-			if(database.getNumberBookedTours(tour) < tour.getCapacity()){
+			if(database.getNumberBookedTours(tour) < booking.getTour().getCapacity()){
 				try {
 					database.addCustomer(customer);
 					database.addBooking(booking);

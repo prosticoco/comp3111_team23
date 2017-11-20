@@ -118,7 +118,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 			PreparedStatement stmt = con.prepareStatement("SELECT customerID FROM booking WHERE tourid LIKE ?");
 			stmt.setString(1, tour.getId());
 			ResultSet rs = stmt.executeQuery();			
-			if(rs.last()){
+			while(rs.next()){
 				availability = rs.getRow();
 			}
 			rs.close();
@@ -179,7 +179,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	public void addBooking(TourBooking tourBooking) throws URISyntaxException{
 			try {
 				Connection con = getConnection();
-				String query = "INSERT INTO booking VALUES(?,?,?,?,?,?,?);";
+				String query = "INSERT INTO booking VALUES(?,?,?,?,?,?,?,?,?);";
 				PreparedStatement stmt = con.prepareStatement(query);
 				stmt.setString(1,tourBooking.getCustomer().getId());
 				stmt.setString(2,tourBooking.getTour().getId());
@@ -187,7 +187,9 @@ public class PSQLDatabaseEngine implements StorageEngine{
 				stmt.setInt(4, tourBooking.getChildrenNumber());
 				stmt.setInt(5, tourBooking.getToddlersNumber());
 				stmt.setInt(6, tourBooking.getPaid());
-				stmt.setInt(7, tourBooking.calcTourFee());
+				stmt.setInt(7, tourBooking.getPrice());
+				stmt.setString(8, "none");
+				stmt.setDate(9, new java.sql.Date(tourBooking.getTour().getDate().getTime()));
 				//stmt.setString(8, tourBooking.getSpecialRequests());
 				stmt.execute();
 				stmt.close();
@@ -234,7 +236,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 
 	@Override
 	public ArrayList<Date> getTourDates(String identifier) {
-		ArrayList<Date> dates = null;
+		ArrayList<Date> dates = new ArrayList<>();
 		try{
 			Connection con = getConnection();
 			PreparedStatement stmt = con.prepareStatement("SELECT date FROM tour WHERE id LIKE ?");
@@ -258,23 +260,17 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	@Override
 	public ArrayList<String> getNotPaidCustomers(Date date) throws Exception{
 		ArrayList<String> users = new ArrayList<>();
-		ArrayList<String> tourIds = null;
 		try{
-			
-			tourIds = getTourIds(date);
 			Connection con = getConnection();
-			if(tourIds != null)
-			for(String s: tourIds){
-				PreparedStatement stmt = con.prepareStatement("SELECT customerID FROM booking WHERE fee_paid = 0 and tourID like 1");
-				stmt.setString(1, s.toLowerCase());
-				ResultSet rs = stmt.executeQuery();	
-				if(rs.next()){
-					users.add(rs.getString("customerid"));
-				}
-				rs.close();
-				stmt.close();		
+			PreparedStatement stmt = con.prepareStatement("SELECT customerID FROM booking WHERE fee_paid = 0 and date = ?");
+			stmt.setDate(1, new java.sql.Date(date.getTime()));
+			ResultSet rs = stmt.executeQuery();	
+			while(rs.next()){
+				String id =  rs.getString("customerid");
+				users.add(id);
 			}
-			
+			rs.close();
+			stmt.close();		
 			con.close();
 		} catch (URISyntaxException e){
 			//log.info("The wrong URI has been provided", e.toString());
@@ -284,33 +280,5 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	
 		return users;
 	}
-
-	private ArrayList<String> getTourIds(Date date) throws Exception{
-		ArrayList<String> tourIds = new ArrayList<>();
-		try{
-			Connection con = getConnection();
-			PreparedStatement stmt = con.prepareStatement("SELECT id FROM tour WHERE date = ?");
-			stmt.setDate(1, new java.sql.Date(date.getTime()));
-			ResultSet rs = stmt.executeQuery();			
-			while(rs.next()){
-				tourIds.add(rs.getString("id"));
-			}
-			rs.close();
-			con.close();
-			stmt.close();		
-		} catch (URISyntaxException e){
-			//log.info("The wrong URI has been provided", e.toString());
-		} catch (SQLException e){
-			//log.info("There has been an error with the SQL statement", e.toString());
-		}
-		if(tourIds.isEmpty())
-			throw new Exception("There is no tours on this date");		
-		
-		return tourIds;
-	}
-	
-	
-	
-	
 	
 }
