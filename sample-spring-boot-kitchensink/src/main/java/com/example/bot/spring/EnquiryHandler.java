@@ -35,11 +35,12 @@ public class EnquiryHandler implements EventHandler {
 			switch(intent){
 				case "tourid":
 					if(!atr1[0].equals("tourtype")) break;
-					return enquireTourId(atr1[1]);
+					return enquireTourId(atr1[1].replaceAll("\\s+",""));
 				case "dates":
 					if(!atr1[0].equals("tourtype")) break;
-					return enquireDates(atr1[1]);
+					return enquireDates(atr1[1].replaceAll("\\s+",""));
 				case "capacity":
+					
 					if(inputArray.size()>2){
 						String[] atr2 = inputArray.get(2).toLowerCase().split(":");
 						if(!atr1[0].equals("tourtype")  && !atr2[0].equals("builtin.datetimeV2.date")){
