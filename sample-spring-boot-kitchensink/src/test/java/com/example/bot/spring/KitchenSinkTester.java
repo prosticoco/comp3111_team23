@@ -57,7 +57,7 @@ public class KitchenSinkTester {
 	@Autowired
 	private LanguageProcessor languageProcessor;
 	@Autowired
-	private MessageHandler messageHandler; 
+	private MessageHandler messageHandler;
 
 	
 	@Test
@@ -264,6 +264,15 @@ public class KitchenSinkTester {
 	}
 	
 	@Test
+	public void testBookingAnswer(){
+		ArrayList<String> inputArray = new ArrayList<String>(Arrays.asList(
+				"booktour",
+				"tourType:yangshanhotspringtour"));
+		String answer = messageHandler.handleTextContent(inputArray, "test");
+		//assertThat(answer).isEqualTo(MessageHandler.CONFIRMATION);
+	}
+	
+	@Test
 	public void testCalculatePrice(){
 		Tour tour = new Tour(null,null,500,null,null,null,0,0);
 		TourBooking tb = new TourBooking(tour, null);
@@ -347,6 +356,10 @@ public class KitchenSinkTester {
 		Tour test = new Tour("2d002", null,	0, null, null, null, 0, 0);
 		int number = database.getNumberBookedTours(test);
 		assertThat(number).isEqualTo(1);
+	}
+	
+	public void testSetPaymentReminder(){
+		//Controller c = new Controller();
 	}
 	
 //	@Test

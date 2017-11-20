@@ -125,6 +125,7 @@ public class Controller {
 		
 		//send the message back to the user
 		replyText(event.getReplyToken(), response);
+		pushCustomerNotification(new ArrayList<String>(Arrays.asList("U7284687917ae6c74fdca2ba21f055e78")), "rabotq we");
 	}
 
 	private void replyText(@NonNull String replyToken, @NonNull String message) {

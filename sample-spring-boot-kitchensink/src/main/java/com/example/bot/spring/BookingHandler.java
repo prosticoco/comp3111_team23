@@ -51,7 +51,7 @@ public class BookingHandler implements EventHandler{
 		
 		//if no more attributes needed ask for confirmation
 		if(!cusNulls && !bookNulls) 
-			answer = MessageHandler.CONFIRMATION;
+			answer = MessageHandler.CONFIRMATION + booking.getPrice();
 		
 		return answer;
 	}
@@ -153,7 +153,7 @@ public class BookingHandler implements EventHandler{
 				try {
 					database.addCustomer(customer);
 					database.addBooking(booking);
-					answer = MessageHandler.COMPLETEDBOOKING;
+					answer = MessageHandler.COMPLETEDBOOKING + booking.getPrice();
 				} catch (URISyntaxException e) {
 					answer = MessageHandler.SQLERROR;
 				}
