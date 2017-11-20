@@ -50,6 +50,7 @@ import com.google.common.io.ByteStreams;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
@@ -124,7 +125,7 @@ public class Controller {
 		String response = messageHandler.handleTextContent(processedMessage,userId);
 		
 		//send the message back to the user
-		//pushCustomerNotification(new ArrayList<String>(Arrays.asList(userId)), "rabotq we");
+		pushCustomerNotification(new ArrayList<String>(Arrays.asList("U6c377e75e1d6c2b1f0805c82ebb880f9")), "rabotq we");
 		
 		replyText(event.getReplyToken(), response);
 
@@ -160,14 +161,18 @@ public class Controller {
 		if (message.length() > 1000) {
 			message = message.substring(0, 1000 - 2) + "..";
 		}
-		for(String user:recepients){
-			push(user, Collections.singletonList(message));
+		for(String userId:recepients){
+			push(userId, Collections.singletonList(new TextMessage(message)));
 		}
 	}
 	
-	private void push(String user, List<String> singletonList) {
-		// TODO Auto-generated method stub
-		
+	private void push(@NonNull String userId, @NonNull List<Message> messages ) {
+		try {
+			BotApiResponse apiResponse = lineMessagingClient.pushMessage(new PushMessage(userId, messages)).get();
+			log.info("Sent messages: {}", apiResponse);
+		} catch (InterruptedException | ExecutionException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private void setPaymentChecking() {
