@@ -128,7 +128,7 @@ public class Controller {
 		String response = messageHandler.handleTextContent(processedMessage,userId);
 		
 		//send the message back to the user
-		pushCustomerNotification(new ArrayList<String>(Arrays.asList("U6c377e75e1d6c2b1f0805c82ebb880f9")), "rabotq we");
+		//pushCustomerNotification(new ArrayList<String>(Arrays.asList("U6c377e75e1d6c2b1f0805c82ebb880f9")), "rabotq we");
 		
 		replyText(event.getReplyToken(), response);
 
