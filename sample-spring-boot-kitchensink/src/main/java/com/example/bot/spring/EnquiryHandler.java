@@ -10,14 +10,30 @@ public class EnquiryHandler implements EventHandler {
 	
 	@Override
 	public String handleEvent(ArrayList<String> inputArray) {
-		String[] arr = inputArray.get(1).toLowerCase().split(":");
-		switch(arr[0]){
-			case "tourid":
-				return enquireTourId(arr[1]);
-			case "dates":
-				return enquireDates(arr[1]);
-			case "capacity":
-				return enquireCapacity(arr[1], arr[2]);
+		System.out.println("I entered here");
+		String intent = inputArray.get(0).toLowerCase();
+		intent = intent.substring(0,intent.length() - 7);
+		if(inputArray.size()>1){
+			String[] atr1 = inputArray.get(1).toLowerCase().split(":");
+			switch(intent){
+				case "tourid":
+					if(!atr1[0].equals("tourtype")) break;
+					return enquireTourId(atr1[1]);
+				case "dates":
+					if(!atr1[0].equals("tourtype")) break;
+					return enquireDates(atr1[1]);
+				case "capacity":
+					if(inputArray.size()>2){
+						String[] atr2 = inputArray.get(2).toLowerCase().split(":");
+						if(!atr1[0].equals("tourtype")  && !atr2[0].equals("builtin.datetimeV2.date")){
+							if(!atr2[0].equals("tourtype")  && !atr1[0].equals("builtin.datetimeV2.date"))
+								break;
+							else
+								return enquireCapacity(atr2[1], atr1[1]);
+						}
+						return enquireCapacity(atr1[1], atr2[1]);
+					}
+			}
 		}
 		return MessageHandler.ERROR;
 	}

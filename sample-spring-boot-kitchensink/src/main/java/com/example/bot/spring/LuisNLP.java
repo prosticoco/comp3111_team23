@@ -2,6 +2,7 @@ package com.example.bot.spring;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 
 
 public class LuisNLP implements LanguageProcessor {
+	
+	String[] validEntities = {"numberOfAdults", "numberOfChildren", "numberOfToddlers", "tourType", "builtin.encyclopedia.people.person", "builtin.datetimeV2.date", "builtin.age"};
 
 	@Override
 	public ArrayList<String> processInput(String sentence) {
@@ -28,13 +31,13 @@ public class LuisNLP implements LanguageProcessor {
             // The ID of our LUIS app which can determine what the user is trying to say
             String AppId = "83da097a-db33-45cd-8e46-655cdfb2f8ea";
             // For microsoft azure services 
-            String SubscriptionKey = "3e56f1252fc64579aca4198b5397ce83";
+            String SubscriptionKey = "84a367e5543e40a187f34c47367786b8";
 
-            URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + AppId + "?");
+            URIBuilder builder = new URIBuilder("https://southeastasia.api.cognitive.microsoft.com/luis/v2.0/apps/" + AppId + "?");
 
             builder.setParameter("q", sentence);
             builder.setParameter("timezoneOffset", "8.0");
-            builder.setParameter("verbose", "false");
+            builder.setParameter("verbose", "true");
             builder.setParameter("spellCheck", "false");
             builder.setParameter("staging", "false");
 
@@ -76,10 +79,19 @@ public class LuisNLP implements LanguageProcessor {
 			for (int i = 0; i < arr.length(); i++) {
 				entityType = arr.getJSONObject(i).getString("type");
 				entityText = arr.getJSONObject(i).getString("entity");
-				concat = entityType.concat(":" + entityText);
-				result.add(concat);
+				if(validEntity(entityType)) {
+					concat = entityType.concat(":" + entityText);
+					result.add(concat);
+				}
 			}
 		}
 		return result;
+	}
+	
+	private boolean validEntity(String entity) {
+		if(Arrays.asList(validEntities).contains(entity)) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -41,7 +41,7 @@ public class HandlerFactory {
 		else if (intent.equals("none")){
 			currEventHandler = new LoggerHandler();
 		}
-		else if (intent.equals("enquiry")){
+		else if (intent.length()>=7 && intent.substring(intent.length()-7).equals("enquiry")){
 			currEventHandler = new EnquiryHandler();
 		}
 		else if (intent.equals("greeting")) { 
