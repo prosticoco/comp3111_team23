@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	
+	<style type="text/css">
+		label {
+			margin-bottom: 10px;
+			display: inline-block;
+			width: 140px;
+		}
+		.group {
+			border: solid black 1px;
+			padding: 22px;
+			margin: 30px 10px;
+		}
+		fieldset {
+			border: solid lightgrey 1px ;
+		}
+	</style>
+</head>
+
+
+<body>
+
+	<h1>Gaungdong Travel Agency - Admin Panel</h1>
+
+
+	<div class="group">
+
+		<h3>Book a tour</h3>
+		<form name="book" id="book" action="https://boiling-beach-56742.herokuapp.com/addBooking">
+
+			<fieldset>
+				<legend>Customer details</legend>
+				<br>
+				<label>Line ID:</label>
+				<input type="text" name="customerId" id="customerId" required>		
+				<br>
+
+				<label>Coustumer name:</label>
+				<input type="text" name="name" id="name" required>		
+				<br>
+
+				<label>Age:</label>
+				<input type="number" name="age" id="age" required>
+				<br>
+
+				<label>Phone number:</label>
+				<input type="number" name="phoneNumber" id="phoneNumber" required>
+				<br><br>
+			</fieldset>
+			<br>
+			<fieldset>
+				<legend>Tour details</legend>
+				<br>
+				<label>Tour ID: </label>
+				<input type="text" name="tourId" id="tourId" required>
+				<br>
+
+				<label>Tour Date: </label>
+				<input type="Date" name="date" id="date" required>
+				<br>
+
+				<label>Number of adults:</label>
+				<input type="number" name="numberOfAddults" id="numberOfAddults" required>
+				<br>
+
+				<label>Number of children:</label>
+				<input type="number" name="numberOfChildren" id="numberOfChildren" required>
+				<br>
+
+				<label>Number of toddlers:</label>
+				<input type="number" name="numberOfToddlers" id="numberOfToddlers" required>
+				<br><br>
+			</fieldset><br>
+			<input type="submit" value="Submit">
+		</form> 
+	</div>
+
+	<div class="group">
+		<h3>Cancel a tour</h3>
+		<form id="cancel" action="https://boiling-beach-56742.herokuapp.com/cancelBooking">
+
+			<label>Tour ID:</label>
+			<input type="text" name="tourId" id="tourId" required>		
+			<br>
+
+			<label>Tour Date: </label>
+			<input type="Date" name="date" id="date" required>
+			<br>
+
+			<br>
+			<input type="submit" value="Cancel">
+		</form> 
+	</div>
+
+	<!--<script type="text/javascript">
+		$("#book").submit(
+			function(event) {
+				event.preventDefault();
+				var $form = $(this);
+				var	url = $form.attr('action');
+				var posting = $.post(url, 
+					{
+						customerId: $('#customerId').val(),
+						name: $('#name').val(),
+						age: $('#age').val(),
+						phoneNumber: $('#phoneNumber').val(),
+						tourId: $('#tourId').val(),
+						date: $('#date').val(),
+						numberOfAddults: $('#numberOfAddults').val(),
+						numberOfChildren: $('#numberOfChildren').val(),
+						numberOfToddlers: $('#numberOfToddlers').val()
+					}
+				);
+				posting.done(
+					function(data) {
+						var content = $(data).find('#content');
+						alert(content);
+					}
+				);
+			}
+		);
+
+		$("#cancel").submit(
+			function (event) {
+				event.preventDefault();
+				var $form = $(this);
+				var url = $form.attr('action');
+				var posting = $.post(url,
+				{
+					tourId: $('tourId').val(),
+					date: $('date').val()
+				});
+				posting.done(
+					function(data){
+						var content = $(date).find('#content');
+						alert(content);
+					})
+			});
+
+	</script>-->
+
+
+</body>
+
+</html>
