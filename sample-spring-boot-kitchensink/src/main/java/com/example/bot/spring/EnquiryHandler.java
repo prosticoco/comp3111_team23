@@ -35,6 +35,7 @@ public class EnquiryHandler implements EventHandler {
 			switch(intent){
 				case "tourid":
 					if(!atr1[0].equals("tourtype")) break;
+					
 					return enquireTourId(atr1[1].replaceAll("\\s+",""));
 				case "dates":
 					if(!atr1[0].equals("tourtype")) break;
@@ -47,9 +48,9 @@ public class EnquiryHandler implements EventHandler {
 							if(!atr2[0].equals("tourtype")  && !atr1[0].equals("builtin.datetimeV2.date"))
 								break;
 							else
-								return enquireCapacity(atr2[1], atr1[1]);
+								return enquireCapacity(atr2[1].replaceAll("\\s+",""), atr1[1]);
 						}
-						return enquireCapacity(atr1[1], atr2[1]);
+						return enquireCapacity(atr1[1].replaceAll("\\s+",""), atr2[1]);
 					}
 			}
 		}
