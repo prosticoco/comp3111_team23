@@ -309,7 +309,7 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		ArrayList<String> users = new ArrayList<>();
 		try{
 			Connection con = getConnection();
-			PreparedStatement stmt = con.prepareStatement("SELECT customerID FROM booking WHERE id like ? and date = ?");
+			PreparedStatement stmt = con.prepareStatement("SELECT customerID FROM booking WHERE tourid like ? and date = ?");
 			stmt.setString(1, id);
 			stmt.setDate(2, new java.sql.Date(date.getTime()));
 			ResultSet rs = stmt.executeQuery();	
