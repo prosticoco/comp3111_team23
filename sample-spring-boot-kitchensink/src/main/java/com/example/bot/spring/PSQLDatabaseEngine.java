@@ -305,18 +305,20 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	}
 	
 	@Override
-	public ArrayList<String> getBookedCustomers(String id, Date date) throws Exception{
+	public ArrayList<String> getBookedCustomers(String id, Date date){
 		ArrayList<String> users = new ArrayList<>();
 		try{
 			Connection con = getConnection();
-			PreparedStatement stmt = con.prepareStatement("SELECT customerID FROM booking WHERE tourid like ? and date = ?");
+			PreparedStatement stmt = con.prepareStatement("select customerid from booking where tourid like ? and date = ?");
 			stmt.setString(1, id);
 			stmt.setDate(2, new java.sql.Date(date.getTime()));
 			ResultSet rs = stmt.executeQuery();	
 			while(rs.next()){
 				String customerId =  rs.getString("customerid");
+				log.info(customerId);
 				users.add(customerId);
 			}
+			log.info("------------------------------------------------------I could no customers found");
 			rs.close();
 			stmt.close();		
 			con.close();

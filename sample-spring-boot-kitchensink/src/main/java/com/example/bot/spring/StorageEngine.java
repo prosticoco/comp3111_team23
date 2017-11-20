@@ -87,7 +87,7 @@ public interface StorageEngine{
 	 */
 	public int getNumberBookedTours(Tour tour);
 
-	ArrayList<String> getBookedCustomers(String id, Date date) throws Exception;
+	ArrayList<String> getBookedCustomers(String id, Date date);
 
 	public void removeTour(String id, Date date);
 
