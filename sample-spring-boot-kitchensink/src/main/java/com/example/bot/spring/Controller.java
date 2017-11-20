@@ -50,6 +50,7 @@ import com.google.common.io.ByteStreams;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
@@ -103,9 +104,11 @@ public class Controller {
 	private LanguageProcessor languageProcessor = new LuisNLP();
 	private MessageHandler messageHandler = new MessageHandler(new HandlerFactory());
 	
-	public Controller() {
+	
+	private Controller() {
 		setPaymentChecking();
 	}
+	
 	
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -124,11 +127,13 @@ public class Controller {
 		String response = messageHandler.handleTextContent(processedMessage,userId);
 		
 		//send the message back to the user
+		//pushCustomerNotification(new ArrayList<String>(Arrays.asList("U6c377e75e1d6c2b1f0805c82ebb880f9")), "rabotq we");
+		
 		replyText(event.getReplyToken(), response);
-		pushCustomerNotification(new ArrayList<String>(Arrays.asList("U7284687917ae6c74fdca2ba21f055e78")), "rabotq we");
+
 	}
 
-	private void replyText(@NonNull String replyToken, @NonNull String message) {
+	public void replyText(@NonNull String replyToken, @NonNull String message) {
 		if (replyToken.isEmpty()) {
 			throw new IllegalArgumentException("replyToken must not be empty");
 		}
@@ -155,11 +160,23 @@ public class Controller {
 		if (recepients.isEmpty()) {
 			throw new IllegalArgumentException("the message should have recepients");
 		}
-		for(String userId: recepients){
-			this.reply(userId, new TextMessage(message));
+		if (message.length() > 1000) {
+			message = message.substring(0, 1000 - 2) + "..";
+		}
+		for(String userId:recepients){
+			push(userId, Collections.singletonList(new TextMessage(message)));
 		}
 	}
 	
+	private void push(@NonNull String userId, @NonNull List<Message> messages ) {
+		try {
+			BotApiResponse apiResponse = lineMessagingClient.pushMessage(new PushMessage(userId, messages)).get();
+			log.info("Sent messages: {}", apiResponse);
+		} catch (InterruptedException | ExecutionException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private void setPaymentChecking() {
 		Timer timer = new Timer();
 		Calendar date = Calendar.getInstance();
@@ -180,12 +197,15 @@ public class Controller {
 
 		@Override
 		public void run() {
+			Calendar newDate = setDate();
+			remindCustomers(newDate);
+			informCustomers(newDate);
+		}
+		
+		private void informCustomers(Calendar date){
 			ArrayList<String> customers = new ArrayList<>();
 			try {
-				Calendar newDate = setDate();
-				
-				//get the userID of the customers that need to pay
-				customers = database.getNotPaidCustomers(newDate.getTime());
+//				customers = database.getCancelledTourCustomers(date.getTime());
 			} catch (Exception e) {
 				e.printStackTrace();
 				return;
@@ -193,9 +213,21 @@ public class Controller {
 			
 			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat.";
 			pushCustomerNotification(customers, reminder);
+		}
+		
+		
+		private void remindCustomers(Calendar date){
+			ArrayList<String> customers = new ArrayList<>();
+			try {
+				//get the userID of the customers that need to pay
+				customers = database.getNotPaidCustomers(date.getTime());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return;
+			}
 			
-			
-			
+			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat.";
+			pushCustomerNotification(customers, reminder);
 		}
 
 		private Calendar setDate() {
