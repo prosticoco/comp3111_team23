@@ -147,8 +147,13 @@ public class Controller {
 		
 		lineCom.replyText(event.getReplyToken(), response);
 
-	}
 
+	}
+	
+	/**
+	 * this method is used to set up a timer which will trigger everyday to remind customers to pay for unpaid tours
+	 * note : this method is called by the constructor of the Controller class
+	 */
 	private void setPaymentChecking() {
 		Timer timer = new Timer();
 		Calendar date = Calendar.getInstance();
