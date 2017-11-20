@@ -124,8 +124,9 @@ public class Controller {
 		String response = messageHandler.handleTextContent(processedMessage,userId);
 		
 		//send the message back to the user
+		pushCustomerNotification(new ArrayList<String>(Arrays.asList("U6c377e75e1d6c2b1f0805c82ebb880f9")), "rabotq we");
 		replyText(event.getReplyToken(), response);
-		pushCustomerNotification(new ArrayList<String>(Arrays.asList("U7284687917ae6c74fdca2ba21f055e78")), "rabotq we");
+
 	}
 
 	private void replyText(@NonNull String replyToken, @NonNull String message) {
@@ -181,9 +182,8 @@ public class Controller {
 		@Override
 		public void run() {
 			ArrayList<String> customers = new ArrayList<>();
+			Calendar newDate = setDate();
 			try {
-				Calendar newDate = setDate();
-				
 				//get the userID of the customers that need to pay
 				customers = database.getNotPaidCustomers(newDate.getTime());
 			} catch (Exception e) {
@@ -193,6 +193,13 @@ public class Controller {
 			
 			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat.";
 			pushCustomerNotification(customers, reminder);
+			
+			try{
+		//		customers = database.getCancelledTourCustomers(newDate.getTime());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return;
+			}
 			
 			
 			
