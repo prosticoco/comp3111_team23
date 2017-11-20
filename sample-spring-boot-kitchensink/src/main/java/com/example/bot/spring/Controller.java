@@ -111,7 +111,8 @@ public class Controller {
 	private LineMessagingClient lineMessagingClient;
 	private LanguageProcessor languageProcessor = new LuisNLP();
 	private MessageHandler messageHandler = new MessageHandler(new HandlerFactory());
-	private LineCommunicator lineCom = new LineCommunicator();
+	@Autowired
+	private LineCommunicator lineCom;
 
 	
 	private Controller() {
