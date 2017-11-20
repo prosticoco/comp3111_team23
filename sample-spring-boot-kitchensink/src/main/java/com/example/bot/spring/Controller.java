@@ -108,7 +108,7 @@ public class Controller {
 
 	
 	private Controller() {
-		//setPaymentChecking();
+		setPaymentChecking();
 	}
 	
 	
@@ -133,6 +133,20 @@ public class Controller {
 		
 		lineCom.replyText(event.getReplyToken(), response);
 
+	}
+	
+	private void setPaymentChecking() {
+		Timer timer = new Timer();
+		Calendar date = Calendar.getInstance();
+		date.set(Calendar.HOUR, 11);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+		timer.schedule(
+		  new CustomerChecker(),
+		  date.getTime(),
+		  TimeUnit.DAYS.toMillis(1)
+		);
 	}
 
 
