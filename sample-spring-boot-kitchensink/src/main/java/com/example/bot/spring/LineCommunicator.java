@@ -106,7 +106,7 @@ public class LineCommunicator implements Communicator{
 		this.reply(replyToken, new TextMessage(message));
 	}
 
-<<<<<<< HEAD
+
 	@Override
 	public void pushCustomerNotification(ArrayList<String> recepients, String message) {
 		if (recepients.isEmpty()) {
@@ -121,12 +121,7 @@ public class LineCommunicator implements Communicator{
 	}
 
 
-=======
-	
 
-
-	
->>>>>>> tests
 	private void reply(@NonNull String replyToken, @NonNull Message message) {
 		reply(replyToken, Collections.singletonList(message));
 	}
@@ -153,16 +148,4 @@ public class LineCommunicator implements Communicator{
 		}
 	}
 	
-	@Override
-	public void pushCustomerNotification(ArrayList<String> recepients, String message) {
-		if (recepients.isEmpty()) {
-			throw new IllegalArgumentException("the message should have recepients");
-		}
-		if (message.length() > 1000) {
-			message = message.substring(0, 1000 - 2) + "..";
-		}
-		for(String userId:recepients){
-			push(userId, Collections.singletonList(new TextMessage(message)));
-		}
-	}
 }
