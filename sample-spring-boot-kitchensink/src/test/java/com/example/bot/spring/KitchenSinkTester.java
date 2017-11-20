@@ -328,7 +328,7 @@ public class KitchenSinkTester {
 		
 		
 		eh = hf.getHandler("capacityenquiry", "test");
-		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("capacityEnquiry","tourtype:2d002","builtin.datetimeV2.date:2017-11-06")));
+		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("capacityEnquiry","builtin.datetimeV2.date:2017-11-21","tourtype:nationalparktour")));
 		assertThat(answer).isEqualTo("The capacity of the requested tour is: 30");
 		
 		eh = hf.getHandler("blah", "test");

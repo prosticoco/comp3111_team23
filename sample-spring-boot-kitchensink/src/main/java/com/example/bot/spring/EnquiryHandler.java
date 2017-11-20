@@ -56,7 +56,7 @@ public class EnquiryHandler implements EventHandler {
 	private String enquireCapacity(String tourName, String date) {
 		Tour gt = null;
 		try {
-			gt  = database.getTourDetails(tourName, new SimpleDateFormat("yyyy-MM-dd").parse(date));
+			gt  = database.getTourDetails(database.getGeneralTourDetails(tourName).getId(), new SimpleDateFormat("yyyy-MM-dd").parse(date));
 		} catch (Exception e) {
 			return MessageHandler.ERROR;
 		}
