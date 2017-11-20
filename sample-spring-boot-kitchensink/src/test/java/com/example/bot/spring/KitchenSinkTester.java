@@ -324,7 +324,7 @@ public class KitchenSinkTester {
 		
 		eh = hf.getHandler("datesenquiry", "test");
 		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("datesEnquiry","tourType:nationalparktour")));
-		assertThat(answer).isEqualTo("The available dates for the required tour is/are: 2017-11-17 2017-11-21 2017-11-11 ");
+		assertThat(answer).isEqualTo("The available dates for the required tour is/are: 2017-11-17, 2017-11-21, 2017-11-11");
 		
 		
 		eh = hf.getHandler("capacityenquiry", "test");

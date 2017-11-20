@@ -27,7 +27,6 @@ public class EnquiryHandler implements EventHandler {
 	 */
 	@Override
 	public String handleEvent(ArrayList<String> inputArray) {
-		log.info(inputArray.get(0)+" "+ inputArray.get(1)+"-----------------------------------------------");
 		String intent = inputArray.get(0).toLowerCase();
 		intent = intent.substring(0,intent.length() - 7);
 		if(inputArray.size()>1){
