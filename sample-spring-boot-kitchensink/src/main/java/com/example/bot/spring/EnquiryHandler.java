@@ -3,20 +3,20 @@ package com.example.bot.spring;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-<<<<<<< HEAD
+
 /**
  * Class to represent the event handler in charge of enquiries. If a customer asks for info about a specific tour, then this 
  * handler will subsequently be called
  * @author Ivan Bardarov
  *
  */
-=======
+
 
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
->>>>>>> tests
+
 public class EnquiryHandler implements EventHandler {
 
 	private StorageEngine database = new PSQLDatabaseEngine();
