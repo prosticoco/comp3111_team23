@@ -67,9 +67,6 @@ public class LineCommunicator implements Communicator{
 
 	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
-			log.info(lineMessagingClient.toString()+" messaging client-----------------------");
-			log.info(replyToken+" replytoken-----------------------");
-			log.info(messages.toString()+" messages-----------------------");
 			BotApiResponse apiResponse = lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
 			log.info("Sent messages: {}", apiResponse);
 		} catch (InterruptedException | ExecutionException e) {
