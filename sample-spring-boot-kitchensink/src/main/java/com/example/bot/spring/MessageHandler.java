@@ -2,6 +2,7 @@ package com.example.bot.spring;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,6 +29,8 @@ public class MessageHandler{
 	private HandlerFactory factory;
 	
 	
+	
+	
 	public MessageHandler(HandlerFactory factory){
 		this.factory = factory;
 	}
@@ -35,9 +38,10 @@ public class MessageHandler{
 	public String handleTextContent(ArrayList<String> inputArray, String userId){
 		//get the customers intent from  the first index of the array
 		String intent = inputArray.get(0).toLowerCase();
-		
+				
 		currEventHandler = factory.getHandler(intent, userId);
-
+		
+		
 		//return the answer that the eventhandler send
 		return currEventHandler.handleEvent(inputArray);
 	}
