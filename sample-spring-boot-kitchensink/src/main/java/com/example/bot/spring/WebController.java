@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import com.example.bot.spring.PSQLDatabaseEngine;
 
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * This class serves for receiving external calls from the web application
+ * 
+ * @author Christopher Lynch
+ *
+ */
 @Slf4j
 @RestController
 public class WebController {
@@ -18,7 +23,13 @@ public class WebController {
 	private final String SUCCESS = "Operation executed successfully";
 	
 	private StorageEngine database = new PSQLDatabaseEngine();
-
+	/**
+	 * this method is called when an employee wants to cancel a booking via the web interface. 
+	 * it will update the database accordingly
+	 * @param tourId id of the tour
+	 * @param date date of the tour
+	 * @return
+	 */
 	@RequestMapping("/cancelBooking")
 	public String cancelBooking(@RequestParam(value="tourId", defaultValue="") String tourId,
 			@RequestParam(value="date", defaultValue="") String date) {
@@ -29,7 +40,19 @@ public class WebController {
 		
 		return answer;
 	}
-	
+	/**
+	 * This method is called when a employee wants to add a booking via the webserver.
+	 * it's use is to fetch the parameters from the URL and file the booking into the database
+	 * @param tourId the id of the tour
+	 * @param customerId the customer's id
+	 * @param numberOfAdults the number of adults in the booking
+	 * @param numberOfChildren number of children in the booking
+	 * @param numberOfTodders number of toddlers in the booking
+	 * @param date the date of the tour
+	 * @param name the name of the customer
+	 * @param age the age of the customer (booker)
+	 * @return returns an answer indicating if the operation was successful
+	 */
 	@RequestMapping("/addBooking")
 	public String addBooking(@RequestParam(value="tourId", defaultValue="") String tourId,
 			@RequestParam(value="customerId", defaultValue="") String customerId,

@@ -11,7 +11,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * This class is used to communicate with the PSQLDatabase of the chatbot
+ * @author Ivan Bardarov
+ *
+ */
 @Slf4j
 public class PSQLDatabaseEngine implements StorageEngine{
 

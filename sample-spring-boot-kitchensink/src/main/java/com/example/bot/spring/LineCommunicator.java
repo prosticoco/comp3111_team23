@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 /**
- * 
+ * Concrete Class for the communicator. this class is responsible for sending messages to users on the line app.
  * @author Oliver Thomsen
  *
  */
@@ -59,10 +59,11 @@ public class LineCommunicator implements Communicator{
 		}
 	}
 
-	
+
 	private void reply(@NonNull String replyToken, @NonNull Message message) {
 		reply(replyToken, Collections.singletonList(message));
 	}
+
 
 	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {

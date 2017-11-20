@@ -2,12 +2,24 @@ package com.example.bot.spring;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+/**
+ * This Class serves as a factory for different handler Classes
+ * we use a hash map for booking in order to give each booking/query a different handler
+ * @author Ivan Bardarov
+ *
+ */
 public class HandlerFactory {
 	
 	private HashMap<String,EventHandler> bookingMap = new HashMap<>();
 	
-	
+	/**
+	 * This method is used to get a specific handler according to the intent and userId 
+	 * of the customer
+	 * when the query is a booktour or info about a tour we try to see if the handler is already in the hashmap.
+	 * @param intent the intent of the query
+	 * @param userId the user Id of the customer making the query
+	 * @return an EventHandler that suits the user's request
+	 */
 	public EventHandler getHandler(String intent, String userId){
 		EventHandler currEventHandler = null;
 		if(intent.length()>=8 && intent.substring(intent.length()-8).equals("question")){
@@ -65,5 +77,5 @@ public class HandlerFactory {
 		
 		return currEventHandler;
 	 }
-
+	
 }
