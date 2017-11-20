@@ -163,87 +163,87 @@ public class KitchenSinkTester {
 	}
 	
 	
-//	@Test
-//	public void testLuisQuestion() {
-//		boolean thrown = false;
-//		ArrayList<String> result = null;
-//
-//		try {
-//			result = languageProcessor.processInput("Book the Shenzhen city tour for two adults on the 23/06/2018. My name is Christopher Lynch.");
-//		}
-//		catch (Exception e) {
-//			thrown = true;
-//		}
-//		assertThat(thrown).isEqualTo(false);
-//		assertThat(result.get(0)).isEqualTo("bookTour");
-//		assertThat(result.get(1)).isEqualTo("builtin.datetimeV2.date:the 23/06/2018");
-//		assertThat(result.get(2)).isEqualTo("tourType:shenzhen city tour");
-//		assertThat(result.get(3)).isEqualTo("numberOfAdults:two adults");
-//		assertThat(result.get(4)).isEqualTo("builtin.encyclopedia.people.person:christopher lynch");
-//	}
-//	
-//	@Test
-//	public void testGreeting() {
-//		boolean thrown = false;
-//		ArrayList<String> result = null;
-//		
-//		try {
-//			result = languageProcessor.processInput("Hello");
-//		}
-//		catch(Exception e) {
-//			thrown = true;
-//		}
-//		assertThat(thrown).isEqualTo(false);
-//		assertThat(result.get(0)).isEqualTo("Greeting");
-//	}
-//	
-//	
-//	@Test
-//	public void testNone() {
-//		boolean thrown = false;
-//		ArrayList<String> result = null;
-//			
-//		try {
-//			result = languageProcessor.processInput("I like pizza and dogs");
-//		}
-//		catch(Exception e) {
-//			thrown = true;
-//		}
-//		assertThat(thrown).isEqualTo(false);
-//		assertThat(result.get(0)).isEqualTo("None");
-//		assertThat(result.get(1)).isEqualTo("I like pizza and dogs");
-//	}
-//	
-//	@Test
-//	public void testPositiveConfirmation() {
-//		boolean thrown = false;
-//		ArrayList<String> result = null;
-//			
-//		try {
-//			result = languageProcessor.processInput("Y");
-//		}
-//		catch(Exception e) {
-//			thrown = true;
-//		}
-//		assertThat(thrown).isEqualTo(false);
-//		assertThat(result.get(0)).isEqualTo("positiveConfirmation");
-//		assertThat(result.get(1)).isEqualTo("Y");
-//	}
-//	
-//	@Test
-//	public void testNegativeConfirmation() {
-//		boolean thrown = false;
-//		ArrayList<String> result = null;
-//		try {
-//			result = languageProcessor.processInput("N");
-//		}
-//		catch(Exception e) {
-//			thrown = true;
-//		}
-//		assertThat(thrown).isEqualTo(false);
-//		assertThat(result.get(0)).isEqualTo("negativeConfirmation");
-//		assertThat(result.get(1)).isEqualTo("N");
-//	}
+	@Test
+	public void testLuisQuestion() {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+
+		try {
+			result = languageProcessor.processInput("Book the Shenzhen city tour for two adults on the 23/06/2018. My name is Christopher Lynch.");
+		}
+		catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("bookTour");
+		assertThat(result.get(1)).isEqualTo("builtin.datetimeV2.date:the 23/06/2018");
+		assertThat(result.get(2)).isEqualTo("tourType:shenzhen city tour");
+		assertThat(result.get(3)).isEqualTo("numberOfAdults:two adults");
+		assertThat(result.get(4)).isEqualTo("builtin.encyclopedia.people.person:christopher lynch");
+	}
+	
+	@Test
+	public void testGreeting() {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+		
+		try {
+			result = languageProcessor.processInput("Hello");
+		}
+		catch(Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("Greeting");
+	}
+	
+	
+	@Test
+	public void testNone() {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+			
+		try {
+			result = languageProcessor.processInput("I like pizza and dogs");
+		}
+		catch(Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("None");
+		assertThat(result.get(1)).isEqualTo("I like pizza and dogs");
+	}
+	
+	@Test
+	public void testPositiveConfirmation() {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+			
+		try {
+			result = languageProcessor.processInput("Y");
+		}
+		catch(Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("positiveConfirmation");
+		assertThat(result.get(1)).isEqualTo("Y");
+	}
+	
+	@Test
+	public void testNegativeConfirmation() {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+		try {
+			result = languageProcessor.processInput("N");
+		}
+		catch(Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("negativeConfirmation");
+		assertThat(result.get(1)).isEqualTo("N");
+	}
 	
 	@Test
 	public void testBooking(){
@@ -317,17 +317,17 @@ public class KitchenSinkTester {
 		assertThat(answer).isEqualTo("Please refer the Visa issue to the immigration department of China. The tour are assembled and dismissed in mainland and no cross-border is needed. However, you will need a travelling document when you check in the hotel.");
 		
 		
-		eh = hf.getHandler("enquiry", "test");
+		eh = hf.getHandler("tourIDenquiry", "test");
 		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("touridEnquiry","tourType:nationalparktour")));
 		assertThat(answer).isEqualTo("The id of the tour you are looking for is 2d004");
 		
 		
-		eh = hf.getHandler("enquiry", "test");
+		eh = hf.getHandler("datesenquiry", "test");
 		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("datesEnquiry","tourType:nationalparktour")));
 		assertThat(answer).isEqualTo("The available dates for the required tour is/are: 2017-11-17 2017-11-21 2017-11-11 ");
 		
 		
-		eh = hf.getHandler("enquiry", "test");
+		eh = hf.getHandler("capacityenquiry", "test");
 		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("capacityEnquiry","tourtype:2d002","builtin.datetimeV2.date:2017-11-06")));
 		assertThat(answer).isEqualTo("The capacity of the requested tour is: 30");
 		
@@ -358,25 +358,41 @@ public class KitchenSinkTester {
 		//assertThat(number).isEqualTo(1);
 	}
 	
-	public void testSetPaymentReminder(){
-		//Controller c = new Controller();
+
+	
+	@Test
+	public void testAdditionalInformation() {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+			
+		try {
+			result = languageProcessor.processInput("adults: 5 children: 6");
+		}
+		catch(Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("additionalInformation");
+		assertThat(result.get(1)).isEqualTo("numberOfChildren:children : 6");
+		assertThat(result.get(2)).isEqualTo("numberOfAdults:adults : 5");
 	}
 	
-//	@Test
-//	public void testAdditionalInformation() {
-//		boolean thrown = false;
-//		ArrayList<String> result = null;
-//			
-//		try {
-//			result = languageProcessor.processInput("adults: 5 children: 6");
-//		}
-//		catch(Exception e) {
-//			thrown = true;
-//		}
-//		assertThat(thrown).isEqualTo(false);
-//		assertThat(result.get(0)).isEqualTo("additionalInformation");
-//		assertThat(result.get(1)).isEqualTo("numberOfChildren:children : 6");
-//		assertThat(result.get(2)).isEqualTo("numberOfAdults:adults : 5");
-//	}
+	
+	@Test
+	public void testCapacityEnquiry() {
+		boolean thrown = false;
+		ArrayList<String> result = null;
+			
+		try {
+			result = languageProcessor.processInput("What is the capacity of the yangshan hot spring tour on the 2017-11-17");
+		}
+		catch(Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isEqualTo(false);
+		assertThat(result.get(0)).isEqualTo("capacityEnquiry");
+		assertThat(result.get(1)).isEqualTo("builtin.datetimeV2.date:2017-11-17");
+		assertThat(result.get(2)).isEqualTo("tourType:yangshan hot spring tour");
+	}
 
 }
