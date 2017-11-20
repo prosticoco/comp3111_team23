@@ -257,10 +257,10 @@ public class KitchenSinkTester {
 				"builtin.datetimeV2.date:2017-11-17",
 				"builtin.encyclopedia.people.person:Ivan"));
 		String answer = messageHandler.handleTextContent(inputArray, "test");
-		assertThat(answer).isEqualTo(MessageHandler.CONFIRMATION);
+		assertThat(answer).isEqualTo(MessageHandler.CONFIRMATION + "2473");
 		inputArray = new ArrayList<String>(Arrays.asList("positiveconfirmation"));
 		answer = messageHandler.handleTextContent(inputArray, "test");
-		assertThat(answer).isEqualTo(MessageHandler.COMPLETEDBOOKING);
+		assertThat(answer).isEqualTo(MessageHandler.COMPLETEDBOOKING + "2473");
 	}
 	
 	@Test
