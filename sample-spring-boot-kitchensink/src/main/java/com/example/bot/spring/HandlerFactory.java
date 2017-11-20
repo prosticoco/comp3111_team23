@@ -2,15 +2,25 @@ package com.example.bot.spring;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+<<<<<<< HEAD
 /**
  * This Class serves as a factory for different handler Classes
  * we use a hash map for booking in order to give each booking/query a different handler
  * @author Ivan Bardarov
  *
  */
+=======
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+>>>>>>> tests
 public class HandlerFactory {
 	
 	private HashMap<String,EventHandler> bookingMap = new HashMap<>();
+	@Autowired
+	private LoggerHandler lg;
 	
 	/**
 	 * This method is used to get a specific handler according to the intent and userId 
@@ -51,7 +61,7 @@ public class HandlerFactory {
 			}
 		}
 		else if (intent.equals("none")){
-			currEventHandler = new LoggerHandler();
+			currEventHandler = lg;
 		}
 		else if (intent.length()>=7 && intent.substring(intent.length()-7).equals("enquiry")){
 			currEventHandler = new EnquiryHandler();

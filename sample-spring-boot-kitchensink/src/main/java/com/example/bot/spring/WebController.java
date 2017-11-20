@@ -34,7 +34,7 @@ public class WebController {
 	 */
 =======
 	@Autowired
-	LineCommunicator linCom;
+	private LineCommunicator lineCom;
 
 >>>>>>> tests
 	@RequestMapping("/cancelBooking")
@@ -46,7 +46,7 @@ public class WebController {
 		try{
 			ArrayList<String> customers = database.getBookedCustomers(tourId, new SimpleDateFormat("yyyy-MM-dd").parse(date));
 			String message = "The tour on the " + date+" you have booked, has been cancelled.";
-			linCom.pushCustomerNotification(customers, message);	
+			lineCom.pushCustomerNotification(customers, message);	
 		}
 		catch(Exception e){
 			return ERROR;

@@ -49,7 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class, MessageHandler.class, HandlerFactory.class, EventHandler.class})
+@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class, MessageHandler.class, HandlerFactory.class, EventHandler.class, LineCommunicator.class})
 public class KitchenSinkTester {
 
 	@Autowired
