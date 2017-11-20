@@ -33,7 +33,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.google.common.io.ByteStreams;
 
-import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.client.*;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.FollowEvent;
@@ -49,7 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class, MessageHandler.class, HandlerFactory.class, EventHandler.class, LineCommunicator.class})
+@SpringBootTest(classes = {LineMessagingClient.class, KitchenSinkTester.class, PSQLDatabaseEngine.class, LuisNLP.class, MessageHandler.class, HandlerFactory.class, EventHandler.class, LineCommunicator.class})
 public class KitchenSinkTester {
 
 	@Autowired

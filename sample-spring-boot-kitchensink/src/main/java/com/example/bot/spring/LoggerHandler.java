@@ -39,7 +39,7 @@ public class LoggerHandler implements EventHandler {
 	@Override
 	public String handleEvent(ArrayList<String> inputArray) {
 		database.logQuestion(inputArray.get(1));
-		lineCom.pushCustomerNotification(new ArrayList<String>(Arrays.asList("U7284687917ae6c74fdca2ba21f055e78")), "Someone is asking: ");
+		lineCom.pushCustomerNotification(new ArrayList<String>(Arrays.asList("U6c377e75e1d6c2b1f0805c82ebb880f9")), "Someone is asking: " + inputArray.get(1));
 		return MessageHandler.DEFAULTANSWER;
 	}
 

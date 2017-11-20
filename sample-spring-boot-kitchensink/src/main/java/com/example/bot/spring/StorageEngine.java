@@ -89,4 +89,6 @@ public interface StorageEngine{
 
 	ArrayList<String> getBookedCustomers(String id, Date date) throws Exception;
 
+	public void removeTour(String id, Date date);
+
 }

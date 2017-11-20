@@ -42,13 +42,14 @@ public class WebController {
 			@RequestParam(value="date", defaultValue="") String date) {
 		String answer = SUCCESS;
 		log.info("Cancelling tour via the web application ------------------------------");
-		
 		try{
 			ArrayList<String> customers = database.getBookedCustomers(tourId, new SimpleDateFormat("yyyy-MM-dd").parse(date));
 			String message = "The tour on the " + date+" you have booked, has been cancelled.";
-			lineCom.pushCustomerNotification(customers, message);	
+			database.removeTour(tourId, new SimpleDateFormat("yyyy-MM-dd").parse(date));
+			//lineCom.pushCustomerNotification(customers, message);	
 		}
 		catch(Exception e){
+			e.printStackTrace();
 			return ERROR;
 		}
 		return answer;

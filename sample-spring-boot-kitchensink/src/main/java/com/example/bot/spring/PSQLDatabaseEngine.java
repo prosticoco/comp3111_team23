@@ -163,6 +163,25 @@ public class PSQLDatabaseEngine implements StorageEngine{
 	}
 	
 	@Override
+	public void removeTour(String id, Date date) {
+		try{
+			Connection con = getConnection();
+			String key = id.toLowerCase();
+			PreparedStatement stmt = con.prepareStatement("delete from tour where id like ? and date = ?");
+			stmt.setString(1, key);
+			stmt.setDate(2, new java.sql.Date(date.getTime()));
+			stmt.executeQuery();
+			con.close();
+			stmt.close();		
+		} catch (URISyntaxException e){
+			//log.info("The wrong URI has been provided", e.toString());
+		} catch (SQLException e){
+			//log.info("There has been an error with the SQL statement", e.toString());
+		}
+		
+	}
+	
+	@Override
 	public void logQuestion(String question){
 		try{
 			Connection con = getConnection();
