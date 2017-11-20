@@ -103,7 +103,6 @@ public class Controller {
 	private LineMessagingClient lineMessagingClient;
 	private LanguageProcessor languageProcessor = new LuisNLP();
 	private MessageHandler messageHandler = new MessageHandler(new HandlerFactory());
-	public static final Controller instance = new Controller();
 	
 	
 	private Controller() {
@@ -134,7 +133,7 @@ public class Controller {
 
 	}
 
-	private void replyText(@NonNull String replyToken, @NonNull String message) {
+	public void replyText(@NonNull String replyToken, @NonNull String message) {
 		if (replyToken.isEmpty()) {
 			throw new IllegalArgumentException("replyToken must not be empty");
 		}

@@ -38,9 +38,7 @@ public class MessageHandler{
 	public String handleTextContent(ArrayList<String> inputArray, String userId){
 		//get the customers intent from  the first index of the array
 		String intent = inputArray.get(0).toLowerCase();
-		
-		//Controller.instance.pushCustomerNotification(new ArrayList<String>(Arrays.asList("U6c377e75e1d6c2b1f0805c82ebb880f9")), "rabotq we");
-		
+				
 		currEventHandler = factory.getHandler(intent, userId);
 		
 		
