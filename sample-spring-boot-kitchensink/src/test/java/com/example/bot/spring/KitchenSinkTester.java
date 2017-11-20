@@ -318,17 +318,17 @@ public class KitchenSinkTester {
 		
 		
 		eh = hf.getHandler("enquiry", "test");
-		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("enquiry","tourid:nationalparktour")));
+		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("touridEnquiry","tourType:nationalparktour")));
 		assertThat(answer).isEqualTo("The id of the tour you are looking for is 2d004");
 		
 		
 		eh = hf.getHandler("enquiry", "test");
-		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("enquiry","dates:nationalparktour")));
+		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("datesEnquiry","tourType:nationalparktour")));
 		assertThat(answer).isEqualTo("The available dates for the required tour is/are: 2017-11-17 2017-11-21 2017-11-11 ");
 		
 		
 		eh = hf.getHandler("enquiry", "test");
-		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("enquiry","capacity:2d002:2017-11-06")));
+		answer =  eh.handleEvent(new ArrayList<String>(Arrays.asList("capacityEnquiry","tourtype:2d002","builtin.datetimeV2.date:2017-11-06")));
 		assertThat(answer).isEqualTo("The capacity of the requested tour is: 30");
 		
 		eh = hf.getHandler("blah", "test");
