@@ -2,6 +2,7 @@ package com.example.bot.spring;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,6 +29,8 @@ public class MessageHandler{
 	private HandlerFactory factory;
 	
 	
+	
+	
 	public MessageHandler(HandlerFactory factory){
 		this.factory = factory;
 	}
@@ -36,8 +39,11 @@ public class MessageHandler{
 		//get the customers intent from  the first index of the array
 		String intent = inputArray.get(0).toLowerCase();
 		
+		//Controller.instance.pushCustomerNotification(new ArrayList<String>(Arrays.asList("U6c377e75e1d6c2b1f0805c82ebb880f9")), "rabotq we");
+		
 		currEventHandler = factory.getHandler(intent, userId);
-
+		
+		
 		//return the answer that the eventhandler send
 		return currEventHandler.handleEvent(inputArray);
 	}

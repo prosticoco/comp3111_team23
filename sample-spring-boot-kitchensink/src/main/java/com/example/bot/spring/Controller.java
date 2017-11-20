@@ -103,10 +103,13 @@ public class Controller {
 	private LineMessagingClient lineMessagingClient;
 	private LanguageProcessor languageProcessor = new LuisNLP();
 	private MessageHandler messageHandler = new MessageHandler(new HandlerFactory());
+	public static final Controller instance = new Controller();
 	
-	public Controller() {
+	
+	private Controller() {
 		setPaymentChecking();
 	}
+	
 	
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -195,11 +198,15 @@ public class Controller {
 
 		@Override
 		public void run() {
-			ArrayList<String> customers = new ArrayList<>();
 			Calendar newDate = setDate();
+			remindCustomers(newDate);
+			informCustomers(newDate);
+		}
+		
+		private void informCustomers(Calendar date){
+			ArrayList<String> customers = new ArrayList<>();
 			try {
-				//get the userID of the customers that need to pay
-				customers = database.getNotPaidCustomers(newDate.getTime());
+//				customers = database.getCancelledTourCustomers(date.getTime());
 			} catch (Exception e) {
 				e.printStackTrace();
 				return;
@@ -207,16 +214,21 @@ public class Controller {
 			
 			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat.";
 			pushCustomerNotification(customers, reminder);
-			
-			try{
-		//		customers = database.getCancelledTourCustomers(newDate.getTime());
+		}
+		
+		
+		private void remindCustomers(Calendar date){
+			ArrayList<String> customers = new ArrayList<>();
+			try {
+				//get the userID of the customers that need to pay
+				customers = database.getNotPaidCustomers(date.getTime());
 			} catch (Exception e) {
 				e.printStackTrace();
 				return;
 			}
 			
-			
-			
+			String reminder = "Please be reminded that you have booked a tour which is not paid yet. Please pay as soon as possible to reserve your seat.";
+			pushCustomerNotification(customers, reminder);
 		}
 
 		private Calendar setDate() {
