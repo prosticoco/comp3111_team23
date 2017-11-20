@@ -2,20 +2,19 @@ package com.example.bot.spring;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-<<<<<<< HEAD
+
 /**
  * This Class serves as a factory for different handler Classes
  * we use a hash map for booking in order to give each booking/query a different handler
  * @author Ivan Bardarov
  *
  */
-=======
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
->>>>>>> tests
 public class HandlerFactory {
 	
 	private HashMap<String,EventHandler> bookingMap = new HashMap<>();

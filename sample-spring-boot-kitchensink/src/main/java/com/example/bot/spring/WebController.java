@@ -25,7 +25,7 @@ public class WebController {
 	private final String SUCCESS = "Operation executed successfully";
 	
 	private StorageEngine database = new PSQLDatabaseEngine();
-<<<<<<< HEAD
+
 	/**
 	 * this method is called when an employee wants to cancel a booking via the web interface. 
 	 * it will update the database accordingly
@@ -33,11 +33,10 @@ public class WebController {
 	 * @param date date of the tour
 	 * @return
 	 */
-=======
+
 	@Autowired
 	private LineCommunicator lineCom;
 
->>>>>>> tests
 	@RequestMapping("/cancelBooking")
 	public String cancelBooking(@RequestParam(value="tourId", defaultValue="") String tourId,
 			@RequestParam(value="date", defaultValue="") String date) {
