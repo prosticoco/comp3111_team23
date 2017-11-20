@@ -11,6 +11,7 @@ import java.util.ArrayList;
 =======
 import java.util.Arrays;
 
+<<<<<<< HEAD
 >>>>>>> tests
 public class LoggerHandler implements EventHandler {
 
@@ -19,11 +20,19 @@ public class LoggerHandler implements EventHandler {
 	 * this method simply takes the question from the customer and stores it in the database
 	 * @return a message to be sent to the customer indicating that his/her message has been logged 
 	 */
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class LoggerHandler implements EventHandler {
+
+	private StorageEngine database = new PSQLDatabaseEngine();
+	@Autowired
+	private LineCommunicator linCom;
+>>>>>>> tests
 	@Override
 	public String handleEvent(ArrayList<String> inputArray) {
 		database.logQuestion(inputArray.get(1));
-		LineCommunicator lg = new LineCommunicator();
-		lg.pushCustomerNotification(new ArrayList<String>(Arrays.asList("U7284687917ae6c74fdca2ba21f055e78")), "Someone is asking: ");
+		linCom.pushCustomerNotification(new ArrayList<String>(Arrays.asList("U7284687917ae6c74fdca2ba21f055e78")), "Someone is asking: ");
 		return MessageHandler.DEFAULTANSWER;
 	}
 
