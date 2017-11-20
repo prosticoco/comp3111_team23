@@ -285,4 +285,29 @@ public class PSQLDatabaseEngine implements StorageEngine{
 		return users;
 	}
 	
+	@Override
+	public ArrayList<String> getBookedCustomers(String id, Date date) throws Exception{
+		ArrayList<String> users = new ArrayList<>();
+		try{
+			Connection con = getConnection();
+			PreparedStatement stmt = con.prepareStatement("SELECT customerID FROM booking WHERE id like ? and date = ?");
+			stmt.setString(1, id);
+			stmt.setDate(2, new java.sql.Date(date.getTime()));
+			ResultSet rs = stmt.executeQuery();	
+			while(rs.next()){
+				String customerId =  rs.getString("customerid");
+				users.add(customerId);
+			}
+			rs.close();
+			stmt.close();		
+			con.close();
+		} catch (URISyntaxException e){
+			//log.info("The wrong URI has been provided", e.toString());
+		} catch (SQLException e){
+			//log.info("There has been an error with the SQL statement", e.toString());
+		}
+	
+		return users;
+	}
+	
 }

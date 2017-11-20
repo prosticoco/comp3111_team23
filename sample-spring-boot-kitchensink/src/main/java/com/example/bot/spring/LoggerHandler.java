@@ -1,12 +1,17 @@
 package com.example.bot.spring;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
 /**
  * Class that represents the handler that takes care of questions that aren't recognized as a booking or an enquiry about a tour. 
  * This handler will take care of logging these messages.
  * @author Ivan Bardarov
  *
  */
+=======
+import java.util.Arrays;
+
+>>>>>>> tests
 public class LoggerHandler implements EventHandler {
 
 	private StorageEngine database = new PSQLDatabaseEngine();
@@ -17,6 +22,8 @@ public class LoggerHandler implements EventHandler {
 	@Override
 	public String handleEvent(ArrayList<String> inputArray) {
 		database.logQuestion(inputArray.get(1));
+		LineCommunicator lg = new LineCommunicator();
+		lg.pushCustomerNotification(new ArrayList<String>(Arrays.asList("U7284687917ae6c74fdca2ba21f055e78")), "Someone is asking: ");
 		return MessageHandler.DEFAULTANSWER;
 	}
 

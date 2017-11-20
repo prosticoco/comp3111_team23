@@ -2,6 +2,7 @@ package com.example.bot.spring;
 
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +36,15 @@ public class WebController {
 			@RequestParam(value="date", defaultValue="") String date) {
 		String answer = SUCCESS;
 		log.info("Cancelling tour via the web application ------------------------------");
-		
-		
-		
+		LineCommunicator linCom = new LineCommunicator();
+		try{
+			ArrayList<String> customers = database.getBookedCustomers(tourId, new SimpleDateFormat("yyyy-MM-dd").parse(date));
+			String message = "The tour on the " + date+" you have booked, has been cancelled.";
+			linCom.pushCustomerNotification(customers, message);	
+		}
+		catch(Exception e){
+			return ERROR;
+		}
 		return answer;
 	}
 	/**
