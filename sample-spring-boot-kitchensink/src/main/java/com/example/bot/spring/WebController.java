@@ -47,8 +47,8 @@ public class WebController {
 			ArrayList<String> customers = database.getBookedCustomers(tourId, new SimpleDateFormat("yyyy-MM-dd").parse(date));
 			String message = "The tour on the " + date+" you have booked, has been cancelled.";
 			database.removeTour(tourId, new SimpleDateFormat("yyyy-MM-dd").parse(date));
-			//log.info(customers.get(0).toString());
-			lineCom.pushCustomerNotification(new ArrayList<String>(Arrays.asList("U6c377e75e1d6c2b1f0805c82ebb880f9")), message);	
+			log.info(customers.get(0).toString());
+			lineCom.pushCustomerNotification(customers, message);	
 		}
 		catch(Exception e){
 			e.printStackTrace();
